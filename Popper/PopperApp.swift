@@ -6,12 +6,21 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
+
 struct PopperApp: App {
+    init() {
+        FirebaseApp.configure() 
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+//            Feed()
         }
     }
 }
+
+

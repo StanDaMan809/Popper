@@ -2,20 +2,21 @@
 //  ContentView.swift
 //  Popper
 //
-//  Created by Stanley Grullon on 4/6/23.
+//  Created by Stanley Grullon on 9/29/23.
 //
 
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("log_status") var logStatus: Bool = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        // Redirecting User Based on Log Status
+        if logStatus {
+            MainView()
+        } else {
+            LoginView()
         }
-        .padding()
     }
 }
 

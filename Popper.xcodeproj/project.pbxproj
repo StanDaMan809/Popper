@@ -23,6 +23,17 @@
 		F634327B2AC7E72E00E756BA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634327A2AC7E72E00E756BA /* ProfileView.swift */; };
 		F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */; };
 		F63432802AC7F26E00E756BA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F634327F2AC7F26E00E756BA /* SDWebImageSwiftUI */; };
+		F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */; };
+		F647CDB82AD4A57200D362DB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB72AD4A57200D362DB /* Post.swift */; };
+		F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB92AD4B47500D362DB /* PostsView.swift */; };
+		F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDBB2AD4B71B00D362DB /* ReusablePostsView.swift */; };
+		F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDBD2AD4BAC900D362DB /* PostCardView.swift */; };
+		F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDC22AD4CC1F00D362DB /* SearchUserView.swift */; };
+		F647CDC92AD649F200D362DB /* EditableImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDC82AD649F200D362DB /* EditableImage.swift */; };
+		F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCA2AD64A0600D362DB /* EditableText.swift */; };
+		F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCC2AD64AF400D362DB /* SideButtons.swift */; };
+		F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCE2AD64B5200D362DB /* BottomButtons.swift */; };
+		F647CDD12AD64BCE00D362DB /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD02AD64BCE00D362DB /* Background.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
 		F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C8DC2329DF7CF00014849C /* Assets.xcassets */; };
@@ -61,6 +72,17 @@
 		F63432782AC7E66900E756BA /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F634327A2AC7E72E00E756BA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProfileContent.swift; sourceTree = "<group>"; };
+		F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPost.swift; sourceTree = "<group>"; };
+		F647CDB72AD4A57200D362DB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		F647CDB92AD4B47500D362DB /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsView.swift; sourceTree = "<group>"; };
+		F647CDBB2AD4B71B00D362DB /* ReusablePostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusablePostsView.swift; sourceTree = "<group>"; };
+		F647CDBD2AD4BAC900D362DB /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
+		F647CDC22AD4CC1F00D362DB /* SearchUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserView.swift; sourceTree = "<group>"; };
+		F647CDC82AD649F200D362DB /* EditableImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableImage.swift; sourceTree = "<group>"; };
+		F647CDCA2AD64A0600D362DB /* EditableText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableText.swift; sourceTree = "<group>"; };
+		F647CDCC2AD64AF400D362DB /* SideButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideButtons.swift; sourceTree = "<group>"; };
+		F647CDCE2AD64B5200D362DB /* BottomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtons.swift; sourceTree = "<group>"; };
+		F647CDD02AD64BCE00D362DB /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
 		F6C8DC2129DF7CEF0014849C /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
@@ -108,11 +130,12 @@
 		F63432582AC7A15E00E756BA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F647CDC62AD6498900D362DB /* Editor */,
+				F647CDBF2AD4C8F200D362DB /* MainView */,
 				F63432772AC7E65500E756BA /* Feed */,
 				F63432762AC7E4B800E756BA /* Misc */,
 				F63432712AC7E30900E756BA /* Login */,
 				F634325E2AC7BDAF00E756BA /* ContentView.swift */,
-				F6C8DC2129DF7CEF0014849C /* Editor.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -121,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				F63432692AC7CC1500E756BA /* User.swift */,
+				F647CDC72AD649CB00D362DB /* Post */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -154,11 +178,59 @@
 			isa = PBXGroup;
 			children = (
 				F6D6DD3229DF8198003727B2 /* Feed.swift */,
+			);
+			path = Feed;
+			sourceTree = "<group>";
+		};
+		F647CDBF2AD4C8F200D362DB /* MainView */ = {
+			isa = PBXGroup;
+			children = (
 				F63432782AC7E66900E756BA /* MainView.swift */,
+				F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */,
+				F647CDC12AD4C93500D362DB /* ProfileView */,
+				F647CDC02AD4C8FC00D362DB /* PostView */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		F647CDC02AD4C8FC00D362DB /* PostView */ = {
+			isa = PBXGroup;
+			children = (
+				F647CDBB2AD4B71B00D362DB /* ReusablePostsView.swift */,
+				F647CDB92AD4B47500D362DB /* PostsView.swift */,
+				F647CDBD2AD4BAC900D362DB /* PostCardView.swift */,
+			);
+			path = PostView;
+			sourceTree = "<group>";
+		};
+		F647CDC12AD4C93500D362DB /* ProfileView */ = {
+			isa = PBXGroup;
+			children = (
 				F634327A2AC7E72E00E756BA /* ProfileView.swift */,
 				F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */,
 			);
-			path = Feed;
+			path = ProfileView;
+			sourceTree = "<group>";
+		};
+		F647CDC62AD6498900D362DB /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				F6C8DC2129DF7CEF0014849C /* Editor.swift */,
+				F647CDD02AD64BCE00D362DB /* Background.swift */,
+				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
+				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
+				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
+			);
+			path = Editor;
+			sourceTree = "<group>";
+		};
+		F647CDC72AD649CB00D362DB /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				F647CDB72AD4A57200D362DB /* Post.swift */,
+			);
+			name = Post;
 			sourceTree = "<group>";
 		};
 		F6C8DC1329DF7CEF0014849C = {
@@ -189,6 +261,7 @@
 				F63432592AC7A16C00E756BA /* Model */,
 				F63432582AC7A15E00E756BA /* Views */,
 				F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */,
+				F647CDC22AD4CC1F00D362DB /* SearchUserView.swift */,
 				F6C8DC2329DF7CF00014849C /* Assets.xcassets */,
 				F6C8DC2529DF7CF00014849C /* Preview Content */,
 			);
@@ -363,16 +436,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
 				F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */,
+				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
+				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
+				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
+				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
+				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
+				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
+				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
 				F63432702AC7DDC700E756BA /* LoadingView.swift in Sources */,
+				F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */,
 				F634327B2AC7E72E00E756BA /* ProfileView.swift in Sources */,
+				F647CDC92AD649F200D362DB /* EditableImage.swift in Sources */,
+				F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */,
 				F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */,
 				F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */,
 			);

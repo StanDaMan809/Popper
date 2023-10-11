@@ -11,8 +11,9 @@ import Firebase
 @main
 
 struct PopperApp: App {
+    
     init() {
-        FirebaseApp.configure() 
+        FirebaseApp.configure()
     }
     
     var body: some Scene {

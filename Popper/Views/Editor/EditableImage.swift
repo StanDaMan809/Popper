@@ -32,6 +32,7 @@ class editableImg: ObservableObject {
         self.display = display
         self.transparency = transparency
     }
+    
 }
 
 struct EditableImage: View {
@@ -129,6 +130,34 @@ struct EditableImage: View {
                             })
             }
         }
+}
+
+struct EditableImageData: Codable, Equatable, Hashable {
+    var id: Int
+    var currentShape: Int
+    var totalOffset: [Double]
+    var size: [Double]
+    var scalar: Double
+    var transparency: Double
+    var display: Bool
+    var createDisplays: [Int] = []
+    var disappearDisplays: [Int] = []
+    var imageURL: URL
+    var imageReferenceID: String
+    
+    init(from editableImage: editableImg, imageURL: URL, imageReferenceID: String) {
+        self.id = editableImage.id
+        self.currentShape = editableImage.currentShape.rawValue
+        self.totalOffset = [Double(editableImage.totalOffset.x), Double(editableImage.totalOffset.y)]
+        self.size = editableImage.size.map { Double($0) }
+        self.scalar = editableImage.scalar
+        self.transparency = editableImage.transparency
+        self.display = editableImage.display
+        self.createDisplays = editableImage.createDisplays
+        self.disappearDisplays = editableImage.disappearDisplays
+        self.imageURL = imageURL
+        self.imageReferenceID = imageReferenceID
+    }
 }
 
 class imagesArray: ObservableObject {

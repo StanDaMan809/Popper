@@ -38,18 +38,18 @@ struct PostCardView: View {
                     .padding(.vertical, 8)
                 
                 // Post Image If Any
-                if let postImageURL = post.imageURL {
-                    GeometryReader {
-                        let size = $0.size
-                        WebImage(url: postImageURL)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: size.width, height: size.height)
-                            .clipShape(RoundedRectangle(cornerRadius:10, style: .continuous))
-                        
-                    }
-                    .frame(height: 200)
-                }
+//                if let postImageURL = post.imageURL {
+//                    GeometryReader {
+//                        let size = $0.size
+//                        WebImage(url: postImageURL)
+//                            .resizable()
+//                            .aspectRatio(contentMode: .fill)
+//                            .frame(width: size.width, height: size.height)
+//                            .clipShape(RoundedRectangle(cornerRadius:10, style: .continuous))
+//
+//                    }
+//                    .frame(height: 200)
+//                }
                 
                 PostInteraction()
             }
@@ -172,9 +172,9 @@ struct PostCardView: View {
         Task {
             // Delete image from Firebase Storage if present
             do {
-                if post.imageReferenceID != "" {
-                    try await Storage.storage().reference().child("Post_Images").child(post.imageReferenceID).delete()
-                }
+//                if post.imageReferenceIDs != "" {
+//                    try await Storage.storage().reference().child("Post_Images").child(post.imageReferenceID).delete()
+//                }
                 // Delete firestore document
                 guard let postID = post.id else {return}
                 try await Firestore.firestore().collection("Posts").document(postID).delete()

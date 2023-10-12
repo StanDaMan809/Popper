@@ -34,6 +34,7 @@
 		F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCC2AD64AF400D362DB /* SideButtons.swift */; };
 		F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCE2AD64B5200D362DB /* BottomButtons.swift */; };
 		F647CDD12AD64BCE00D362DB /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD02AD64BCE00D362DB /* Background.swift */; };
+		F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD22AD6725400D362DB /* PostConfirmation.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
 		F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C8DC2329DF7CF00014849C /* Assets.xcassets */; };
@@ -83,6 +84,7 @@
 		F647CDCC2AD64AF400D362DB /* SideButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideButtons.swift; sourceTree = "<group>"; };
 		F647CDCE2AD64B5200D362DB /* BottomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtons.swift; sourceTree = "<group>"; };
 		F647CDD02AD64BCE00D362DB /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
+		F647CDD22AD6725400D362DB /* PostConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConfirmation.swift; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
 		F6C8DC2129DF7CEF0014849C /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			children = (
 				F63432782AC7E66900E756BA /* MainView.swift */,
 				F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */,
+				F647CDD22AD6725400D362DB /* PostConfirmation.swift */,
 				F647CDC12AD4C93500D362DB /* ProfileView */,
 				F647CDC02AD4C8FC00D362DB /* PostView */,
 			);
@@ -444,6 +447,7 @@
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
+				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,

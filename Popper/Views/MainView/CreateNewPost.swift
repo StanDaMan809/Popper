@@ -14,6 +14,10 @@ struct CreateNewPost: View {
     // Callbacks
     var onPost: (Post)->()
     // post Properties
+    
+    @ObservedObject var imgArray: imagesArray = imagesArray()
+    @ObservedObject var txtArray: textsArray = textsArray()
+    
     @State private var postText: String = ""
     @State private var postImageData: Data?
     
@@ -45,7 +49,9 @@ struct CreateNewPost: View {
                 }
                 .hAlign(.leading)
                 
-                Button(action: createPost){
+                Button{
+                    createPost(imagesArrayInstance: imgArray, textsArrayInstance: txtArray)
+                } label: {
                     Text("Post")
                         .font(.callout)
                         .foregroundColor(.white)
@@ -142,27 +148,37 @@ struct CreateNewPost: View {
         }
     }
     
-    func createPost() {
+    
+    func createPost(imagesArrayInstance: imagesArray, textsArrayInstance: textsArray) {
         isLoading = true
         showKeyboard = false
         Task {
             do {
-                guard let profileURL = profileURL else{return}
-                // Set 1: Uploading Image if Any
-                let imageReferenceID = "\(userUID)\(Date())"
-                let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID)
-                if let postImageData {
-                    let _ = try await storageRef.putDataAsync(postImageData)
-                    let downloadURL = try await storageRef.downloadURL()
-                    
-                    // Step 3: Create Post Object with ImageID and URL
-                    let post = Post(text: postText, imageURL: downloadURL, imageReferenceID: imageReferenceID, userName: userName, userUID: userUID, userProfileURL: profileURL)
-                    try await createDocumentAtFirebase(post)
-                } else {
-                    // Step 2: Directly post text data to firebase
-                    let post = Post(text: postText, userName: userName, userUID: userUID, userProfileURL: profileURL)
-                    try await createDocumentAtFirebase(post)
+                guard let profileURL = profileURL else { return }
+                
+                // Photo Upload and Transcription
+                var imagesData: [EditableImageData] = []
+                for (index, image) in imagesArrayInstance.images.enumerated() {
+                    let imageReferenceID = "\(userUID)\(Date())\(image.id)\(index)" // Create Reference for each photo
+                    let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each photo
+                    if let data = image.imgSrc.jpegData(compressionQuality: 1.0) { // Compression of each photo, to be finished soon
+                        let _ = try await storageRef.putDataAsync(data)
+                        let downloadURL = try await storageRef.downloadURL()
+                        let imageNumbers = EditableImageData(from: image, imageURL: downloadURL, imageReferenceID: imageReferenceID)
+                        imagesData.append(imageNumbers)
+                    }
                 }
+
+                // Text Handling
+                var textsToUpload = [EditableTextData]()
+                for txt in textsArrayInstance.texts {
+                    textsToUpload.append(EditableTextData(from: txt))
+                }
+
+                // Create Post object with all information
+                
+                let post = Post(text: postText, txtArray: textsToUpload, imagesArray: imagesData, userName: userName, userUID: userUID, userProfileURL: profileURL)
+                try await createDocumentAtFirebase(post)
             } catch {
                 await setError(error)
             }

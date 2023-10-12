@@ -8,6 +8,8 @@
 import SwiftUI
 import PhotosUI
 
+let postHeight = CGFloat(530)
+
 struct Editor: View {
     
     @StateObject var sharedEditNotifier = SharedEditState()
@@ -33,9 +35,10 @@ struct Editor: View {
                 .zIndex(UIPrio)
             PhotoEditButton(imgArray: imgArray, txtArray: txtArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
                 .zIndex(UIPrio)
-                .vAlign(.top)
                 .hAlign(.trailing)
-            bottomButtons(imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
+                .vAlign(.top)
+                .offset(y: ((UIScreen.main.bounds.size.height - postHeight) / 2))
+            bottomButtons(imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
                 .zIndex(actionButtonPrio)
             
             editingArea()
@@ -66,6 +69,20 @@ struct Editor: View {
             
         }
     }
+    
+    struct editingArea: View {
+        var body: some View {
+            ZStack
+                {
+                    Color.black
+                        .ignoresSafeArea(.all)
+                    
+                    Color.white
+                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: postHeight, maxHeight: postHeight, alignment: .center)
+                }
+        }
+    }
+    
 }
 
 struct Editor_Previews: PreviewProvider {
@@ -83,35 +100,12 @@ struct EditorTopUIButtons: View {
         }, label: {
                 Image(systemName: "arrow.backward")
         })
-        .scaleEffect(1.2)
+        .scaleEffect(1.5)
         .vAlign(.top)
-        .tint(.black)
+        .tint(.white)
         .hAlign(.leading)
         .padding()
     }
-}
-
-var topBarOffsetx = 0.0
-var topBarOffsety = -400.0
-var bottomBarOffsetx = 0.0
-var bottomBarOffsety = 350.0
-
-struct EditorBars: View {
-    
-    var body: some View
-    {
-        Group
-        {
-            Color.gray
-                .frame(width: 400, height: 150)
-                .offset(x: topBarOffsetx, y: topBarOffsety)
-            
-            Color.gray
-                .frame(width: 400, height: 150)
-                .offset(x: bottomBarOffsetx, y: bottomBarOffsety)
-        }
-    }
-    
 }
 
 enum UIButtonPress {
@@ -124,14 +118,6 @@ enum UIButtonPress {
     case disappeared
     case textEdit
 
-}
-
-
-
-class textsArray: ObservableObject {
-    @Published var texts: [editableTxt] = [
-        editableTxt(id: 1, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
-    ]
 }
 
 
@@ -208,13 +194,13 @@ struct ImagePickerView: UIViewControllerRepresentable {
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 let screenWidth = UIScreen.main.bounds.width
-                let maxHeight: CGFloat = 530
+                let maxHeight: CGFloat = postHeight
 
                 let aspectRatio = originalImage.size.width / originalImage.size.height
                 let targetHeight = min(maxHeight, screenWidth / aspectRatio)
                 let targetSize = CGSize(width: screenWidth, height: targetHeight)
                 
-                if originalImage.size.width < screenWidth && originalImage.size.height < 530 {
+                if originalImage.size.width < screenWidth && originalImage.size.height < postHeight {
                     imageAdd(imgSource: originalImage, imgArray: parent.imgArray, imgAdded: parent.imgAdded, sharedEditNotifier: parent.sharedEditNotifier)
                 }
                 else
@@ -231,13 +217,6 @@ struct ImagePickerView: UIViewControllerRepresentable {
             parent.showImagePicker = false
         }
         
-    }
-}
-
-struct editingArea: View {
-    var body: some View {
-            Color.gray
-            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 530, maxHeight: 530, alignment: .center)
     }
 }
 

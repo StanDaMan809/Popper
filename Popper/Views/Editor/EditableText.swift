@@ -15,20 +15,21 @@ class editableTxt: ObservableObject {
     // Include alignment
     @Published var message: String
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
-    @Published var txtColor: Color
+    @Published var rValue: Double = 0.0
+    @Published var gValue: Double = 0.0
+    @Published var bValue: Double = 0.0
     @Published var size: [CGFloat] = [80, 40]
     @Published var scalar: Double
     @Published var rotationDegrees: Double
     var startPosition: CGPoint
     
     
-    init(id: Int, message: String, totalOffset: CGPoint, txtColor: Color, size: [CGFloat], scalar: Double, rotationDegrees: Double)
+    init(id: Int, message: String, totalOffset: CGPoint, size: [CGFloat], scalar: Double, rotationDegrees: Double)
     {
     self.id = id
     self.message = message
     self.totalOffset = totalOffset
     self.size = size
-    self.txtColor = txtColor
     self.scalar = scalar
     self.rotationDegrees = rotationDegrees
     self.startPosition = totalOffset
@@ -69,7 +70,7 @@ struct EditableText: View {
                 
                 TextField("", text: $text.message, axis: .vertical)
                     .font(.system(size: defaultTextSize))
-                    .foregroundColor(text.txtColor)
+                    .foregroundColor(Color(red: text.rValue, green: text.gValue, blue: text.bValue))
                     .offset(x: 0, y: -100)
                     .frame(width: defaultTextFrame)
                     .zIndex(editPrio) // Controls layer
@@ -89,7 +90,7 @@ struct EditableText: View {
                     .position(text.totalOffset)
                     .zIndex(Double(text.id)) // Controls layer
                     .multilineTextAlignment(.center)
-                    .foregroundColor(text.txtColor)
+                    .foregroundColor(Color(red: text.rValue, green: text.gValue, blue: text.bValue))
                     .rotationEffect(currentRotation + finalRotation)
                     
                     // Text gestures
@@ -160,6 +161,36 @@ struct EditableText: View {
         }
 }
 
+class textsArray: ObservableObject {
+    @Published var texts: [editableTxt] = [
+//        editableTxt(id: 1, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
+    ]
+}
+
+struct EditableTextData: Codable, Equatable, Hashable {
+    var id: Int
+    var message: String
+    var totalOffset: [Double]
+    var rValue: Double
+    var gValue: Double
+    var bValue: Double
+    var size: [Double]
+    var scalar: Double
+    var rotationDegrees: Double
+    
+    init(from editableText: editableTxt) {
+        self.id = editableText.id
+        self.message = editableText.message
+        self.totalOffset = [Double(editableText.totalOffset.x), Double(editableText.totalOffset.y)]
+        self.rValue = editableText.rValue
+        self.gValue = editableText.gValue
+        self.bValue = editableText.bValue
+        self.size = editableText.size.map { Double($0) }
+        self.scalar = editableText.scalar
+        self.rotationDegrees = editableText.rotationDegrees
+    }
+}
+
 func textAdd(textArray: textsArray) {
-    textArray.texts.append(editableTxt(id: textArray.texts.count, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0))
+    textArray.texts.append(editableTxt(id: textArray.texts.count, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0))
 }

@@ -16,6 +16,7 @@ struct Editor: View {
     @StateObject var imgArray = imagesArray()
     @StateObject var imgAdded = imageAdded()
     @StateObject var txtArray = textsArray()
+    @Environment(\.presentationMode) var presentationMode
     
     
     var body: some View
@@ -27,21 +28,30 @@ struct Editor: View {
         
         ZStack
         {
+            
+            VStack
+            {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }, label: {
+                        Image(systemName: "arrow.backward")
+                })
+                .scaleEffect(1.5)
+                .tint(.black)
+                .hAlign(.leading)
+                .padding()
+                
+                PhotoEditButton(imgArray: imgArray, txtArray: txtArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
+                    .zIndex(UIPrio)
+            }
+            
             Background(sharedEditNotifier: sharedEditNotifier)
             EditorDisplays(sharedEditNotifier: sharedEditNotifier)
 //            EditorBars()
 //                .zIndex(editbarPrio)
-            EditorTopUIButtons()
-                .zIndex(UIPrio)
-            PhotoEditButton(imgArray: imgArray, txtArray: txtArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
-                .zIndex(UIPrio)
-                .hAlign(.trailing)
-                .vAlign(.top)
-                .offset(y: ((UIScreen.main.bounds.size.height - postHeight) / 2))
+            
             bottomButtons(imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
                 .zIndex(actionButtonPrio)
-            
-            editingArea()
             
             ForEach(imgArray.images.indices, id: \.self)
                 { index in
@@ -70,19 +80,6 @@ struct Editor: View {
         }
     }
     
-    struct editingArea: View {
-        var body: some View {
-            ZStack
-                {
-                    Color.black
-                        .ignoresSafeArea(.all)
-                    
-                    Color.white
-                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: postHeight, maxHeight: postHeight, alignment: .center)
-                }
-        }
-    }
-    
 }
 
 struct Editor_Previews: PreviewProvider {
@@ -92,21 +89,21 @@ struct Editor_Previews: PreviewProvider {
     }
 
 struct EditorTopUIButtons: View {
+
     var body: some View
     {
         Button(action: {
-            print("okay")
-            // This is supposed to prompt are you okay to leave ? which should be its own event tbh
+            print("hey")
         }, label: {
                 Image(systemName: "arrow.backward")
         })
         .scaleEffect(1.5)
-        .vAlign(.top)
-        .tint(.white)
+        .tint(.black)
         .hAlign(.leading)
         .padding()
     }
 }
+
 
 enum UIButtonPress {
     

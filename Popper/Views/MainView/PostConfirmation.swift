@@ -58,7 +58,7 @@ struct PostConfirmation: View {
                     .padding(15)
                     
                 }
-            .frame(height: 150)
+            .frame(height: 75)
             
             Divider()
         

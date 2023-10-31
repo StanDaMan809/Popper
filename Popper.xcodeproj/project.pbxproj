@@ -35,6 +35,8 @@
 		F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCE2AD64B5200D362DB /* BottomButtons.swift */; };
 		F647CDD12AD64BCE00D362DB /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD02AD64BCE00D362DB /* Background.swift */; };
 		F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD22AD6725400D362DB /* PostConfirmation.swift */; };
+		F65DCBA42AD89806002B878C /* imgElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA32AD89806002B878C /* imgElements.swift */; };
+		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
 		F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C8DC2329DF7CF00014849C /* Assets.xcassets */; };
@@ -85,6 +87,8 @@
 		F647CDCE2AD64B5200D362DB /* BottomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtons.swift; sourceTree = "<group>"; };
 		F647CDD02AD64BCE00D362DB /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		F647CDD22AD6725400D362DB /* PostConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConfirmation.swift; sourceTree = "<group>"; };
+		F65DCBA32AD89806002B878C /* imgElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imgElements.swift; sourceTree = "<group>"; };
+		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
 		F6C8DC2129DF7CEF0014849C /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
@@ -172,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				F63432742AC7E44E00E756BA /* Views and Extensions.swift */,
+				F65DCBA52AD89FBC002B878C /* Global Variables.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 			isa = PBXGroup;
 			children = (
 				F647CDB72AD4A57200D362DB /* Post.swift */,
+				F65DCBA32AD89806002B878C /* imgElements.swift */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -445,6 +451,8 @@
 				F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */,
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
+				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
+				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
 				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,

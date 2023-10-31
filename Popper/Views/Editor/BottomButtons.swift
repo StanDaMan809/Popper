@@ -37,7 +37,7 @@ struct bottomButtons: View {
                 
             })
             .scaleEffect(2.5)
-            .tint(.white)
+            .tint(.black)
             .offset(x: -80)
             .padding()
             
@@ -48,7 +48,7 @@ struct bottomButtons: View {
                     Image(systemName: "camera.aperture")
             })
             .scaleEffect(4)
-            .tint(.white)
+            .tint(.black)
             .padding()
             
             Button(action: {
@@ -64,7 +64,7 @@ struct bottomButtons: View {
                     Image(systemName: "arrowshape.right")
             })
             .scaleEffect(3)
-            .tint(.white)
+            .tint(.black)
             .offset(x: 80)
             .padding()
             .fullScreenCover(isPresented: $createNewPost) {

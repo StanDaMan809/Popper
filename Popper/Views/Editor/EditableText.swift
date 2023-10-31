@@ -44,8 +44,6 @@ struct EditableText: View {
     @GestureState var currentRotation = Angle.zero
     @State var finalRotation = Angle.zero
     @State var textSelected = false
-    let defaultTextSize = CGFloat(24.0)
-    let defaultTextFrame = CGFloat(300)
     var editPrio: Double = 1
     
     var body: some View

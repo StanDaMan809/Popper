@@ -8,17 +8,88 @@
 import SwiftUI
 import Firebase
 
+
 struct ReusablePostsView: View {
     var basedOnUID: Bool = false
     var uid: String = ""
     @Binding var posts: [Post]
     // View Properties
     @State private var isFetching: Bool = true
+    @State private var displayedPostIndex: Int = 0
     // pagination
     @State private var paginationDoc: QueryDocumentSnapshot?
+    @GestureState private var dragState: CGFloat = 0
+    
+    
     var body: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            LazyVStack {
+//            ScrollView(.vertical, showsIndicators: false) {
+//                            LazyVStack {
+//                                if isFetching {
+//                                    ProgressView()
+//                                        .padding(.top, 30)
+//                                } else {
+//                                    if posts.isEmpty {
+//                                        // No Posts found on Firestore
+//                                        Text("No Posts Found")
+//                                            .font(.caption)
+//                                            .foregroundColor(.gray)
+//                                            .padding(.top, 30)
+//                                    } else {
+//                                        // Display the currently displayed post
+//                                        PostCardView(post: posts[displayedPostIndex]) { updatedPost in
+//                                            // Update the post in the array
+//                                            posts[displayedPostIndex] = updatedPost
+//                                        } onDelete: {
+//                                            // Remove the post from the array and update the displayed post index
+//                                            withAnimation(.easeInOut(duration: 0.25)){
+//                                                posts.remove(at: displayedPostIndex)
+//                                                displayedPostIndex = min(displayedPostIndex, posts.count - 1)
+//                                            }
+//                                        }
+//                                        .onAppear {
+//                                            // When the last post appears, fetching new post (if there)
+//                                            if displayedPostIndex == posts.count - 1 && paginationDoc != nil {
+//                                                Task { await fetchPosts() }
+//                                            }
+//                                        }
+//
+//                                        // Button to display the next post
+//                                        Button(action: {
+//                                            if displayedPostIndex < posts.count - 1 {
+//                                                displayedPostIndex += 1
+//                                            }
+//                                        }) {
+//                                            Text("Next Post")
+//                                                .font(.caption)
+//                                                .foregroundColor(.blue)
+//                                                .padding(.vertical, 5)
+//                                        }
+//                                        .padding(.vertical, 15)
+//
+//
+//                                    }
+//                                }
+//                            }
+//                        }
+//
+//                        .refreshable {
+//                            guard !basedOnUID else { return }
+//                            isFetching = true
+//                            posts = []
+//                            // Resetting Pagination Doc
+//                            paginationDoc = nil
+//                            await fetchPosts()
+//                        }
+//                        .task {
+//                            guard posts.isEmpty else { return }
+//                            await fetchPosts()
+//                        }
+//                    }
+        
+//        ScrollView(.vertical, showsIndicators: false)
+        TabView
+        {
+//            LazyVStack {
                 if isFetching{
                     ProgressView()
                         .padding(.top, 30)
@@ -31,12 +102,18 @@ struct ReusablePostsView: View {
                             .padding(.top, 30)
                     } else {
                         // Displaying posts
-                        Posts()
+                            Posts()
+
                     }
+                    
                 }
-            }
-            .padding(15)
+            
+//            }
         }
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+
+        
         .refreshable {
             guard !basedOnUID else {return}
             isFetching = true
@@ -49,38 +126,41 @@ struct ReusablePostsView: View {
             guard posts.isEmpty else{return}
             await fetchPosts()
         }
+
     }
     
     // Displaying fetched posts
     @ViewBuilder
     func Posts() -> some View {
-        ForEach(posts){post in
-            PostCardView(post: post) { updatedPost in
-                // Updating Post in the array
-                if let index = posts.firstIndex(where: { post in
-                    post.id == updatedPost.id
+        
+                ForEach(posts) { post in
+                    PostCardView(post: post) { updatedPost in
+                        // Updating Post in the array
+                        if let index = posts.firstIndex(where: { post in
+                            post.id == updatedPost.id
+                            
+                        })
+                        {
+                            posts[index].likedIDs = updatedPost.likedIDs
+                            posts[index].dislikedIDs = updatedPost.dislikedIDs
+                        }
+                    } onDelete: {
+                        // Removing post from the array
+                        withAnimation(.easeInOut(duration: 0.25)){
+                            posts.removeAll{post.id == $0.id}
+                        }
+                    }
                     
-                }){
-                    posts[index].likedIDs = updatedPost.likedIDs
-                    posts[index].dislikedIDs = updatedPost.dislikedIDs
-                }
-            } onDelete: {
-                // Removing post from the array
-                withAnimation(.easeInOut(duration: 0.25)){
-                    posts.removeAll{post.id == $0.id}
-                }
+                    .onAppear {
+                        // When last post appears, fetching new post (if there)
+                        if post.id == posts.last?.id && paginationDoc != nil {
+                            Task{await fetchPosts()}
+                        }
+                    }
             }
-            .onAppear {
-                // When last post appears, fetching new post (if there)
-                if post.id == posts.last?.id && paginationDoc != nil {
-                    Task{await fetchPosts()}
-                }
                 
-            }
-            
-            Divider()
-                .padding(.horizontal, -15)
-        }
+    //            Divider()
+    //                .padding(.horizontal, -15)
     }
     
     // Fetching posts

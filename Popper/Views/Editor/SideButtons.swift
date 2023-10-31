@@ -19,7 +19,7 @@ struct PhotoEditButton: View {
     var miniButtonScaleEffect = 0.80
     
     var body: some View
-    { VStack(alignment: .leading)
+    { VStack()
         { // Regular Menu
             
             if sharedEditNotifier.pressedButton == .noButton
@@ -205,8 +205,8 @@ struct PhotoEditButton: View {
         .tint(.black)
         .scaleEffect(3, anchor: .top)
         .padding(.horizontal, 20)
-//        .vAlign(.top)
-//        .hAlign(.trailing)
+        .vAlign(.top)
+        .hAlign(.trailing)
 //        .scaleEffect(3)
 //        .padding(20)
         
@@ -214,3 +214,9 @@ struct PhotoEditButton: View {
         .disabled(sharedEditNotifier.disabled)
     }
 }
+
+struct PhotoEditButtons_Previews: PreviewProvider {
+        static var previews: some View {
+            Editor()
+        }
+    }

@@ -14,21 +14,23 @@ struct PostsView: View {
     var body: some View {
         NavigationStack
         {
-            ReusablePostsView(posts: $recentsPosts)
-                .hAlign(.center).vAlign(.center)
-                .overlay(alignment: .bottomTrailing) {
-                    Button {
-                        createNewPost.toggle()
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.title3)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .padding(13)
-                            .background(.black, in: Circle())
-                    }
-                    .padding(15)
-                }
+                ReusablePostsView(posts: $recentsPosts)
+//                .hAlign(.center).vAlign(.top)
+//                .overlay(alignment: .bottomTrailing) {
+//                    Button {
+//                        createNewPost.toggle()
+//                    } label: {
+//                        Image(systemName: "plus")
+//                            .font(.title3)
+//                            .fontWeight(.semibold)
+//                            .foregroundColor(.white)
+//                            .padding(13)
+//                            .background(.black, in: Circle())
+//                    }
+//                    .padding(15)
+//                }
+            
+            // Search Bar
                 .toolbar(content: {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink {
@@ -40,7 +42,7 @@ struct PostsView: View {
                         }
                     }
                 })
-                .navigationTitle("Posts")
+//                .navigationTitle("Posts")
         }
             .fullScreenCover(isPresented: $createNewPost) {
                 CreateNewPost { post in

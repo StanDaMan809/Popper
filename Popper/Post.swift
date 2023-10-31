@@ -38,34 +38,4 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
         case userProfileURL
     }
     
-}
-
-//struct popperPost: Identifiable, Codable, Equatable, Hashable {
-//    @DocumentID var id: String?
-//    var caption: String
-//    var imageURLArray: [URL] = []
-//    var imageReferenceIDArray: [String] = []
-//    var publishedDate: Date = Date()
-//    var likedIDs: [String] = []
-//
-//    // Main Post Info (Images, Text)
-//    var imgArray = imagesArray()
-//
-//    // Basic User Info
-//    var userName: String
-//    var userUID: String
-//    var userProfileURL: URL
-//
-//    enum CodingKeys: CodingKey {
-//        case id
-//        case caption
-//        case imageURLArray
-//        case imageReferenceIDArray
-//        case publishedDate
-//        case likedIDs
-//        case userName
-//        case userUID
-//        case userProfileURL
-//    }
-//
-//}
+}   

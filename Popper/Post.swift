@@ -18,7 +18,7 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
     var publishedDate: Date = Date()
     var likedIDs: [String] = []
     var dislikedIDs: [String] = []
-    
+    var comments: [Comment] = []
 
     // Basic User Info
     var userName: String
@@ -33,9 +33,12 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
         case publishedDate
         case likedIDs
         case dislikedIDs
+        case comments
         case userName
         case userUID
         case userProfileURL
     }
     
 }   
+
+

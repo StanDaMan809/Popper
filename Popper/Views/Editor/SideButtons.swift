@@ -215,8 +215,8 @@ struct PhotoEditButton: View {
     }
 }
 
-struct PhotoEditButtons_Previews: PreviewProvider {
-        static var previews: some View {
-            Editor()
-        }
-    }
+//struct PhotoEditButtons_Previews: PreviewProvider {
+//        static var previews: some View {
+//            Editor()
+//        }
+//    }

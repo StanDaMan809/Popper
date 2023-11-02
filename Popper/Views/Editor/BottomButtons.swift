@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct bottomButtons: View {
+    @Binding var isEditorActive: Bool
     @State private var showImagePicker = false
     @State var image: UIImage?
     @State private var newImageChosen = false
@@ -71,6 +72,14 @@ struct bottomButtons: View {
                 CreateNewPost(onPost: { post in
                     // Adding created post at the top of the recent post
                     recentsPosts.insert(post, at: 0)
+                    
+                    // Placeholder: Include saving the post as an image, etc.
+                    
+                    // Wiping Editor and Getting Rid of It
+                    imgArray.images.removeAll()
+                    txtArray.texts.removeAll()
+                    isEditorActive = false 
+                    
                 }, imgArray: imgArray, txtArray: txtArray)
             }
             

@@ -12,11 +12,12 @@ let postHeight = CGFloat(530)
 
 struct Editor: View {
     
+    @Binding var isEditorActive: Bool
     @StateObject var sharedEditNotifier = SharedEditState()
     @StateObject var imgArray = imagesArray()
     @StateObject var imgAdded = imageAdded()
     @StateObject var txtArray = textsArray()
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     
     
     var body: some View
@@ -31,8 +32,11 @@ struct Editor: View {
             
             VStack
             {
+                
+                // Back Button
+                
                 Button(action: {
-                    presentationMode.wrappedValue.dismiss()
+                    isEditorActive = false
                 }, label: {
                         Image(systemName: "arrow.backward")
                 })
@@ -41,16 +45,19 @@ struct Editor: View {
                 .hAlign(.leading)
                 .padding()
                 
+                // Side Buttons
+                
                 PhotoEditButton(imgArray: imgArray, txtArray: txtArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
-                    .zIndex(UIPrio)
+                    
             }
+            .zIndex(UIPrio)
             
             Background(sharedEditNotifier: sharedEditNotifier)
             EditorDisplays(sharedEditNotifier: sharedEditNotifier)
 //            EditorBars()
 //                .zIndex(editbarPrio)
             
-            bottomButtons(imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
+            bottomButtons(isEditorActive: $isEditorActive, imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
                 .zIndex(actionButtonPrio)
             
             ForEach(imgArray.images.indices, id: \.self)
@@ -82,11 +89,11 @@ struct Editor: View {
     
 }
 
-struct Editor_Previews: PreviewProvider {
-        static var previews: some View {
-            Editor()
-        }
-    }
+//struct Editor_Previews: PreviewProvider {
+//        static var previews: some View {
+//            Editor(isEditorActive: Binding<true>)
+//        }
+//    }
 
 struct EditorTopUIButtons: View {
 
@@ -119,8 +126,6 @@ enum UIButtonPress {
 
 
 func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, sharedEditNotifier: SharedEditState) {
-    
-    // if sharedEditState blah blah blah
     
     imgAdded.imgAdded = true
     

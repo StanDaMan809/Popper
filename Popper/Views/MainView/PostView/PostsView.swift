@@ -15,6 +15,7 @@ struct PostsView: View {
         NavigationStack
         {
                 ReusablePostsView(posts: $recentsPosts)
+                
 //                .hAlign(.center).vAlign(.top)
 //                .overlay(alignment: .bottomTrailing) {
 //                    Button {

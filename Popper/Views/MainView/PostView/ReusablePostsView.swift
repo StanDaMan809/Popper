@@ -22,69 +22,6 @@ struct ReusablePostsView: View {
     
     
     var body: some View {
-//            ScrollView(.vertical, showsIndicators: false) {
-//                            LazyVStack {
-//                                if isFetching {
-//                                    ProgressView()
-//                                        .padding(.top, 30)
-//                                } else {
-//                                    if posts.isEmpty {
-//                                        // No Posts found on Firestore
-//                                        Text("No Posts Found")
-//                                            .font(.caption)
-//                                            .foregroundColor(.gray)
-//                                            .padding(.top, 30)
-//                                    } else {
-//                                        // Display the currently displayed post
-//                                        PostCardView(post: posts[displayedPostIndex]) { updatedPost in
-//                                            // Update the post in the array
-//                                            posts[displayedPostIndex] = updatedPost
-//                                        } onDelete: {
-//                                            // Remove the post from the array and update the displayed post index
-//                                            withAnimation(.easeInOut(duration: 0.25)){
-//                                                posts.remove(at: displayedPostIndex)
-//                                                displayedPostIndex = min(displayedPostIndex, posts.count - 1)
-//                                            }
-//                                        }
-//                                        .onAppear {
-//                                            // When the last post appears, fetching new post (if there)
-//                                            if displayedPostIndex == posts.count - 1 && paginationDoc != nil {
-//                                                Task { await fetchPosts() }
-//                                            }
-//                                        }
-//
-//                                        // Button to display the next post
-//                                        Button(action: {
-//                                            if displayedPostIndex < posts.count - 1 {
-//                                                displayedPostIndex += 1
-//                                            }
-//                                        }) {
-//                                            Text("Next Post")
-//                                                .font(.caption)
-//                                                .foregroundColor(.blue)
-//                                                .padding(.vertical, 5)
-//                                        }
-//                                        .padding(.vertical, 15)
-//
-//
-//                                    }
-//                                }
-//                            }
-//                        }
-//
-//                        .refreshable {
-//                            guard !basedOnUID else { return }
-//                            isFetching = true
-//                            posts = []
-//                            // Resetting Pagination Doc
-//                            paginationDoc = nil
-//                            await fetchPosts()
-//                        }
-//                        .task {
-//                            guard posts.isEmpty else { return }
-//                            await fetchPosts()
-//                        }
-//                    }
         
 //        ScrollView(.vertical, showsIndicators: false)
         TabView
@@ -112,16 +49,17 @@ struct ReusablePostsView: View {
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+        
 
         
-        .refreshable {
-            guard !basedOnUID else {return}
-            isFetching = true
-            posts = []
-            // Resetting Pagination Doc
-            paginationDoc = nil
-            await fetchPosts()
-        }
+//        .refreshable {
+//            guard !basedOnUID else {return}
+//            isFetching = true
+//            posts = []
+//            // Resetting Pagination Doc
+//            paginationDoc = nil
+//            await fetchPosts()
+//        }
         .task {
             guard posts.isEmpty else{return}
             await fetchPosts()
@@ -200,11 +138,5 @@ struct ReusablePostsView: View {
         } catch {
             print(error.localizedDescription)
         }
-    }
-}
-
-struct ReusablePostsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }

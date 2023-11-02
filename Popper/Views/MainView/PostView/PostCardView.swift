@@ -18,50 +18,65 @@ struct PostCardView: View {
     // View Properties
     @AppStorage("user_UID") private var userUID: String = ""
     @State private var docListener: ListenerRegistration?
+    @State private var displayComments: Bool = false
     
     var body: some View {
         
             // User information (profile photo, username)
-            VStack
-                {
-                    HStack(alignment: .top, spacing: 2) {
-                        VStack(alignment: .leading){
-                            HStack(alignment: .center){
-                                WebImage(url: post.userProfileURL)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 35, height: 35)
-                                    .clipShape(Circle())
+            ZStack
+            {
+                
+                imgElements(post: post)
+                
+                VStack
+                    {
+                        HStack(alignment: .top, spacing: 2) {
+                            VStack(alignment: .leading){
+                                HStack(alignment: .center){
+                                    WebImage(url: post.userProfileURL)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 35, height: 35)
+                                        .clipShape(Circle())
+                                    
+                                    Text(post.userName)
+                                        .font(.callout)
+                                        .fontWeight(.semibold)
+                                        .padding(2)
+                                }
                                 
-                                Text(post.userName)
+                                Text(post.text)
                                     .font(.callout)
-                                    .fontWeight(.semibold)
-                                    .padding(2)
+                                    .textSelection(.enabled)
+                                    .padding(.bottom, 5)
                             }
                             
-                            Text(post.text)
-                                .textSelection(.enabled)
-                        }
-                        
-            //            VStack(alignment: .leading, spacing: 6) {
+                //            VStack(alignment: .leading, spacing: 6) {
 
-            //                Text(post.publishedDate.formatted(date: .numeric, time: .shortened))
-            //                    .font(.caption2)
-            //                    .foregroundColor(.gray)
+                //                Text(post.publishedDate.formatted(date: .numeric, time: .shortened))
+                //                    .font(.caption2)
+                //                    .foregroundColor(.gray)
+                                
+            
+                //            }
                             
-            //                PostInteraction()
-            //            }
+                        }
+                        .hAlign(.leading)
+                        .padding(.horizontal, 5)
+                        .background(.white)
+    //                    .vAlign(.top)
+                        
+                        Divider()
+
+                        
+                        PostInteraction()
+                        
                         
                     }
-                    .hAlign(.leading)
-//                    .vAlign(.top)
+                    .vAlign(.top)
                     
-                    Divider()
-                    
-                    imgElements(post: post)
-                    
-                    
-                }
+            }
+        
                 
                 .overlay(alignment: .topTrailing, content: {
                     // Displaying delete button, if author
@@ -110,6 +125,22 @@ struct PostCardView: View {
                         self.docListener = nil
                     }
             }
+            .sheet(isPresented: $displayComments,
+                onDismiss: {
+                    displayComments = false
+                }, content: {
+                    NavigationView {
+                        CommentFeed(post: post, onComment: { comment in
+                            
+                        })
+                        .navigationTitle("Comments")
+                        .navigationBarTitleDisplayMode(.inline)
+                        
+                            
+                    }
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.hidden)
+        })
     }
     
     
@@ -117,26 +148,46 @@ struct PostCardView: View {
     @ViewBuilder
     func PostInteraction()-> some View {
         HStack(spacing: 6){
-            Button(action: likePost) {
-                Image(systemName: post.likedIDs.contains(userUID) ? "hand.thumbsup.fill" : "hand.thumbsup")
+            
+            // Like button
+            VStack(alignment: .center) {
+                Button(action: likePost) {
+                    Image(systemName: post.likedIDs.contains(userUID) ? "heart.fill" : "heart")
+                }
+                .foregroundColor(.red)
+                
+                
+                Text("\(post.likedIDs.count)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
             
-            Text("\(post.likedIDs.count)")
-                .font(.caption)
-                .foregroundColor(.gray)
+            // Comment button
+            VStack(alignment: .center) {
+                Button {
+                    displayComments.toggle()
+                } label: {
+                    Image(systemName: "bubble.fill")
+                }
+                .padding(.leading, 5)
+                .foregroundColor(.white)
+                
+                Text("\(post.comments.count)")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
             
+            // Share Button
             Button(action: dislikePost) {
-                Image(systemName: post.dislikedIDs.contains(userUID) ? "hand.thumbsdown.fill" : "hand.thumbsdown")
+                Image(systemName: "arrowshape.turn.up.left.fill")
             }
-            .padding(.leading, 25)
-            
-            Text("\(post.dislikedIDs.count)")
-                .font(.caption)
-                .foregroundColor(.gray)
+            .padding(.leading, 5)
+            .foregroundColor(.white)
             
         }
+        .hAlign(.trailing)
         .foregroundColor(.black)
-        .padding(.vertical, 8)
+        .padding(8)
     }
     
     // Like Post
@@ -193,6 +244,7 @@ struct PostCardView: View {
             }
         }
     }
+    
 }
 
 

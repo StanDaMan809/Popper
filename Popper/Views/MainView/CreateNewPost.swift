@@ -167,6 +167,8 @@ struct CreateNewPost: View {
                 var updatedPost = post
                 updatedPost.id = doc.documentID
                 onPost(updatedPost)
+                
+                // Dismiss View
                 dismiss()
             }
             

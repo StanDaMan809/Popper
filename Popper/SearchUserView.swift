@@ -28,7 +28,7 @@ struct SearchUserView: View {
             }
             .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Search User")
+//            .navigationTitle("Search Users")
             .searchable(text: $searchText)
             .onSubmit(of: .search, {
                 // Fetch users from firebase

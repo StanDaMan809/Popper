@@ -9,14 +9,16 @@ import SwiftUI
 
 struct MainView: View {
     @State private var isEditorActive = false
+    @State private var selectedTab: Tab = .posts
     
     var body: some View {
-        TabView{
+        TabView(selection: $selectedTab){
             PostsView()
                 .tabItem {
                     Image(systemName: "rectangle.portrait.on.rectangle.portrait.angled")
                     Text("Posts")
                 }
+                .tag(Tab.posts)
             
             Button(action: {
                 isEditorActive.toggle()
@@ -29,18 +31,30 @@ struct MainView: View {
             .tabItem {
                 Image(systemName: "plus")
             }
+            .onAppear{ isEditorActive = true }
+            .onDisappear(perform: {
+                selectedTab = .posts
+            })
+            .hidden()
+            .tag(Tab.editor)
             
             ProfileView()
                 .tabItem {
                     Image(systemName: "gear")
                     Text("Profile")
                 }
+                .tag(Tab.profile)
         }
         .tint(.black) // changes label tint to black
-        .fullScreenCover(isPresented: $isEditorActive, content: {
-            Editor()
+        .fullScreenCover(isPresented: $isEditorActive, onDismiss: {selectedTab = .posts}, content: {
+            Editor(isEditorActive: $isEditorActive)
         })
     }
+    
+    enum Tab {
+        case posts, editor, profile
+    }
+    
 }
 
 //struct MainView: View {

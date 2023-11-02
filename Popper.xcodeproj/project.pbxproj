@@ -37,6 +37,10 @@
 		F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD22AD6725400D362DB /* PostConfirmation.swift */; };
 		F65DCBA42AD89806002B878C /* imgElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA32AD89806002B878C /* imgElements.swift */; };
 		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
+		F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD822AF1DAAD00DD4405 /* Comment.swift */; };
+		F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */; };
+		F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */; };
+		F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD882AF1F0A600DD4405 /* CommentView.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
 		F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C8DC2329DF7CF00014849C /* Assets.xcassets */; };
@@ -89,6 +93,10 @@
 		F647CDD22AD6725400D362DB /* PostConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConfirmation.swift; sourceTree = "<group>"; };
 		F65DCBA32AD89806002B878C /* imgElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imgElements.swift; sourceTree = "<group>"; };
 		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
+		F6C3BD822AF1DAAD00DD4405 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFeed.swift; sourceTree = "<group>"; };
+		F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
+		F6C3BD882AF1F0A600DD4405 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
 		F6C8DC2129DF7CEF0014849C /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
@@ -207,6 +215,9 @@
 				F647CDBB2AD4B71B00D362DB /* ReusablePostsView.swift */,
 				F647CDB92AD4B47500D362DB /* PostsView.swift */,
 				F647CDBD2AD4BAC900D362DB /* PostCardView.swift */,
+				F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */,
+				F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */,
+				F6C3BD882AF1F0A600DD4405 /* CommentView.swift */,
 			);
 			path = PostView;
 			sourceTree = "<group>";
@@ -238,6 +249,7 @@
 			children = (
 				F647CDB72AD4A57200D362DB /* Post.swift */,
 				F65DCBA32AD89806002B878C /* imgElements.swift */,
+				F6C3BD822AF1DAAD00DD4405 /* Comment.swift */,
 			);
 			name = Post;
 			sourceTree = "<group>";
@@ -448,6 +460,7 @@
 				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
+				F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */,
 				F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */,
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
@@ -458,9 +471,11 @@
 				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
+				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
+				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
 				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
@@ -470,6 +485,7 @@
 				F647CDC92AD649F200D362DB /* EditableImage.swift in Sources */,
 				F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */,
 				F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */,
+				F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */,
 				F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

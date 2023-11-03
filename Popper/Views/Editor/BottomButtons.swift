@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct bottomButtons: View {
+
     @Binding var isEditorActive: Bool
     @State private var showImagePicker = false
     @State var image: UIImage?

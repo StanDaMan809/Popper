@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PhotoEditButton: View {
-    
+
     @ObservedObject var imgArray: imagesArray
     @ObservedObject var txtArray: textsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
@@ -152,7 +152,7 @@ struct PhotoEditButton: View {
 
                 Button(action: {
 //                    makeText()
-                    textAdd(textArray: txtArray)
+                    textAdd(textArray: txtArray, sharedEditNotifier: sharedEditNotifier)
                 },
                        label: {
                         Image(systemName: "text.cursor")

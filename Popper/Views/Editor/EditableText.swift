@@ -160,9 +160,8 @@ struct EditableText: View {
 }
 
 class textsArray: ObservableObject {
-    @Published var texts: [editableTxt] = [
-//        editableTxt(id: 1, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
-    ]
+    @Published var texts: [Int : editableTxt] = [ : ]
+//       1 : editableTxt(id: 1, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
 }
 
 struct EditableTextData: Codable, Equatable, Hashable {
@@ -187,8 +186,4 @@ struct EditableTextData: Codable, Equatable, Hashable {
         self.scalar = editableText.scalar
         self.rotationDegrees = editableText.rotationDegrees
     }
-}
-
-func textAdd(textArray: textsArray) {
-    textArray.texts.append(editableTxt(id: textArray.texts.count, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0))
 }

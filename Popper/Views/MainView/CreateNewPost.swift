@@ -130,8 +130,8 @@ struct CreateNewPost: View {
                 
                 // Photo Upload and Transcription
                 var imagesData: [EditableImageData] = []
-                for (index, image) in imagesArrayInstance.images.enumerated() {
-                    let imageReferenceID = "\(userUID)\(Date())\(image.id)\(index)" // Create Reference for each photo
+                for (key, image) in imagesArrayInstance.images {
+                    let imageReferenceID = "\(userUID)\(Date())\(image.id)\(key)" // Create Reference for each photo
                     let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each photo
                     if let data = image.imgSrc.jpegData(compressionQuality: 1.0) { // Compression of each photo, to be finished soon
                         let _ = try await storageRef.putDataAsync(data)
@@ -143,7 +143,7 @@ struct CreateNewPost: View {
 
                 // Text Handling
                 var textsToUpload = [EditableTextData]()
-                for txt in textsArrayInstance.texts {
+                for (_, txt) in textsArrayInstance.texts {
                     textsToUpload.append(EditableTextData(from: txt))
                 }
 

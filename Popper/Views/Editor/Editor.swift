@@ -11,7 +11,7 @@ import PhotosUI
 let postHeight = CGFloat(530)
 
 struct Editor: View {
-    
+    // Used for identifying objects, even after deletion. This will likely have to move when Drafts are introduced.
     @Binding var isEditorActive: Bool
     @StateObject var sharedEditNotifier = SharedEditState()
     @StateObject var imgArray = imagesArray()
@@ -60,72 +60,38 @@ struct Editor: View {
             bottomButtons(isEditorActive: $isEditorActive, imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
                 .zIndex(actionButtonPrio)
             
-            ForEach(imgArray.images.indices, id: \.self)
-                { index in
-                    EditableImage(image: imgArray.images[index],imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
-                    
+            ForEach(imgArray.images.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                    if let itemToDisplay = imgArray.images[key] {
+                        EditableImage(image: itemToDisplay, imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
+                    }
+            }
 //                    if imgArray.images[index].createDisplays.images[0].display {
 //                        ForEach(imgArray.images[index].createDisplays.images.indices, id: \.self) { index2 in
 //                            EditableImage(image: imgArray.images[index].createDisplays.images[index2], sharedEditNotifier: sharedEditNotifier)
 //                        }
 //                    }
+               
+            ForEach(txtArray.texts.sorted(by: {$0.key < $1.key}), id: \.key)
+            { key, value in
+                if let textToDisplay = txtArray.texts[key] {
+                    EditableText(text: textToDisplay, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
                 }
-            ForEach(txtArray.texts.indices, id: \.self)
-            { index in
-                EditableText(text: txtArray.texts[index], sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
             }
-            if imgAdded.imgAdded {
-                EditableImage(image: imgArray.images[imgAdded.addIndex], imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
-            }
-//            if let vicky = sharedEditNotifier.imageSubset {
-//                ForEach(vicky.createDisplays.images.indices, id: \.self)
-//                    { index in
-//                        EditableImage(image: vicky.createDisplays.images[index], sharedEditNotifier: sharedEditNotifier)
-//                    }
+            
+//            if imgAdded.imgAdded, let imageToDisplay = imgArray.images[sharedEditNotifier.objectsCount] {
+//                EditableImage(image: imageToDisplay, imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
 //            }
+            
             
         }
     }
     
 }
 
-//struct Editor_Previews: PreviewProvider {
-//        static var previews: some View {
-//            Editor(isEditorActive: Binding<true>)
-//        }
-//    }
-
-struct EditorTopUIButtons: View {
-
-    var body: some View
-    {
-        Button(action: {
-            print("hey")
-        }, label: {
-                Image(systemName: "arrow.backward")
-        })
-        .scaleEffect(1.5)
-        .tint(.black)
-        .hAlign(.leading)
-        .padding()
-    }
-}
-
-
-enum UIButtonPress {
-    
-    case noButton
-    case imageEdit
-    case bgButton
-    case extrasButton
-    case txtButton
-    case disappeared
-    case textEdit
-
-}
-
-
 func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, sharedEditNotifier: SharedEditState) {
+    
+    var display = true
+    var defaultDisplaySetting = true
     
     imgAdded.imgAdded = true
     
@@ -133,37 +99,39 @@ func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, s
         
         if let currentImg = sharedEditNotifier.selectedImage
         {
-            currentImg.createDisplays.append(imgArray.images.endIndex)
-            imgArray.images.append(editableImg(id: imgArray.images.count, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 0, y: 0), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: false, transparency: 1))
-            imgAdded.addIndex = imgArray.images.endIndex - 1
+            display = false // Set display to false so it doesn't show up until touched
+            defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
+            currentImg.createDisplays.append(sharedEditNotifier.objectsCount)
+            print(currentImg.createDisplays)
         }
         
     }
 
     else
     {
-        imgArray.images.append(editableImg(id: imgArray.images.count, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: true, transparency: 1))
-
-        imgAdded.addIndex = imgArray.images.endIndex - 1
+        display = true
         
     }
     
-    print(imgArray.images)
+    imgArray.images[sharedEditNotifier.objectsCount] = editableImg(id: sharedEditNotifier.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)
+
+    imgAdded.addIndex = sharedEditNotifier.objectsCount
+    sharedEditNotifier.objectsCount += 1 // Increasing the number of objects counted for id purposes
+    print(imgArray.images) // Bugchecking
     imgAdded.imgAdded = false
     sharedEditNotifier.editorDisplayed = .none
     
-
 }
 
-class imageAdded: ObservableObject {
-    @Published var imgAdded: Bool = false
-    @Published var addIndex: Int = 0
-    @Published var image: UIImage?
-    @ObservedObject var imgArray = imagesArray()
+func textAdd(textArray: textsArray, sharedEditNotifier: SharedEditState) {
     
+    textArray.texts[sharedEditNotifier.objectsCount] = editableTxt(id: textArray.texts.count, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
+    
+    sharedEditNotifier.objectsCount += 1
 }
 
 struct ImagePickerView: UIViewControllerRepresentable {
+
     @Binding var image: UIImage?
     @Binding var showImagePicker: Bool
     @Binding var newImageChosen: Bool
@@ -222,6 +190,44 @@ struct ImagePickerView: UIViewControllerRepresentable {
     }
 }
 
+
+struct EditorTopUIButtons: View {
+
+    var body: some View
+    {
+        Button(action: {
+            print("hey")
+        }, label: {
+                Image(systemName: "arrow.backward")
+        })
+        .scaleEffect(1.5)
+        .tint(.black)
+        .hAlign(.leading)
+        .padding()
+    }
+}
+
+
+enum UIButtonPress {
+    
+    case noButton
+    case imageEdit
+    case bgButton
+    case extrasButton
+    case txtButton
+    case disappeared
+    case textEdit
+
+}
+
+class imageAdded: ObservableObject {
+    @Published var imgAdded: Bool = false
+    @Published var addIndex: Int = 0
+    @Published var image: UIImage?
+    @ObservedObject var imgArray = imagesArray()
+    
+}
+
 enum ClippableShape: Int {
     
     case rectangle
@@ -272,6 +278,8 @@ class SharedEditState: ObservableObject {
     @Published var pressedButton: UIButtonPress = .noButton
     @Published var imageSubset: editableImg?
     @Published var undoButtonPresent: Bool = false
+    @Published var objectsCount: Int = 0
+    @Published var delete: Bool = false
     
     func editToggle()
     {

@@ -19,6 +19,7 @@ class editableImg: Identifiable, ObservableObject {
     @Published var display: Bool
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
+    @Published var rotationDegrees: Double = 0
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     
@@ -43,6 +44,8 @@ struct EditableImage: View {
     @ObservedObject var imgArray: imagesArray
     @State var currentAmount = 0.0
     @ObservedObject var sharedEditNotifier: SharedEditState
+    @GestureState var currentRotation = Angle.zero
+    @State var finalRotation = Angle.zero
     
     var body: some View
         {
@@ -53,9 +56,11 @@ struct EditableImage: View {
                     .resizable()
                     .frame(width: image.size[0], height: image.size[1])
                     .clipShape(image.currentShape)
+                    .rotationEffect(currentRotation + finalRotation)
                     .scaleEffect(image.scalar + currentAmount)
                     .position(image.totalOffset)
                     .opacity(image.transparency)
+                    .zIndex(Double(image.id))
                     
                     // Image Gestures
                 
@@ -115,6 +120,13 @@ struct EditableImage: View {
                             })
                 
                     .gesture(
+                    SimultaneousGesture( // Rotating and Size change
+                            RotationGesture()
+                            .updating($currentRotation) { value, state, _ in state = value
+                                }
+                            .onEnded { value in
+                                finalRotation += value
+                            },
                         MagnificationGesture()
                             .onChanged { amount in
                                 currentAmount = amount - 1
@@ -127,7 +139,7 @@ struct EditableImage: View {
                                 sharedEditNotifier.currentlyEdited = false
                                 sharedEditNotifier.editToggle()
                                 
-                            })
+                            }))
                 
                     .gesture(LongPressGesture()
                         .onEnded{_ in

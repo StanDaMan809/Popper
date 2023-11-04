@@ -41,6 +41,8 @@
 		F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */; };
 		F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */; };
 		F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD882AF1F0A600DD4405 /* CommentView.swift */; };
+		F6C3BD8F2AF5A9ED00DD4405 /* ShapeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */; };
+		F6C3BD912AF5ABAA00DD4405 /* EditableShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
 		F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6C8DC2329DF7CF00014849C /* Assets.xcassets */; };
@@ -97,6 +99,8 @@
 		F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFeed.swift; sourceTree = "<group>"; };
 		F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
 		F6C3BD882AF1F0A600DD4405 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeTest.swift; sourceTree = "<group>"; };
+		F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableShape.swift; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
 		F6C8DC2129DF7CEF0014849C /* Editor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Editor.swift; sourceTree = "<group>"; };
@@ -239,7 +243,9 @@
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
 				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
 				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
+				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -465,6 +471,7 @@
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
+				F6C3BD8F2AF5A9ED00DD4405 /* ShapeTest.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
@@ -481,6 +488,7 @@
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
 				F63432702AC7DDC700E756BA /* LoadingView.swift in Sources */,
 				F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */,
+				F6C3BD912AF5ABAA00DD4405 /* EditableShape.swift in Sources */,
 				F634327B2AC7E72E00E756BA /* ProfileView.swift in Sources */,
 				F647CDC92AD649F200D362DB /* EditableImage.swift in Sources */,
 				F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */,
@@ -645,8 +653,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Popper/Preview Content\"";
+				DEVELOPMENT_TEAM = 8Q9WG9FM4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Popper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -673,8 +684,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Popper/Preview Content\"";
+				DEVELOPMENT_TEAM = 8Q9WG9FM4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Popper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

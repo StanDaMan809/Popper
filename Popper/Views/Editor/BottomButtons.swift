@@ -10,6 +10,7 @@ import SwiftUI
 struct bottomButtons: View {
 
     @Binding var isEditorActive: Bool
+    @State private var showCamera = false
     @State private var showImagePicker = false
     @State var image: UIImage?
     @State private var newImageChosen = false
@@ -32,7 +33,8 @@ struct bottomButtons: View {
                     Image(systemName: "photo")
                 
                     .sheet(isPresented: $showImagePicker) {
-                        ImagePickerView(image: self.$image, showImagePicker: self.$showImagePicker, newImageChosen: self.$newImageChosen, imgArray: self.imgArray, imgAdded: self.imgAdded, sharedEditNotifier: self.sharedEditNotifier)
+                        ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                            .ignoresSafeArea()
                         }
                     
                     
@@ -44,10 +46,14 @@ struct bottomButtons: View {
             .padding()
             
             Button(action: {
-                
+                self.showCamera = true
             },
                    label: {
                     Image(systemName: "camera.aperture")
+                    .sheet(isPresented: $showCamera) {
+                        ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .camera)
+                            .ignoresSafeArea()
+                        }
             })
             .scaleEffect(4)
             .tint(.black)

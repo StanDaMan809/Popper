@@ -11,8 +11,10 @@ struct PhotoEditButton: View {
 
     @ObservedObject var imgArray: imagesArray
     @ObservedObject var txtArray: textsArray
+    @ObservedObject var shpArray: shapesArray
     @ObservedObject var sharedEditNotifier: SharedEditState
     @ObservedObject var imgAdded: imageAdded
+    @State private var showCamera = false
     @State private var showImagePicker = false
     @State var image: UIImage?
     @State private var newImageChosen = false
@@ -64,6 +66,7 @@ struct PhotoEditButton: View {
             {
                 Button(action: {
                     sharedEditNotifier.pressedButton = .noButton
+                    sharedEditNotifier.selectedImage = nil
                 },
                        label: {
                         Image(systemName: "photo.circle.fill")
@@ -96,7 +99,7 @@ struct PhotoEditButton: View {
                         Image(systemName: "photo.on.rectangle.angled")
                     
                         .sheet(isPresented: $showImagePicker) {
-                            ImagePickerView(image: self.$image, showImagePicker: self.$showImagePicker, newImageChosen: self.$newImageChosen, imgArray: self.imgArray, imgAdded: self.imgAdded, sharedEditNotifier: sharedEditNotifier)
+                            ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
                             }
                     
                 })
@@ -139,6 +142,13 @@ struct PhotoEditButton: View {
                        label: {
                         Image(systemName: "doc.circle.fill")
                 })
+                
+                Button(action: {
+                    shapeAdd(shapeArray: shpArray, sharedEditNotifier: sharedEditNotifier)
+                },
+                       label: {
+                        Image(systemName: "squareshape")
+                })
             }
 
             if sharedEditNotifier.pressedButton == .txtButton
@@ -178,7 +188,7 @@ struct PhotoEditButton: View {
                 .scaleEffect(miniButtonScaleEffect)
                 
                 Button(action: {
-//                    Color
+                    sharedEditNotifier.editorDisplayed = .colorPickerText
                 },
                        label: {
                         Image(systemName: "paintpalette")

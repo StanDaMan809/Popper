@@ -17,12 +17,13 @@ struct Editor: View {
     @StateObject var imgArray = imagesArray()
     @StateObject var imgAdded = imageAdded()
     @StateObject var txtArray = textsArray()
+    @StateObject var shpArray = shapesArray()
     @Environment(\.dismiss) var dismiss
     
     
     var body: some View
     {
-        @State var UIPrio = Double(imgArray.images.count + txtArray.texts.count + 1)
+        @State var UIPrio = Double(imgArray.images.count + txtArray.texts.count + shpArray.shapes.count + 1)
         @State var editTextPrio = UIPrio - 1
         @State var editbarPrio = UIPrio + 2
         @State var actionButtonPrio = UIPrio + 3
@@ -47,7 +48,7 @@ struct Editor: View {
                 
                 // Side Buttons
                 
-                PhotoEditButton(imgArray: imgArray, txtArray: txtArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
+                PhotoEditButton(imgArray: imgArray, txtArray: txtArray, shpArray: shpArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
                     
             }
             .zIndex(UIPrio)
@@ -75,6 +76,13 @@ struct Editor: View {
             { key, value in
                 if let textToDisplay = txtArray.texts[key] {
                     EditableText(text: textToDisplay, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
+                }
+            }
+            
+            ForEach(shpArray.shapes.sorted(by: {$0.key < $1.key}), id: \.key)
+            { key, value in
+                if let shapeToDisplay = shpArray.shapes[key] {
+                    EditableShape(shape: shapeToDisplay, sharedEditNotifier: sharedEditNotifier)
                 }
             }
             
@@ -125,7 +133,7 @@ func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, s
 
 func textAdd(textArray: textsArray, sharedEditNotifier: SharedEditState) {
     
-    textArray.texts[sharedEditNotifier.objectsCount] = editableTxt(id: textArray.texts.count, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
+    textArray.texts[sharedEditNotifier.objectsCount] = editableTxt(id: sharedEditNotifier.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
     
     sharedEditNotifier.objectsCount += 1
 }
@@ -134,10 +142,12 @@ struct ImagePickerView: UIViewControllerRepresentable {
 
     @Binding var image: UIImage?
     @Binding var showImagePicker: Bool
+    @Binding var showCamera: Bool
     @Binding var newImageChosen: Bool
     @ObservedObject var imgArray: imagesArray
     @ObservedObject var imgAdded: imageAdded
     @ObservedObject var sharedEditNotifier: SharedEditState
+    let sourceType: UIImagePickerController.SourceType
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -145,7 +155,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = sourceType
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
@@ -181,10 +191,12 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 }
             }
             parent.showImagePicker = false
+            parent.showCamera = false
         }
         
         func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
             parent.showImagePicker = false
+            parent.showCamera = false
         }
         
     }
@@ -234,6 +246,7 @@ enum ClippableShape: Int {
     case circle
     case ellipse
     case capsule
+    case triangle
     
     var next: ClippableShape {
         ClippableShape(rawValue: rawValue + 1) ?? .rectangle
@@ -258,6 +271,8 @@ struct ClippableShapeViewModifier: ViewModifier {
             content.clipShape(Ellipse())
         case .capsule:
             content.clipShape(Capsule())
+        case .triangle:
+            content.clipShape(Triangle())
         }
     }
 }
@@ -297,6 +312,7 @@ class SharedEditState: ObservableObject {
     
     func selectImage(editableImg: editableImg) {
         selectedImage = editableImg
+        selectedText = nil
     }
     
     func imageSubset(editableImg: editableImg) {
@@ -305,21 +321,26 @@ class SharedEditState: ObservableObject {
     
     func selectText(editableTxt: editableTxt) {
         selectedText = editableTxt
+        selectedImage = nil
+    }
+    
+    enum EditorDisplayed: Int {
+        
+        case none
+        case linkEditor
+        case transparencySlider
+        case photoAppear
+        case photoDisappear
+        case colorPickerText
+        case colorPickerShape
+        
     }
 
 }
 
-enum EditorDisplayed: Int {
-    
-    case none
-    case linkEditor
-    case transparencySlider
-    case photoAppear
-    case photoDisappear
-    
-}
 
-struct EditorDisplays: View {
+
+struct EditorDisplays: View { // Change whatever function calling this to only display this IF the variable is there. Jesus. 
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     var body: some View {
@@ -361,6 +382,8 @@ struct RotationSlider: View {
         .offset(y: 250)
     }
 }
+
+
 
 
 

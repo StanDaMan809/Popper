@@ -142,12 +142,12 @@ struct imgElements: View {
                 // Text characteristics
                 .font(.system(size: defaultTextSize))
                 .frame(width: defaultTextFrame)
+                .rotationEffect(Angle(degrees: rotationDegrees))
                 .scaleEffect(scalar)
                 .position(CGPoint(x: totalOffset[0], y: totalOffset[1]))
                 .zIndex(Double(id)) // Controls layer
                 .multilineTextAlignment(.center)
                 .foregroundColor(color)
-                .rotationEffect(Angle(degrees: rotationDegrees))
         }
     }
 }

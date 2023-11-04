@@ -15,6 +15,7 @@ class editableTxt: ObservableObject {
     // Include alignment
     @Published var message: String
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
+    @Published var color: Color = .black
     @Published var rValue: Double = 0.0
     @Published var gValue: Double = 0.0
     @Published var bValue: Double = 0.0
@@ -68,7 +69,7 @@ struct EditableText: View {
                 
                 TextField("", text: $text.message, axis: .vertical)
                     .font(.system(size: defaultTextSize))
-                    .foregroundColor(Color(red: text.rValue, green: text.gValue, blue: text.bValue))
+                    .foregroundColor(text.color)
                     .offset(x: 0, y: -100)
                     .frame(width: defaultTextFrame)
                     .zIndex(editPrio) // Controls layer
@@ -84,12 +85,13 @@ struct EditableText: View {
                     // Text characteristics
                     .font(.system(size: defaultTextSize))
                     .frame(width: defaultTextFrame)
+                    .rotationEffect(currentRotation + finalRotation)
                     .scaleEffect(text.scalar + currentAmount)
                     .position(text.totalOffset)
                     .zIndex(Double(text.id)) // Controls layer
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color(red: text.rValue, green: text.gValue, blue: text.bValue))
-                    .rotationEffect(currentRotation + finalRotation)
+                    
                     
                     // Text gestures
                     .onTapGesture

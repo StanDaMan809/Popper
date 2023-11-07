@@ -13,13 +13,13 @@ class editableImg: Identifiable, ObservableObject {
     let imgSrc: UIImage
     @Published var currentShape: ClippableShape = .rectangle
     @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
-    @Published var size: [CGFloat] = [80, 40]
+    @Published var size: [CGFloat] = [80, 40] // Image's true specs, to not be touched
     @Published var scalar: Double
     @Published var transparency: Double
     @Published var display: Bool
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
-    @Published var rotationDegrees: Double = 0
+    @Published var rotationDegrees: Angle = Angle.zero
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     
@@ -41,11 +41,10 @@ class editableImg: Identifiable, ObservableObject {
 struct EditableImage: View {
     
     @ObservedObject var image: editableImg
-    @ObservedObject var imgArray: imagesArray
+    @ObservedObject var elementsArray: editorElementsArray
     @State var currentAmount = 0.0
     @ObservedObject var sharedEditNotifier: SharedEditState
     @GestureState var currentRotation = Angle.zero
-    @State var finalRotation = Angle.zero
     
     var body: some View
         {
@@ -56,7 +55,7 @@ struct EditableImage: View {
                     .resizable()
                     .frame(width: image.size[0], height: image.size[1])
                     .clipShape(image.currentShape)
-                    .rotationEffect(currentRotation + finalRotation)
+                    .rotationEffect(currentRotation + image.rotationDegrees)
                     .scaleEffect(image.scalar + currentAmount)
                     .position(image.totalOffset)
                     .opacity(image.transparency)
@@ -67,7 +66,27 @@ struct EditableImage: View {
                     .onTapGesture (count: 2)
                     {
                         image.currentShape = image.currentShape.next
-    
+                        
+//                        switch image.currentShape {
+//                        case .square:
+//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
+//                        case .rectangle:
+//                            image.dimensionsForDisplay[0] = image.size[0]
+//                            image.dimensionsForDisplay[1] = image.size[1]
+//                        case .circle:
+//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
+//                        case .ellipse:
+//                            image.dimensionsForDisplay[0] = image.size[0]
+//                            image.dimensionsForDisplay[1] = image.size[1]
+//                        case .capsule:
+//                            image.dimensionsForDisplay[0] = image.size[0]
+//                            image.dimensionsForDisplay[1] = image.size[1]
+//                        case .triangle:
+//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
+//                        case .star:
+//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
+//                        }
+//    
                     }
                 
                     .onTapGesture
@@ -79,20 +98,27 @@ struct EditableImage: View {
                         
                         else
                         {
+                                // Make all displays linked to this one appear!
                                 for i in image.createDisplays
                                 {
                                     print("Retrieving for \(i)...")
-                                    if let itemToDisplay = imgArray.images[i] {
-                                        itemToDisplay.display = true
+                                    if let itemToDisplay = elementsArray.elements[i] {
+                                        itemToDisplay.element.display = true
                                     } else { }// else if textArray blah blah blah
                                 }
                                 
+                                // Make all displays linked to this one disappear
                                 for i in image.disappearDisplays
                                 {
-                                    if let itemToDisplay = imgArray.images[i] {
-                                        itemToDisplay.display = false
+                                    if let itemToDisplay = elementsArray.elements[i] {
+                                        itemToDisplay.element.display = false
                                     } // else if textArray blah blah blah
                                 }
+                            
+                            // Summon the rewind button for editing
+                            if image.createDisplays.count != 0 || image.disappearDisplays.count != 0 {
+                                sharedEditNotifier.rewindButtonPresent = true
+                            }
                         }
                         
                         
@@ -125,7 +151,7 @@ struct EditableImage: View {
                             .updating($currentRotation) { value, state, _ in state = value
                                 }
                             .onEnded { value in
-                                finalRotation += value
+                                image.rotationDegrees += value
                             },
                         MagnificationGesture()
                             .onChanged { amount in
@@ -160,6 +186,7 @@ struct EditableImageData: Codable, Equatable, Hashable {
     var display: Bool
     var createDisplays: [Int] = []
     var disappearDisplays: [Int] = []
+    var rotationDegrees: Double
     var imageURL: URL
     var imageReferenceID: String
     
@@ -173,13 +200,69 @@ struct EditableImageData: Codable, Equatable, Hashable {
         self.display = editableImage.defaultDisplaySetting // If user uploads a post that's already interacted with, it'll upload just fine
         self.createDisplays = editableImage.createDisplays
         self.disappearDisplays = editableImage.disappearDisplays
+        self.rotationDegrees = editableImage.rotationDegrees.degrees
         self.imageURL = imageURL
         self.imageReferenceID = imageReferenceID
     }
+    
+    // There may be a bug involving the rotationDegrees not encoding from the posts; I deleted the posts just to be safe, but know that if there’s an issue and it says no posts showing, it’s because I added the rotationDegrees field to images when it didn’t have that before and that might cause it to not load properly
 }
 
-class imagesArray: ObservableObject {
-    @Published var images: [Int : editableImg] = [:]
-//        editableImg(id: 0, imgSrc: "Image", currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [50, 80], scalar: 1.0),
-//        editableImg(id: 1, imgSrc: "Slay", currentShape: .rectangle, totalOffset: CGPoint(x: 70, y: 500), size: [50, 80], scalar: 1.0)
+class editorElementsArray: ObservableObject {
+    @Published var elements: [Int: editorElement] = [:]
+    @Published var objectsCount: Int = 0
+    
+}
+
+class editorElement: ObservableObject {
+    @Published var element: ElementType
+    
+    // The structs will be able to call from this...
+    
+    
+    init(element: ElementType) {
+        self.element = element
+    }
+    
+    enum ElementType {
+        case image(editableImg)
+        case text(editableTxt)
+        case shape(editableShp)
+        
+        var display: Bool {
+                get {
+                    switch self {
+                    case .image(let editableImg):
+                        return editableImg.display
+                    case .text(let editableTxt):
+                        return editableTxt.display
+                    case .shape(let editableShp):
+                        return editableShp.display
+                    }
+                }
+                set {
+                    switch self {
+                    case .image(let editableImg):
+                        editableImg.display = newValue
+                    case .text(let editableTxt):
+                        editableTxt.display = newValue
+                    case .shape(let editableShp):
+                        editableShp.display = newValue
+                }
+            }
+        }
+        
+        var defaultDisplaySetting: Bool {
+                get {
+                    switch self {
+                    case .image(let editableImg):
+                        return editableImg.defaultDisplaySetting
+                    case .text(let editableTxt):
+                        return editableTxt.defaultDisplaySetting
+                    case .shape(let editableShp):
+                        return editableShp.defaultDisplaySetting
+                    }
+            }
+        }
+    }
 }

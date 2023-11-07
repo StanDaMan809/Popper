@@ -8,15 +8,45 @@
 import SwiftUI
 
 struct Background: View {
+    
     @ObservedObject var sharedEditNotifier: SharedEditState
+    @ObservedObject var elementsArray: editorElementsArray
+    
+    var editTextPrio: Double
     
     var body: some View {
-        Color(.white)
-            .onTapGesture {
-                sharedEditNotifier.selectedImage = nil
-                sharedEditNotifier.editorDisplayed = .none
-                sharedEditNotifier.pressedButton = .noButton
+        
+        ZStack {
+            Color(.white)
+                .onTapGesture {
+                    sharedEditNotifier.restoreDefaults()
+                }
+                
+            
+            ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                if let itemToDisplay = elementsArray.elements[key] {
+                    switch itemToDisplay.element {
+                    case .image(let editableImage):
+                            
+                        EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                            .disabled(true)
+                        
+                    case .text(let editableTxt):
+                        
+                        EditableText(text: editableTxt, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
+                            .disabled(true)
+                        
+                    case .shape(let editableShp):
+                        
+                        EditableShape(shape: editableShp, sharedEditNotifier: sharedEditNotifier)
+                            .disabled(true)
+                            
+                    }
+                }
             }
-            .zIndex(-1)
+        }
+        .zIndex(-1)
+        
+        
     }
 }

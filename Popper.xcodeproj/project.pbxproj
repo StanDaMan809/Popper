@@ -37,11 +37,13 @@
 		F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD22AD6725400D362DB /* PostConfirmation.swift */; };
 		F65DCBA42AD89806002B878C /* imgElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA32AD89806002B878C /* imgElements.swift */; };
 		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
+		F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A982AF9C14A000E9C94 /* Trash.swift */; };
+		F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */; };
 		F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD822AF1DAAD00DD4405 /* Comment.swift */; };
 		F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */; };
 		F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */; };
 		F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD882AF1F0A600DD4405 /* CommentView.swift */; };
-		F6C3BD8F2AF5A9ED00DD4405 /* ShapeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */; };
+		F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */; };
 		F6C3BD912AF5ABAA00DD4405 /* EditableShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */; };
 		F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */; };
 		F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC2129DF7CEF0014849C /* Editor.swift */; };
@@ -95,11 +97,13 @@
 		F647CDD22AD6725400D362DB /* PostConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConfirmation.swift; sourceTree = "<group>"; };
 		F65DCBA32AD89806002B878C /* imgElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imgElements.swift; sourceTree = "<group>"; };
 		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
+		F6964A982AF9C14A000E9C94 /* Trash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
+		F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindButton.swift; sourceTree = "<group>"; };
 		F6C3BD822AF1DAAD00DD4405 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFeed.swift; sourceTree = "<group>"; };
 		F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
 		F6C3BD882AF1F0A600DD4405 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
-		F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeTest.swift; sourceTree = "<group>"; };
+		F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
 		F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableShape.swift; sourceTree = "<group>"; };
 		F6C8DC1C29DF7CEF0014849C /* Popper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Popper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC1F29DF7CEF0014849C /* PopperApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperApp.swift; sourceTree = "<group>"; };
@@ -241,11 +245,13 @@
 				F6C8DC2129DF7CEF0014849C /* Editor.swift */,
 				F647CDD02AD64BCE00D362DB /* Background.swift */,
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
+				F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */,
 				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
 				F647CDC82AD649F200D362DB /* EditableImage.swift */,
-				F6C3BD8E2AF5A9ED00DD4405 /* ShapeTest.swift */,
+				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
+				F6964A982AF9C14A000E9C94 /* Trash.swift */,
 			);
 			path = Editor;
 			sourceTree = "<group>";
@@ -471,7 +477,7 @@
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
-				F6C3BD8F2AF5A9ED00DD4405 /* ShapeTest.swift in Sources */,
+				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
@@ -481,7 +487,9 @@
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
+				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
+				F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */,
 				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
 				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,

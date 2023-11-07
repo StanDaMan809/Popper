@@ -15,8 +15,7 @@ struct CreateNewPost: View {
     var onPost: (Post)->()
     // post Properties
     
-    @ObservedObject var imgArray: imagesArray = imagesArray()
-    @ObservedObject var txtArray: textsArray = textsArray()
+    @ObservedObject var elementsArray: editorElementsArray = editorElementsArray()
     
     @State private var postText: String = ""
     @State private var postImageData: Data?
@@ -53,7 +52,7 @@ struct CreateNewPost: View {
                 .hAlign(.leading)
                 
                 Button{
-                    createPost(imagesArrayInstance: imgArray, textsArrayInstance: txtArray)
+                    createPost(elementsArray: elementsArray)
                 } label: {
                     Text("Post")
                         .font(.callout)
@@ -121,7 +120,7 @@ struct CreateNewPost: View {
     }
     
     
-    func createPost(imagesArrayInstance: imagesArray, textsArrayInstance: textsArray) {
+    func createPost(elementsArray: editorElementsArray) {
         isLoading = true
         showKeyboard = false
         Task {
@@ -130,21 +129,28 @@ struct CreateNewPost: View {
                 
                 // Photo Upload and Transcription
                 var imagesData: [EditableImageData] = []
-                for (key, image) in imagesArrayInstance.images {
-                    let imageReferenceID = "\(userUID)\(Date())\(image.id)\(key)" // Create Reference for each photo
-                    let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each photo
-                    if let data = image.imgSrc.jpegData(compressionQuality: 1.0) { // Compression of each photo, to be finished soon
-                        let _ = try await storageRef.putDataAsync(data)
-                        let downloadURL = try await storageRef.downloadURL()
-                        let imageNumbers = EditableImageData(from: image, imageURL: downloadURL, imageReferenceID: imageReferenceID)
-                        imagesData.append(imageNumbers)
-                    }
-                }
-
-                // Text Handling
                 var textsToUpload = [EditableTextData]()
-                for (_, txt) in textsArrayInstance.texts {
-                    textsToUpload.append(EditableTextData(from: txt))
+                
+                for (key, element) in elementsArray.elements {
+                    switch element.element {
+                    
+                    case .image(let image):
+                            let imageReferenceID = "\(userUID)\(Date())\(image.id)\(key)" // Create Reference for each photo
+                            let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each photo
+                            if let data = image.imgSrc.jpegData(compressionQuality: 1.0) { // Compression of each photo, to be finished soon
+                                let _ = try await storageRef.putDataAsync(data)
+                                let downloadURL = try await storageRef.downloadURL()
+                                let imageNumbers = EditableImageData(from: image, imageURL: downloadURL, imageReferenceID: imageReferenceID)
+                                imagesData.append(imageNumbers)
+                        }
+                        
+                    case .text(let text):
+                        textsToUpload.append(EditableTextData(from: text))
+                    
+                    case .shape(let shape):
+                        print("just give it a little")
+                        
+                    }
                 }
 
                 // Create Post object with all information

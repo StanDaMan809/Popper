@@ -14,94 +14,107 @@ struct Editor: View {
     // Used for identifying objects, even after deletion. This will likely have to move when Drafts are introduced.
     @Binding var isEditorActive: Bool
     @StateObject var sharedEditNotifier = SharedEditState()
-    @StateObject var imgArray = imagesArray()
-    @StateObject var imgAdded = imageAdded()
-    @StateObject var txtArray = textsArray()
-    @StateObject var shpArray = shapesArray()
+    
+    // For foreground
+    @StateObject var elementsArray = editorElementsArray()
+    
+    // For background
+    @StateObject var bgElementsArray = editorElementsArray()
+    
     @Environment(\.dismiss) var dismiss
     
     
     var body: some View
     {
-        @State var UIPrio = Double(imgArray.images.count + txtArray.texts.count + shpArray.shapes.count + 1)
-        @State var editTextPrio = UIPrio - 1
-        @State var editbarPrio = UIPrio + 2
-        @State var actionButtonPrio = UIPrio + 3
+        if sharedEditNotifier.backgroundEdit {
+            EditorView(parent: self, elementsArray: bgElementsArray)
+        } else {
+            EditorView(parent: self, elementsArray: elementsArray)
+        }
         
-        ZStack
-        {
+    }
+    
+    struct EditorView: View { // View redeclared to allow for background editing
+        
+        let parent: Editor
+        @ObservedObject var elementsArray: editorElementsArray
+        
+        var body: some View {
+            @State var UIPrio = Double(elementsArray.elements.count + 1)
+            @State var editTextPrio = UIPrio - 1
+            @State var editbarPrio = UIPrio + 2
+            @State var actionButtonPrio = UIPrio + 3
             
-            VStack
+            ZStack
             {
                 
-                // Back Button
-                
-                Button(action: {
-                    isEditorActive = false
-                }, label: {
-                        Image(systemName: "arrow.backward")
-                })
-                .scaleEffect(1.5)
-                .tint(.black)
-                .hAlign(.leading)
-                .padding()
-                
-                // Side Buttons
-                
-                PhotoEditButton(imgArray: imgArray, txtArray: txtArray, shpArray: shpArray, sharedEditNotifier: sharedEditNotifier, imgAdded: imgAdded)
+                VStack
+                {
                     
-            }
-            .zIndex(UIPrio)
-            
-            Background(sharedEditNotifier: sharedEditNotifier)
-            EditorDisplays(sharedEditNotifier: sharedEditNotifier)
-//            EditorBars()
-//                .zIndex(editbarPrio)
-            
-            bottomButtons(isEditorActive: $isEditorActive, imgArray: imgArray, txtArray: txtArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier)
-                .zIndex(actionButtonPrio)
-            
-            ForEach(imgArray.images.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                    if let itemToDisplay = imgArray.images[key] {
-                        EditableImage(image: itemToDisplay, imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
+                    // Back Button
+                    
+                        Button(action: {
+                            parent.isEditorActive = false
+                        }, label: {
+                                Image(systemName: "arrow.backward")
+                        })
+                        .opacity(parent.sharedEditNotifier.buttonDim)
+                        .scaleEffect(1.5)
+                        .tint(.black)
+                        .hAlign(.leading)
+                        .padding()
+                    
+                    // Side Buttons
+                    
+                    HStack(alignment: .top){
+                        if parent.sharedEditNotifier.rewindButtonPresent {
+                            RewindButton(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                        }
+                        
+                        Spacer()
+                        
+                        SideButtons(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                     }
-            }
-//                    if imgArray.images[index].createDisplays.images[0].display {
-//                        ForEach(imgArray.images[index].createDisplays.images.indices, id: \.self) { index2 in
-//                            EditableImage(image: imgArray.images[index].createDisplays.images[index2], sharedEditNotifier: sharedEditNotifier)
-//                        }
-//                    }
-               
-            ForEach(txtArray.texts.sorted(by: {$0.key < $1.key}), id: \.key)
-            { key, value in
-                if let textToDisplay = txtArray.texts[key] {
-                    EditableText(text: textToDisplay, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
+                        
+                }
+                .zIndex(UIPrio)
+                
+                if parent.sharedEditNotifier.backgroundEdit != true {
+                    Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray, editTextPrio: editTextPrio)
+                }
+
+                
+                bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    .zIndex(actionButtonPrio)
+                
+                ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                    if let itemToDisplay = elementsArray.elements[key] {
+                        switch itemToDisplay.element {
+                        case .image(let editableImage):
+                                
+                            EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                            
+                        case .text(let editableTxt):
+                            
+                            EditableText(text: editableTxt, sharedEditNotifier: parent.sharedEditNotifier, editPrio: editTextPrio)
+                            
+                        case .shape(let editableShp):
+                            
+                            EditableShape(shape: editableShp, sharedEditNotifier: parent.sharedEditNotifier)
+                                
+                        }
+                    }
                 }
             }
-            
-            ForEach(shpArray.shapes.sorted(by: {$0.key < $1.key}), id: \.key)
-            { key, value in
-                if let shapeToDisplay = shpArray.shapes[key] {
-                    EditableShape(shape: shapeToDisplay, sharedEditNotifier: sharedEditNotifier)
-                }
-            }
-            
-//            if imgAdded.imgAdded, let imageToDisplay = imgArray.images[sharedEditNotifier.objectsCount] {
-//                EditableImage(image: imageToDisplay, imgArray: imgArray, sharedEditNotifier: sharedEditNotifier)
-//            }
-            
             
         }
     }
-    
 }
 
-func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, sharedEditNotifier: SharedEditState) {
+func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
     
     var display = true
     var defaultDisplaySetting = true
-    
-    imgAdded.imgAdded = true
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
         
@@ -109,7 +122,7 @@ func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, s
         {
             display = false // Set display to false so it doesn't show up until touched
             defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
-            currentImg.createDisplays.append(sharedEditNotifier.objectsCount)
+            currentImg.createDisplays.append(elementsArray.objectsCount)
             print(currentImg.createDisplays)
         }
         
@@ -121,21 +134,18 @@ func imageAdd(imgSource: UIImage, imgArray: imagesArray, imgAdded: imageAdded, s
         
     }
     
-    imgArray.images[sharedEditNotifier.objectsCount] = editableImg(id: sharedEditNotifier.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .image(editableImg(id: elementsArray.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
 
-    imgAdded.addIndex = sharedEditNotifier.objectsCount
-    sharedEditNotifier.objectsCount += 1 // Increasing the number of objects counted for id purposes
-    print(imgArray.images) // Bugchecking
-    imgAdded.imgAdded = false
+    elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
     sharedEditNotifier.editorDisplayed = .none
     
 }
 
-func textAdd(textArray: textsArray, sharedEditNotifier: SharedEditState) {
+func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
     
-    textArray.texts[sharedEditNotifier.objectsCount] = editableTxt(id: sharedEditNotifier.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), display: true, size: [80, 80], scalar: 1.0, defaultDisplaySetting: true)))
     
-    sharedEditNotifier.objectsCount += 1
+    elementsArray.objectsCount += 1
 }
 
 struct ImagePickerView: UIViewControllerRepresentable {
@@ -144,8 +154,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var showImagePicker: Bool
     @Binding var showCamera: Bool
     @Binding var newImageChosen: Bool
-    @ObservedObject var imgArray: imagesArray
-    @ObservedObject var imgAdded: imageAdded
+    @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
     let sourceType: UIImagePickerController.SourceType
     
@@ -181,12 +190,12 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 let targetSize = CGSize(width: screenWidth, height: targetHeight)
                 
                 if originalImage.size.width < screenWidth && originalImage.size.height < postHeight {
-                    imageAdd(imgSource: originalImage, imgArray: parent.imgArray, imgAdded: parent.imgAdded, sharedEditNotifier: parent.sharedEditNotifier)
+                    imageAdd(imgSource: originalImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                 }
                 else
                 {
                     if let downsampledImage = originalImage.downsample(to: targetSize) {
-                        imageAdd(imgSource: downsampledImage, imgArray: parent.imgArray, imgAdded: parent.imgAdded, sharedEditNotifier: parent.sharedEditNotifier)
+                        imageAdd(imgSource: downsampledImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                 }
                 }
             }
@@ -229,15 +238,8 @@ enum UIButtonPress {
     case txtButton
     case disappeared
     case textEdit
+    case shapeEdit
 
-}
-
-class imageAdded: ObservableObject {
-    @Published var imgAdded: Bool = false
-    @Published var addIndex: Int = 0
-    @Published var image: UIImage?
-    @ObservedObject var imgArray = imagesArray()
-    
 }
 
 enum ClippableShape: Int {
@@ -247,6 +249,7 @@ enum ClippableShape: Int {
     case ellipse
     case capsule
     case triangle
+    case star
     
     var next: ClippableShape {
         ClippableShape(rawValue: rawValue + 1) ?? .rectangle
@@ -273,6 +276,8 @@ struct ClippableShapeViewModifier: ViewModifier {
             content.clipShape(Capsule())
         case .triangle:
             content.clipShape(Triangle())
+        case .star:
+            content.clipShape(Star())
         }
     }
 }
@@ -284,16 +289,19 @@ extension View {
 }
 
 class SharedEditState: ObservableObject {
+    
     @Published var currentlyEdited: Bool = false
     @Published var buttonDim: Double = 1
     @Published var disabled: Bool = false
     @Published var selectedImage: editableImg?
     @Published var selectedText: editableTxt?
+    @Published var selectedShape: editableShp?
     @Published var editorDisplayed = EditorDisplayed.none
     @Published var pressedButton: UIButtonPress = .noButton
-    @Published var imageSubset: editableImg?
-    @Published var undoButtonPresent: Bool = false
+    @Published var rewindButtonPresent: Bool = false
     @Published var objectsCount: Int = 0
+    @Published var backgroundEdit: Bool = false
+    @Published var bgObjectsCount: Int = 0
     @Published var delete: Bool = false
     
     func editToggle()
@@ -311,18 +319,33 @@ class SharedEditState: ObservableObject {
     }
     
     func selectImage(editableImg: editableImg) {
+        deselectAll()
         selectedImage = editableImg
-        selectedText = nil
-    }
-    
-    func imageSubset(editableImg: editableImg) {
-        imageSubset = editableImg
     }
     
     func selectText(editableTxt: editableTxt) {
+        deselectAll()
         selectedText = editableTxt
-        selectedImage = nil
     }
+    
+    func selectShape(editableShp: editableShp) {
+        deselectAll()
+        selectedShape = editableShp
+    }
+    
+    func restoreDefaults() { // For when you need to make sure that everything is fine
+        deselectAll()
+        editorDisplayed = .none
+        pressedButton = .noButton
+    }
+    
+    func deselectAll() {
+        selectedText = nil
+        selectedImage = nil
+        selectedShape = nil
+    }
+    
+    
     
     enum EditorDisplayed: Int {
         
@@ -333,28 +356,10 @@ class SharedEditState: ObservableObject {
         case photoDisappear
         case colorPickerText
         case colorPickerShape
+        case fontPicker
         
     }
 
-}
-
-
-
-struct EditorDisplays: View { // Change whatever function calling this to only display this IF the variable is there. Jesus. 
-    @ObservedObject var sharedEditNotifier: SharedEditState
-    
-    var body: some View {
-        VStack
-        {
-            if sharedEditNotifier.editorDisplayed == .transparencySlider
-            {
-                if let currentlySelected = sharedEditNotifier.selectedImage
-                {
-                    TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
-                }
-            }
-        }
-    }
 }
 
 struct TransparencySlider: View {

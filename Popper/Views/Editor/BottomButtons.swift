@@ -16,85 +16,139 @@ struct bottomButtons: View {
     @State private var newImageChosen = false
     @State private var createNewPost: Bool = false
     @State private var recentsPosts: [Post] = []
-    @ObservedObject var imgArray: imagesArray
-    @ObservedObject var txtArray: textsArray
-    @ObservedObject var imgAdded: imageAdded
+    @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     var body: some View
     {
-        HStack
-        {
-            // photo choosy button
-            Button(action: {
-                self.showImagePicker = true
-            },
-                   label: {
-                    Image(systemName: "photo")
-                
-                    .sheet(isPresented: $showImagePicker) {
-                        ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
-                            .ignoresSafeArea()
-                        }
-                    
-                    
-                
-            })
-            .scaleEffect(2.5)
-            .tint(.black)
-            .offset(x: -80)
-            .padding()
+        
+        switch sharedEditNotifier.editorDisplayed {
             
-            Button(action: {
-                self.showCamera = true
-            },
-                   label: {
-                    Image(systemName: "camera.aperture")
-                    .sheet(isPresented: $showCamera) {
-                        ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .camera)
-                            .ignoresSafeArea()
-                        }
-            })
-            .scaleEffect(4)
-            .tint(.black)
-            .padding()
+        case .none:
             
-            Button(action: {
-                createNewPost.toggle()
-//                CreateNewPost(onPost: { post in
-//                    recentsPosts.insert(post, at: 0)
-//                }, imgArray: imgArray, txtArray: txtArray)
-//                { post in
-//                    recentsPosts.insert(post, at: 0)
-//                }
-            },
-                   label: {
-                    Image(systemName: "arrowshape.right")
-            })
-            .scaleEffect(3)
-            .tint(.black)
-            .offset(x: 80)
-            .padding()
-            .fullScreenCover(isPresented: $createNewPost) {
-                CreateNewPost(onPost: { post in
-                    // Adding created post at the top of the recent post
-                    recentsPosts.insert(post, at: 0)
-                    
-                    // Placeholder: Include saving the post as an image, etc.
-                    
-                    // Wiping Editor and Getting Rid of It
-                    imgArray.images.removeAll()
-                    txtArray.texts.removeAll()
-                    isEditorActive = false 
-                    
-                }, imgArray: imgArray, txtArray: txtArray)
+            controlButtons(parent: self)
+                .opacity(sharedEditNotifier.buttonDim)
+            
+        case .linkEditor:
+            
+            Text("Placeholder")
+        
+        case .transparencySlider:
+            
+                if let currentlySelected = sharedEditNotifier.selectedImage
+                {
+                    TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
+                        .vAlign(.bottom)
+                }
+            
+        case .photoAppear:
+            
+            Text("Please add the photo you'd like to make appear.")
+            
+        case .photoDisappear:
+            
+            Text("Disappearing Photo (Tap)")
+                .vAlign(.bottom)
+                .padding()
+            
+        case .colorPickerText:
+            
+            if let currentlySelected = sharedEditNotifier.selectedText
+            {
+                ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
+                    .vAlign(.bottom)
+
             }
             
+        case .colorPickerShape:
+            if let currentlySelected = sharedEditNotifier.selectedShape
+            {
+                ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
+                    .vAlign(.bottom)
+            }
+            
+        case .fontPicker:
+            Text("Indie Font Picker!! <3")
         }
-//        .offset(y: 335)
-//        .frame(maxWidth: .infinity)
-        .vAlign(.bottom)
-        .padding(10)
+        
+    }
+    
+    struct controlButtons: View {
+        
+        let parent: bottomButtons
+        
+        var body: some View {
+            HStack
+            {
+                // photo choosy button
+                Button(action: {
+                    parent.showImagePicker = true
+                },
+                       label: {
+                        Image(systemName: "photo")
+                    
+                        .sheet(isPresented: parent.$showImagePicker) {
+                            ImagePickerView(image: parent.$image, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
+                                .ignoresSafeArea()
+                            }
+                        
+                        
+                    
+                })
+                .scaleEffect(2.5)
+                .tint(.black)
+                .offset(x: -80)
+                .padding()
+                
+                Button(action: {
+                    parent.showCamera = true
+                },
+                       label: {
+                        Image(systemName: "camera.aperture")
+                        .sheet(isPresented: parent.$showCamera) {
+                            ImagePickerView(image: parent.$image, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
+                                .ignoresSafeArea()
+                            }
+                })
+                .scaleEffect(4)
+                .tint(.black)
+                .padding()
+                
+                Button(action: {
+                    parent.sharedEditNotifier.backgroundEdit = false // Just in case they're editing the background, we don't want them to upload the background stuff as their post
+                    parent.createNewPost.toggle()
+    //                CreateNewPost(onPost: { post in
+    //                    recentsPosts.insert(post, at: 0)
+    //                }, imgArray: imgArray, txtArray: txtArray)
+    //                { post in
+    //                    recentsPosts.insert(post, at: 0)
+    //                }
+                },
+                       label: {
+                        Image(systemName: "arrowshape.right")
+                })
+                .scaleEffect(3)
+                .tint(.black)
+                .offset(x: 80)
+                .padding()
+                .fullScreenCover(isPresented: parent.$createNewPost) {
+                    CreateNewPost(onPost: { post in
+                        // Adding created post at the top of the recent post
+                        parent.recentsPosts.insert(post, at: 0)
+                        
+                        // Placeholder: Include saving the post as an image, etc.
+                        
+                        // Wiping Editor and Getting Rid of It
+                        parent.elementsArray.elements.removeAll()
+                        parent.isEditorActive = false
+                        
+                    }, elementsArray: parent.elementsArray)
+                }
+                
+            }
+            .vAlign(.bottom)
+            .padding(10)
+        }
     }
     
 }

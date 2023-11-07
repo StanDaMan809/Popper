@@ -19,21 +19,24 @@ class editableTxt: ObservableObject {
     @Published var rValue: Double = 0.0
     @Published var gValue: Double = 0.0
     @Published var bValue: Double = 0.0
+    @Published var display: Bool
     @Published var size: [CGFloat] = [80, 40]
     @Published var scalar: Double
-    @Published var rotationDegrees: Double
+    @Published var rotationDegrees: Angle = Angle(degrees: 0.0)
+    let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     
     
-    init(id: Int, message: String, totalOffset: CGPoint, size: [CGFloat], scalar: Double, rotationDegrees: Double)
+    init(id: Int, message: String, totalOffset: CGPoint, display: Bool, size: [CGFloat], scalar: Double, defaultDisplaySetting: Bool)
     {
-    self.id = id
-    self.message = message
-    self.totalOffset = totalOffset
-    self.size = size
-    self.scalar = scalar
-    self.rotationDegrees = rotationDegrees
-    self.startPosition = totalOffset
+        self.id = id
+        self.message = message
+        self.totalOffset = totalOffset
+        self.display = display
+        self.size = size
+        self.scalar = scalar
+        self.defaultDisplaySetting = defaultDisplaySetting
+        self.startPosition = totalOffset
     }
 }
 
@@ -43,127 +46,119 @@ struct EditableText: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     @State var currentAmount = 0.0
     @GestureState var currentRotation = Angle.zero
-    @State var finalRotation = Angle.zero
     @State var textSelected = false
     var editPrio: Double = 1
     
     var body: some View
-        {
-            if textSelected {
-                
-                // How to make button disappear
-                    // Make a class of that enumerator thing that I made
-                    // Make an @State variable that changes with it that is equal to the button UI
-                    // Make an environment object that changes the enumerator to .disappeared? kinda changes everything?
-                    // launch UIButtonWhatever(enum: disappeared)
-                
-                Color.black
-                    .opacity(0.4)
-                    .zIndex(editPrio)
-                    .edgesIgnoringSafeArea(.all)
-                
-                    .onTapGesture {
-                        textSelected.toggle()
-                        sharedEditNotifier.pressedButton = .noButton
-                    }
-                
-                TextField("", text: $text.message, axis: .vertical)
-                    .font(.system(size: defaultTextSize))
-                    .foregroundColor(text.color)
-                    .offset(x: 0, y: -100)
-                    .frame(width: defaultTextFrame)
-                    .zIndex(editPrio) // Controls layer
-                    .multilineTextAlignment(.center)
-                    .onSubmit {
-                        textSelected.toggle()
-                        sharedEditNotifier.pressedButton = .noButton
-                    }
-            }
-            else
+    { if text.display
             {
-                Text(text.message)
-                    // Text characteristics
-                    .font(.system(size: defaultTextSize))
-                    .frame(width: defaultTextFrame)
-                    .rotationEffect(currentRotation + finalRotation)
-                    .scaleEffect(text.scalar + currentAmount)
-                    .position(text.totalOffset)
-                    .zIndex(Double(text.id)) // Controls layer
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(Color(red: text.rValue, green: text.gValue, blue: text.bValue))
+                if textSelected, sharedEditNotifier.selectedText != nil {
                     
+                    Color.black
+                        .opacity(0.2)
+                        .zIndex(editPrio)
+                        .edgesIgnoringSafeArea(.all)
                     
-                    // Text gestures
-                    .onTapGesture
-                    {
-                        textSelected.toggle()
-                        sharedEditNotifier.pressedButton = .textEdit
-                    }
-                    .gesture(
-                        DragGesture()
-                            .onChanged { gesture in
-                                let scaledWidth = text.size[0] * CGFloat(text.scalar)
-                                let scaledHeight = text.size[1] * CGFloat(text.scalar)
-                                let halfScaledWidth = scaledWidth / 2
-                                let halfScaledHeight = scaledHeight / 2
-                                let newX = gesture.location.x
-                                let newY = gesture.location.y
-                                text.totalOffset = CGPoint(x: newX, y: newY)
-                                
-                                sharedEditNotifier.currentlyEdited = true
-                                sharedEditNotifier.editToggle()
-                                        }
+                        .onTapGesture {
+                            textSelected.toggle()
+                            sharedEditNotifier.restoreDefaults()
+                        }
+                    
+                    TextField("", text: $text.message, axis: .vertical)
+                        .font(.system(size: defaultTextSize))
+                        .foregroundColor(text.color)
+                        .offset(x: 0, y: -100)
+                        .frame(width: defaultTextFrame)
+                        .zIndex(editPrio) // Controls layer
+                        .multilineTextAlignment(.center)
+                        .onSubmit {
+                            textSelected.toggle()
+                            sharedEditNotifier.restoreDefaults()
+                        }
+                }
+                else
+                {
+                    Text(text.message)
+                        // Text characteristics
+                        .font(.system(size: defaultTextSize))
+                        .font(nil)
+                        .frame(width: defaultTextFrame)
+                        .rotationEffect(currentRotation + text.rotationDegrees)
+                        .scaleEffect(text.scalar + currentAmount)
+                        .position(text.totalOffset)
+                        .zIndex(Double(text.id)) // Controls layer
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(text.color)
                         
-                            .onEnded { gesture in
-                                text.startPosition = text.totalOffset
-                                
-                                sharedEditNotifier.currentlyEdited = false
-                                sharedEditNotifier.editToggle()
-                            })
-                
-//                    .gesture(
-//                        RotationGesture()
-//                        .updating($currentRotation) { value, state, _ in state = value }
-//                                .onEnded { value in
-//                                        finalRotation += value
-//                                               })
-//
-//                    .gesture(
-//                        MagnificationGesture()
-//                            .onChanged { amount in
-//                                currentAmount = amount - 1
-//                            }
-//                            .onEnded { amount in
-//                                text.scalar += currentAmount
-//                                currentAmount = 0
-//                            })
-                
-                    .gesture(
-                        SimultaneousGesture(
-                            RotationGesture()
-                                .updating($currentRotation) { value, state, _ in state = value }
-                                .onEnded { value in
-                                    finalRotation += value
-                                },
-                            MagnificationGesture()
-                                .onChanged { amount in
-                                    currentAmount = amount - 1
-                                }
-                                .onEnded { amount in
-                                    text.scalar += currentAmount
-                                    currentAmount = 0
-                                }
+                        
+                        // Text gestures
+                        .onTapGesture
+                        {
+                            textSelected.toggle()
+                            sharedEditNotifier.pressedButton = .textEdit
+                            sharedEditNotifier.selectText(editableTxt: text)
+                        }
+                        .gesture(
+                            DragGesture()
+                                .onChanged { gesture in
+                                    let scaledWidth = text.size[0] * CGFloat(text.scalar)
+                                    let scaledHeight = text.size[1] * CGFloat(text.scalar)
+                                    let halfScaledWidth = scaledWidth / 2
+                                    let halfScaledHeight = scaledHeight / 2
+                                    let newX = gesture.location.x
+                                    let newY = gesture.location.y
+                                    text.totalOffset = CGPoint(x: newX, y: newY)
+                                    
+                                    sharedEditNotifier.currentlyEdited = true
+                                    sharedEditNotifier.editToggle()
+                                            }
+                            
+                                .onEnded { gesture in
+                                    text.startPosition = text.totalOffset
+                                    
+                                    sharedEditNotifier.currentlyEdited = false
+                                    sharedEditNotifier.editToggle()
+                                })
+                    
+    //                    .gesture(
+    //                        RotationGesture()
+    //                        .updating($currentRotation) { value, state, _ in state = value }
+    //                                .onEnded { value in
+    //                                        finalRotation += value
+    //                                               })
+    //
+    //                    .gesture(
+    //                        MagnificationGesture()
+    //                            .onChanged { amount in
+    //                                currentAmount = amount - 1
+    //                            }
+    //                            .onEnded { amount in
+    //                                text.scalar += currentAmount
+    //                                currentAmount = 0
+    //                            })
+                    
+                        .gesture(
+                            SimultaneousGesture(
+                                RotationGesture()
+                                    .updating($currentRotation) { value, state, _ in state = value }
+                                    .onEnded { value in
+                                        text.rotationDegrees += value
+                                    },
+                                MagnificationGesture()
+                                    .onChanged { amount in
+                                        currentAmount = amount - 1
+                                    }
+                                    .onEnded { amount in
+                                        text.scalar += currentAmount
+                                        currentAmount = 0
+                                    }
+                            )
                         )
-                    )
-                
-                
+                    
+                    
+                }
             }
         }
-}
-
-class textsArray: ObservableObject {
-    @Published var texts: [Int : editableTxt] = [ : ]
-//       1 : editableTxt(id: 1, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), txtColor: Color(red: 0.0, green: 0.0, blue: 0.0), size: [80, 80], scalar: 1.0, rotationDegrees: 0.0)
 }
 
 struct EditableTextData: Codable, Equatable, Hashable {
@@ -176,6 +171,7 @@ struct EditableTextData: Codable, Equatable, Hashable {
     var size: [Double]
     var scalar: Double
     var rotationDegrees: Double
+    // need to add display 
     
     init(from editableText: editableTxt) {
         self.id = editableText.id
@@ -186,6 +182,6 @@ struct EditableTextData: Codable, Equatable, Hashable {
         self.bValue = editableText.bValue
         self.size = editableText.size.map { Double($0) }
         self.scalar = editableText.scalar
-        self.rotationDegrees = editableText.rotationDegrees
+        self.rotationDegrees = editableText.rotationDegrees.degrees
     }
 }

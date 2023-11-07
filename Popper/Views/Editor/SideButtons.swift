@@ -7,13 +7,10 @@
 
 import SwiftUI
 
-struct PhotoEditButton: View {
+struct SideButtons: View {
 
-    @ObservedObject var imgArray: imagesArray
-    @ObservedObject var txtArray: textsArray
-    @ObservedObject var shpArray: shapesArray
+    @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @ObservedObject var imgAdded: imageAdded
     @State private var showCamera = false
     @State private var showImagePicker = false
     @State var image: UIImage?
@@ -35,10 +32,13 @@ struct PhotoEditButton: View {
 
 
                 Button(action: {
-                    sharedEditNotifier.pressedButton = .bgButton
+//                    sharedEditNotifier.pressedButton = .bgButton
+                    sharedEditNotifier.backgroundEdit.toggle()
+                    
+                    // systemName: post.likedIDs.contains(userUID) ? "heart.fill" : "heart"
                 },
                        label: {
-                        Image(systemName: "rectangle.on.rectangle.circle")
+                    Image(systemName: sharedEditNotifier.backgroundEdit ? "rectangle.on.rectangle.circle.fill" : "rectangle.on.rectangle.circle")
                 })
                 
 
@@ -66,7 +66,7 @@ struct PhotoEditButton: View {
             {
                 Button(action: {
                     sharedEditNotifier.pressedButton = .noButton
-                    sharedEditNotifier.selectedImage = nil
+                    sharedEditNotifier.restoreDefaults()
                 },
                        label: {
                         Image(systemName: "photo.circle.fill")
@@ -99,7 +99,7 @@ struct PhotoEditButton: View {
                         Image(systemName: "photo.on.rectangle.angled")
                     
                         .sheet(isPresented: $showImagePicker) {
-                            ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, imgArray: imgArray, imgAdded: imgAdded, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                            ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
                             }
                     
                 })
@@ -144,7 +144,7 @@ struct PhotoEditButton: View {
                 })
                 
                 Button(action: {
-                    shapeAdd(shapeArray: shpArray, sharedEditNotifier: sharedEditNotifier)
+                    shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
                 },
                        label: {
                         Image(systemName: "squareshape")
@@ -162,7 +162,7 @@ struct PhotoEditButton: View {
 
                 Button(action: {
 //                    makeText()
-                    textAdd(textArray: txtArray, sharedEditNotifier: sharedEditNotifier)
+                    textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
                 },
                        label: {
                         Image(systemName: "text.cursor")
@@ -173,7 +173,7 @@ struct PhotoEditButton: View {
             if sharedEditNotifier.pressedButton == .textEdit
             {
                 Button(action: {
-                    
+                    sharedEditNotifier.restoreDefaults()
                 },
                        label: {
                         Image(systemName: "t.circle.fill")
@@ -209,7 +209,22 @@ struct PhotoEditButton: View {
                 
             }
             
-//            Spacer()
+            if sharedEditNotifier.pressedButton == .shapeEdit
+            {
+                Button(action: {
+                    sharedEditNotifier.restoreDefaults()
+                },
+                       label: {
+                        Image(systemName: "doc.circle.fill")
+                })
+                
+                Button(action: {
+                    sharedEditNotifier.editorDisplayed = .colorPickerShape
+                },
+                       label: {
+                        Image(systemName: "paintpalette")
+                })
+            }
 
         }
         .tint(.black)
@@ -225,7 +240,9 @@ struct PhotoEditButton: View {
     }
 }
 
-//struct PhotoEditButtons_Previews: PreviewProvider {
+
+
+//struct SideButtonss_Previews: PreviewProvider {
 //        static var previews: some View {
 //            Editor()
 //        }

@@ -22,18 +22,17 @@ class editableShp: ObservableObject {
     @Published var display: Bool
     @Published var size: [CGFloat] = [80, 80]
     @Published var scalar: Double
-    @Published var rotationDegrees: Double
+    @Published var rotationDegrees: Angle = Angle.zero
     var startPosition: CGPoint
     let defaultDisplaySetting: Bool
     
-    init(id: Int, totalOffset: CGPoint, transparency: Double, display: Bool, scalar: Double, rotationDegrees: Double, defaultDisplaySetting: Bool)
+    init(id: Int, totalOffset: CGPoint, transparency: Double, display: Bool, scalar: Double, defaultDisplaySetting: Bool)
     {
         self.id = id
         self.totalOffset = totalOffset
         self.transparency = transparency
         self.display = display
         self.scalar = scalar
-        self.rotationDegrees = rotationDegrees
         self.startPosition = totalOffset
         self.defaultDisplaySetting = defaultDisplaySetting
     }
@@ -45,21 +44,36 @@ struct EditableShape: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     @State var currentAmount = 0.0
     @GestureState var currentRotation = Angle.zero
-    @State var finalRotation = Angle.zero
     
     var body: some View {
-        Color(red: shape.rValue, green: shape.gValue, blue: shape.bValue)
+        Rectangle()
             .foregroundStyle(shape.color)
             .frame(width: shape.size[0], height: shape.size[1])
             .clipShape(shape.currentShape)
-            .rotationEffect(currentRotation + finalRotation)
+            .rotationEffect(currentRotation + shape.rotationDegrees)
             .scaleEffect(shape.scalar + currentAmount)
             .position(shape.totalOffset)
             .zIndex(Double(shape.id)) // Controls layer
         
             .onTapGesture (count: 2)
             {
+                
                 shape.currentShape = shape.currentShape.next
+                
+                switch shape.currentShape {
+                case .rectangle:
+                    shape.size[1] = shape.size[0]
+                case .circle:
+                    shape.size[1] = shape.size[0]
+                case .ellipse:
+                    shape.size[1] = 2 * shape.size[0]
+                case .capsule:
+                    shape.size[1] = 2 * shape.size[0]
+                case .triangle:
+                    shape.size[1] = shape.size[0]
+                case .star:
+                    shape.size[1] = shape.size[0]
+                }
             }
         
         //            .onTapGesture
@@ -95,8 +109,6 @@ struct EditableShape: View {
                 .onChanged { gesture in
                     let scaledWidth = shape.size[0] * CGFloat(shape.scalar)
                     let scaledHeight = shape.size[1] * CGFloat(shape.scalar)
-                    let halfScaledWidth = scaledWidth / 2
-                    let halfScaledHeight = scaledHeight / 2
                     let newX = gesture.location.x
                     let newY = gesture.location.y
                     shape.totalOffset = CGPoint(x: newX, y: newY)
@@ -116,7 +128,7 @@ struct EditableShape: View {
                     .updating($currentRotation) { value, state, _ in state = value
                     }
                     .onEnded { value in
-                        finalRotation += value
+                        shape.rotationDegrees += value
                     },
                 MagnificationGesture()
                     .onChanged { amount in
@@ -131,18 +143,18 @@ struct EditableShape: View {
                         sharedEditNotifier.editToggle()
                         
                     }))
+        
+        .gesture(LongPressGesture()
+            .onEnded{_ in
+        sharedEditNotifier.pressedButton = .shapeEdit
+        sharedEditNotifier.selectShape(editableShp: shape)
+                })
     }
 }
 
-class shapesArray: ObservableObject {
-    @Published var shapes: [Int : editableShp] = [:]
-//        editableImg(id: 0, imgSrc: "Image", currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [50, 80], scalar: 1.0),
-//        editableImg(id: 1, imgSrc: "Slay", currentShape: .rectangle, totalOffset: CGPoint(x: 70, y: 500), size: [50, 80], scalar: 1.0)
-}
-
-func shapeAdd(shapeArray: shapesArray, sharedEditNotifier: SharedEditState) {
+func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
     
-    shapeArray.shapes[sharedEditNotifier.objectsCount] = editableShp(id: sharedEditNotifier.objectsCount, totalOffset: CGPoint(x: 300, y: 150), transparency: 1, display: true, scalar: 1, rotationDegrees: 0.0, defaultDisplaySetting: true)
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 300, y: 150), transparency: 1, display: true, scalar: 1, defaultDisplaySetting: true)))
     
-    sharedEditNotifier.objectsCount += 1
+    elementsArray.objectsCount += 1
 }

@@ -180,7 +180,7 @@ struct SideButtons: View {
                 })
 
                 Button(action: {
-//                    Outline Button
+                    sharedEditNotifier.editorDisplayed = .colorPickerTextBG
                 },
                        label: {
                         Image(systemName: "textbox")
@@ -196,10 +196,10 @@ struct SideButtons: View {
                 .scaleEffect(miniButtonScaleEffect)
                 
                 Button(action: {
-//                    Rotation
+                    sharedEditNotifier.editorDisplayed = .fontPicker
                 },
                        label: {
-                        Image(systemName: "arrow.2.circlepath.circle")
+                        Image(systemName: "textformat.size.smaller")
                 })
                 .scaleEffect(miniButtonScaleEffect)
             }

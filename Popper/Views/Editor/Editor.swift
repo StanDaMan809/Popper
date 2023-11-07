@@ -355,24 +355,12 @@ class SharedEditState: ObservableObject {
         case photoAppear
         case photoDisappear
         case colorPickerText
+        case colorPickerTextBG
         case colorPickerShape
         case fontPicker
         
     }
 
-}
-
-struct TransparencySlider: View {
-    @Binding var transparency: Double
-    
-    var body: some View {
-        HStack
-        {
-                Slider(value: $transparency, in: 0.01...1)
-        }
-        .scaleEffect(0.80)
-        .offset(y: 250)
-    }
 }
 
 struct RotationSlider: View {
@@ -387,33 +375,6 @@ struct RotationSlider: View {
         .offset(y: 250)
     }
 }
-
-
-
-
-
-// just have the entire editableImg have a visibility thing ig
-
-// literally how the fuck do I do this...
-    // I can either make an array of arrays of editableImages, that, when their parent element is pressed, calls the EditableImage() EditableText() EditableVideo() etc functions
-        // ostensible from the first explanation
-            // Honestly this one is prolly cleaner code?
-    // Have "appeared" as a boolean on all editableImages and whatNot; the view exists when viewed = true...
-        // Then the onTapEffect can toggle() all the "child views" which will simultaneously make what needs to appear / disappear happen instead of making this shit so complicated (which is even better than the first thing too because im thinking if it happens on PRESS then it will just make infinite versions of the thing depending on how many times people press the thing)
-        // This one makes the "deletion" command easy to work with, though.
-        // okay so for image create:
-            // Add a few things:
-                // 1. New state to the EditableImg() class; "appeared" (boolean)
-                // 2. If sharedEditNotifier.editor == .photoAppear {} / else {} to .photoAdd
-                // 3. EditableImage() view structure is gated behind if appeared
-            // SharedEditState whatever is set to .photoAppear
-            // This then prompts you to create an image
-            // When you create the image, photoAdd() is called
-            // photoAdd() recognizes that sharedEditNotifier = .photoAppear... this will then make a create with appeared = false
-            // sharedEditNotifier.editor == .none
-            // now as for the onTapGesture... (programming them to be linked)
-                // perhaps photoAdd() can return the index of the created image to the editableImage (YESSS!!!!), that way the .onTapGesture can change them
-                // This can be an array called "childviews" which will then go "forall" or whatever the command is : "forall in childviews" {childviews.appear.toggle()} so good
 
 // image select settings
     // Rotation

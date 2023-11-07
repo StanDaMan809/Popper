@@ -120,6 +120,17 @@ struct ColorPicker: View {
         
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
+                
+                if sharedEditNotifier.editorDisplayed == .colorPickerTextBG {
+                    Circle()
+                        .stroke(Color.black, lineWidth: 1) // Adjust the line color and width as needed
+                        .frame(width: 40, height: 40)
+                        .padding(.horizontal, 5)
+                        .onTapGesture {
+                            elementColor = Color.clear
+                        }
+                }
+                
                 ForEach(Array(colorsArray.enumerated()), id: \.offset) { index, color in
                         Circle()
                             .fill(color)

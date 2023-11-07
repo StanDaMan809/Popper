@@ -13,9 +13,11 @@ class editableTxt: ObservableObject {
     // Include color as a dimension
     // Include font as a dimension
     // Include alignment
+    @Published var font: Font = Font.system(size: defaultTextSize)
     @Published var message: String
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
     @Published var color: Color = .black
+    @Published var bgColor: Color = .clear
     @Published var rValue: Double = 0.0
     @Published var gValue: Double = 0.0
     @Published var bValue: Double = 0.0
@@ -65,10 +67,11 @@ struct EditableText: View {
                         }
                     
                     TextField("", text: $text.message, axis: .vertical)
-                        .font(.system(size: defaultTextSize))
+                        .font(text.font)
                         .foregroundColor(text.color)
+                        .background(text.bgColor)
                         .offset(x: 0, y: -100)
-                        .frame(width: defaultTextFrame)
+//                        .frame(width: defaultTextFrame)
                         .zIndex(editPrio) // Controls layer
                         .multilineTextAlignment(.center)
                         .onSubmit {
@@ -80,15 +83,16 @@ struct EditableText: View {
                 {
                     Text(text.message)
                         // Text characteristics
-                        .font(.system(size: defaultTextSize))
-                        .font(nil)
-                        .frame(width: defaultTextFrame)
+                        .font(text.font)
+//                        .frame(width: defaultTextFrame)
+                        .foregroundColor(text.color)
+                        .background(text.bgColor)
                         .rotationEffect(currentRotation + text.rotationDegrees)
                         .scaleEffect(text.scalar + currentAmount)
                         .position(text.totalOffset)
                         .zIndex(Double(text.id)) // Controls layer
                         .multilineTextAlignment(.center)
-                        .foregroundColor(text.color)
+                        
                         
                         
                         // Text gestures

@@ -32,18 +32,20 @@ struct bottomButtons: View {
         case .linkEditor:
             
             Text("Placeholder")
-        
+            
         case .transparencySlider:
             
-                if let currentlySelected = sharedEditNotifier.selectedImage
-                {
-                    TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
-                        .vAlign(.bottom)
-                }
+            if let currentlySelected = sharedEditNotifier.selectedImage
+            {
+                TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
+                    .vAlign(.bottom)
+                    .padding()
+            }
             
         case .photoAppear:
             
-            Text("Please add the photo you'd like to make appear.")
+            Text("")
+                .vAlign(.bottom)
             
         case .photoDisappear:
             
@@ -57,8 +59,16 @@ struct bottomButtons: View {
             {
                 ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
                     .vAlign(.bottom)
-
+                
             }
+            
+        case .colorPickerTextBG:
+            if let currentlySelected = sharedEditNotifier.selectedText
+            {
+                ColorPicker(elementColor: Binding(get: {currentlySelected.bgColor}, set: { currentlySelected.bgColor = $0 }), sharedEditNotifier: sharedEditNotifier)
+                    .vAlign(.bottom)
+            }
+            
             
         case .colorPickerShape:
             if let currentlySelected = sharedEditNotifier.selectedShape
@@ -68,9 +78,13 @@ struct bottomButtons: View {
             }
             
         case .fontPicker:
-            Text("Indie Font Picker!! <3")
+            if let currentlySelected = sharedEditNotifier.selectedText
+            {
+                FontPicker(textFont: Binding(get: {currentlySelected.font }, set: {  currentlySelected.font = $0 }), sharedEditNotifier: sharedEditNotifier)
+                    .vAlign(.bottom)
+            }
+            
         }
-        
     }
     
     struct controlButtons: View {

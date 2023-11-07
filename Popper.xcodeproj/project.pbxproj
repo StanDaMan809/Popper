@@ -39,6 +39,9 @@
 		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
 		F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A982AF9C14A000E9C94 /* Trash.swift */; };
 		F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */; };
+		F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */; };
+		F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */; };
+		F6964AA32AF9F447000E9C94 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964AA22AF9F447000E9C94 /* DrawingView.swift */; };
 		F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD822AF1DAAD00DD4405 /* Comment.swift */; };
 		F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */; };
 		F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */; };
@@ -99,6 +102,9 @@
 		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
 		F6964A982AF9C14A000E9C94 /* Trash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindButton.swift; sourceTree = "<group>"; };
+		F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
+		F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencySlider.swift; sourceTree = "<group>"; };
+		F6964AA22AF9F447000E9C94 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		F6C3BD822AF1DAAD00DD4405 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFeed.swift; sourceTree = "<group>"; };
 		F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
@@ -247,10 +253,9 @@
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
 				F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */,
 				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
-				F647CDC82AD649F200D362DB /* EditableImage.swift */,
-				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
-				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
-				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
+				F6964AA22AF9F447000E9C94 /* DrawingView.swift */,
+				F6964A9F2AF9DE4C000E9C94 /* Editable Structures */,
+				F6964A9E2AF9DE2B000E9C94 /* SubUI */,
 				F6964A982AF9C14A000E9C94 /* Trash.swift */,
 			);
 			path = Editor;
@@ -264,6 +269,26 @@
 				F6C3BD822AF1DAAD00DD4405 /* Comment.swift */,
 			);
 			name = Post;
+			sourceTree = "<group>";
+		};
+		F6964A9E2AF9DE2B000E9C94 /* SubUI */ = {
+			isa = PBXGroup;
+			children = (
+				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
+				F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */,
+			);
+			path = SubUI;
+			sourceTree = "<group>";
+		};
+		F6964A9F2AF9DE4C000E9C94 /* Editable Structures */ = {
+			isa = PBXGroup;
+			children = (
+				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
+				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
+				F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */,
+			);
+			path = "Editable Structures";
 			sourceTree = "<group>";
 		};
 		F6C8DC1329DF7CEF0014849C = {
@@ -473,10 +498,12 @@
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
 				F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */,
+				F6964AA32AF9F447000E9C94 /* DrawingView.swift in Sources */,
 				F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */,
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
+				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
@@ -485,6 +512,7 @@
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
+				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,

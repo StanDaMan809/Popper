@@ -7,7 +7,10 @@
 
 import SwiftUI
 
+
 struct DrawingView: View {
+    @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var sharedEditNotifier: SharedEditState
     @State private var paths: [Path] = []
     @State private var currentPath: Path = Path()
 
@@ -42,17 +45,4 @@ struct DrawingView: View {
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
     }
-    
-    private func renderImageFromPath(_ path: Path, size: CGSize) -> Image {
-            let renderer = UIGraphicsImageRenderer()
-            let uiImage = renderer.image { context in
-                UIColor.blue.setStroke()
-                context.stroke(path.cgPath as! CGRect)
-            }
-            return Image(uiImage: uiImage)
-        }
-}
-
-#Preview {
-    DrawingView()
 }

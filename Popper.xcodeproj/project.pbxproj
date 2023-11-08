@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F626855D2AFC3403002A02EA /* EditableVideo.swift */; };
+		F62685622AFC3720002A02EA /* editorElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62685612AFC3720002A02EA /* editorElements.swift */; };
 		F63432572AC7A14B00E756BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F63432562AC7A14B00E756BA /* FirebaseAuth */; };
 		F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634325A2AC7A1B400E756BA /* LoginView.swift */; };
 		F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634325E2AC7BDAF00E756BA /* ContentView.swift */; };
@@ -76,6 +78,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F626855D2AFC3403002A02EA /* EditableVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableVideo.swift; sourceTree = "<group>"; };
+		F62685612AFC3720002A02EA /* editorElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editorElements.swift; sourceTree = "<group>"; };
 		F634325A2AC7A1B400E756BA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F634325E2AC7BDAF00E756BA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F63432692AC7CC1500E756BA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -274,6 +278,7 @@
 		F6964A9E2AF9DE2B000E9C94 /* SubUI */ = {
 			isa = PBXGroup;
 			children = (
+				F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */,
 				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
 				F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */,
 			);
@@ -286,7 +291,8 @@
 				F647CDC82AD649F200D362DB /* EditableImage.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
-				F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */,
+				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
+				F62685612AFC3720002A02EA /* editorElements.swift */,
 			);
 			path = "Editable Structures";
 			sourceTree = "<group>";
@@ -495,6 +501,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
+				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
 				F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */,
@@ -517,6 +524,7 @@
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
+				F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */,
 				F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */,
 				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,

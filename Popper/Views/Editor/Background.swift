@@ -36,6 +36,9 @@ struct Background: View {
                         EditableText(text: editableTxt, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
                             .disabled(true)
                         
+                    case .video(let editableVid):
+                        EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                        
                     case .shape(let editableShp):
                         
                         EditableShape(shape: editableShp, sharedEditNotifier: sharedEditNotifier)

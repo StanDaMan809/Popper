@@ -144,6 +144,9 @@ struct CreateNewPost: View {
                                 imagesData.append(imageNumbers)
                         }
                         
+                    case .video(let video):
+                        print("just give it a little")
+                        
                     case .text(let text):
                         textsToUpload.append(EditableTextData(from: text))
                     

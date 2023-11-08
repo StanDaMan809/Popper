@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PhotosUI
+import AVFoundation
 
 let postHeight = CGFloat(530)
 
@@ -94,6 +95,10 @@ struct Editor: View {
                                 
                             EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                             
+                        case .video(let editableVid):
+                            
+                            EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                            
                         case .text(let editableTxt):
                             
                             EditableText(text: editableTxt, sharedEditNotifier: parent.sharedEditNotifier, editPrio: editTextPrio)
@@ -143,7 +148,33 @@ func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEdit
 
 func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), display: true, size: [80, 80], scalar: 1.0, defaultDisplaySetting: true)))
+    var defaultDisplaySetting = true
+    
+    if sharedEditNotifier.editorDisplayed == .photoAppear {
+        if let currentImg = sharedEditNotifier.selectedImage {
+            currentImg.createDisplays.append(elementsArray.objectsCount)
+            defaultDisplaySetting = false
+        }
+    }
+    
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: [80, 80], scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
+    
+    elementsArray.objectsCount += 1
+}
+
+func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
+    
+    var defaultDisplaySetting = true 
+    
+    if sharedEditNotifier.editorDisplayed == .photoAppear {
+        if let currentImg = sharedEditNotifier.selectedImage {
+            currentImg.createDisplays.append(elementsArray.objectsCount)
+            defaultDisplaySetting = false
+        }
+        
+    }
+    
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: size, scalar: 1.0, display: defaultDisplaySetting, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }
@@ -151,6 +182,7 @@ func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditS
 struct ImagePickerView: UIViewControllerRepresentable {
 
     @Binding var image: UIImage?
+    @Binding var videoURL: URL?
     @Binding var showImagePicker: Bool
     @Binding var showCamera: Bool
     @Binding var newImageChosen: Bool
@@ -165,6 +197,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
+        imagePicker.mediaTypes = ["public.image", "public.movie"]
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
@@ -198,7 +231,30 @@ struct ImagePickerView: UIViewControllerRepresentable {
                         imageAdd(imgSource: downsampledImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                 }
                 }
+            
+                
             }
+            else if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+                let asset = AVURLAsset(url: videoUrl, options: nil)
+                let tracks = asset.tracks(withMediaType: .video)
+                
+                if let videoTrack = tracks.first {
+                    let videoSize = videoTrack.naturalSize.applying(videoTrack.preferredTransform)
+                    // Correct the size if it's negative due to the transform
+                    let correctedSize = CGSize(width: abs(videoSize.width), height: abs(videoSize.height))
+                    
+                    // Use screenWidth and maxHeight to calculate aspect ratio and targetSize if needed
+                    let screenWidth = UIScreen.main.bounds.width
+                    let maxHeight: CGFloat = UIScreen.main.bounds.height
+                    let aspectRatio = correctedSize.width / correctedSize.height
+                    let targetHeight = min(maxHeight, screenWidth / aspectRatio)
+                    let targetSize = CGSize(width: screenWidth, height: targetHeight)
+                    
+                    // You can now use this size information as you need, for instance:
+                    videoAdd(vidURL: videoUrl, size: targetSize, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                }
+            }
+            
             parent.showImagePicker = false
             parent.showCamera = false
         }
@@ -239,6 +295,7 @@ enum UIButtonPress {
     case disappeared
     case textEdit
     case shapeEdit
+    case elementAppear
 
 }
 
@@ -358,7 +415,6 @@ class SharedEditState: ObservableObject {
         case colorPickerTextBG
         case colorPickerShape
         case fontPicker
-        
     }
 
 }

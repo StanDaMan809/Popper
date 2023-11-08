@@ -13,6 +13,7 @@ struct bottomButtons: View {
     @State private var showCamera = false
     @State private var showImagePicker = false
     @State var image: UIImage?
+    @State var videoURL: URL?
     @State private var newImageChosen = false
     @State private var createNewPost: Bool = false
     @State private var recentsPosts: [Post] = []
@@ -44,7 +45,7 @@ struct bottomButtons: View {
             
         case .photoAppear:
             
-            Text("")
+            Text("Select what you'd like to make appear.")
                 .vAlign(.bottom)
             
         case .photoDisappear:
@@ -83,7 +84,6 @@ struct bottomButtons: View {
                 FontPicker(textFont: Binding(get: {currentlySelected.font }, set: {  currentlySelected.font = $0 }), sharedEditNotifier: sharedEditNotifier)
                     .vAlign(.bottom)
             }
-            
         }
     }
     
@@ -102,7 +102,7 @@ struct bottomButtons: View {
                         Image(systemName: "photo")
                     
                         .sheet(isPresented: parent.$showImagePicker) {
-                            ImagePickerView(image: parent.$image, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
+                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
                                 .ignoresSafeArea()
                             }
                         
@@ -120,7 +120,7 @@ struct bottomButtons: View {
                        label: {
                         Image(systemName: "camera.aperture")
                         .sheet(isPresented: parent.$showCamera) {
-                            ImagePickerView(image: parent.$image, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
+                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
                                 .ignoresSafeArea()
                             }
                 })
@@ -164,5 +164,4 @@ struct bottomButtons: View {
             .padding(10)
         }
     }
-    
 }

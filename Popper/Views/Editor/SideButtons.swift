@@ -14,6 +14,7 @@ struct SideButtons: View {
     @State private var showCamera = false
     @State private var showImagePicker = false
     @State var image: UIImage?
+    @State var videoURL: URL?
     @State private var newImageChosen = false
     var miniButtonScaleEffect = 0.80
     
@@ -66,7 +67,6 @@ struct SideButtons: View {
             {
                 Button(action: {
                     sharedEditNotifier.pressedButton = .noButton
-                    sharedEditNotifier.restoreDefaults()
                 },
                        label: {
                         Image(systemName: "photo.circle.fill")
@@ -92,14 +92,15 @@ struct SideButtons: View {
                 .scaleEffect(miniButtonScaleEffect)
                 
                 Button(action: {
-                    self.showImagePicker = true
+//                    self.showImagePicker = true
                     sharedEditNotifier.editorDisplayed = .photoAppear
+                    sharedEditNotifier.pressedButton = .elementAppear
                 },
                        label: {
                         Image(systemName: "photo.on.rectangle.angled")
                     
                         .sheet(isPresented: $showImagePicker) {
-                            ImagePickerView(image: $image, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                            ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
                             }
                     
                 })
@@ -217,6 +218,7 @@ struct SideButtons: View {
                        label: {
                         Image(systemName: "doc.circle.fill")
                 })
+                .scaleEffect(miniButtonScaleEffect)
                 
                 Button(action: {
                     sharedEditNotifier.editorDisplayed = .colorPickerShape
@@ -224,6 +226,44 @@ struct SideButtons: View {
                        label: {
                         Image(systemName: "paintpalette")
                 })
+                .scaleEffect(miniButtonScaleEffect)
+            }
+            
+            if sharedEditNotifier.pressedButton == .elementAppear
+            {
+                Button(action: {
+                    sharedEditNotifier.pressedButton = .imageEdit
+                },
+                       label: {
+                        Image(systemName: "photo.circle.fill")
+                })
+                
+                Button(action: {
+                    showImagePicker = true
+                },
+                       label: {
+                        Image(systemName: "photo")
+                        .sheet(isPresented: $showImagePicker) {
+                            ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                            }
+                })
+                .scaleEffect(miniButtonScaleEffect)
+                
+                Button(action: {
+                    textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                },
+                       label: {
+                        Image(systemName: "text.cursor")
+                })
+                .scaleEffect(miniButtonScaleEffect)
+                
+                Button(action: {
+                    shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                },
+                       label: {
+                        Image(systemName: "squareshape")
+                })
+                .scaleEffect(miniButtonScaleEffect)
             }
 
         }

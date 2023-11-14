@@ -35,8 +35,6 @@ struct SideButtons: View {
                 Button(action: {
 //                    sharedEditNotifier.pressedButton = .bgButton
                     sharedEditNotifier.backgroundEdit.toggle()
-                    
-                    // systemName: post.likedIDs.contains(userUID) ? "heart.fill" : "heart"
                 },
                        label: {
                     Image(systemName: sharedEditNotifier.backgroundEdit ? "rectangle.on.rectangle.circle.fill" : "rectangle.on.rectangle.circle")
@@ -92,10 +90,6 @@ struct SideButtons: View {
                            label: {
                             Image(systemName: "photo.on.rectangle.angled")
                         
-                            .sheet(isPresented: $showImagePicker) {
-                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
-                                }
-                        
                     })
                     .scaleEffect(miniButtonScaleEffect)
                 }
@@ -111,7 +105,7 @@ struct SideButtons: View {
                 }
                 
                 Button(action: {
-                    if sharedEditNotifier.selectedImage != nil {
+                    if sharedEditNotifier.selectedElement != nil {
                         sharedEditNotifier.editorDisplayed = .transparencySlider
                     }
                 },
@@ -187,6 +181,28 @@ struct SideButtons: View {
                        label: {
                         Image(systemName: "t.circle.fill")
                 })
+                
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        //                    self.showImagePicker = true
+                        sharedEditNotifier.editorDisplayed = .photoAppear
+                        sharedEditNotifier.pressedButton = .elementAppear
+                    },
+                           label: {
+                        Image(systemName: "photo.on.rectangle.angled")
+                        
+                    })
+                    .scaleEffect(miniButtonScaleEffect)}
+                
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .photoDisappear
+                    },
+                           label: {
+                            Image(systemName: "photo.stack")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                }
 
                 Button(action: {
                     sharedEditNotifier.editorDisplayed = .colorPickerTextBG
@@ -228,6 +244,27 @@ struct SideButtons: View {
                 })
                 .scaleEffect(miniButtonScaleEffect)
                 
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .photoAppear
+                        sharedEditNotifier.pressedButton = .elementAppear
+                    },
+                           label: {
+                        Image(systemName: "photo.on.rectangle.angled")
+                        
+                    })
+                    .scaleEffect(miniButtonScaleEffect)}
+                
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .photoDisappear
+                    },
+                           label: {
+                            Image(systemName: "photo.stack")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                }
+                
                 Button(action: {
                     sharedEditNotifier.editorDisplayed = .colorPickerShape
                 },
@@ -240,10 +277,10 @@ struct SideButtons: View {
             if sharedEditNotifier.pressedButton == .elementAppear
             {
                 Button(action: {
-                    sharedEditNotifier.pressedButton = .imageEdit
+                    sharedEditNotifier.restoreDefaults()
                 },
                        label: {
-                        Image(systemName: "photo.circle.fill")
+                        Image(systemName: "paperclip.circle.fill")
                 })
                 
                 Button(action: {

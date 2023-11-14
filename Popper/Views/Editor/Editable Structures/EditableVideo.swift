@@ -43,9 +43,9 @@ struct EditableVideo: View {
     @ObservedObject var video: editableVid
     @State private var play: Bool = true
     @ObservedObject var elementsArray: editorElementsArray
-    @State var currentAmount = 0.0
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @GestureState var currentRotation = Angle.zero
+    @Binding var currentAmount: Double
+    @Binding var currentRotation: Angle
 
     var body: some View {
         if video.display {
@@ -58,92 +58,92 @@ struct EditableVideo: View {
                 .opacity(video.transparency)
                 .zIndex(Double(video.id))
             
-                .onTapGesture(count: 2) {
-                    video.currentShape = video.currentShape.next
-                }
-            
-                .onTapGesture
-                {
-                    if sharedEditNotifier.editorDisplayed == .photoDisappear {
-                        sharedEditNotifier.selectedImage?.disappearDisplays.append(self.video.id)
-                        sharedEditNotifier.editorDisplayed = .none
-                    }
-                    
-                    else
-                    {
-                            // Make all displays linked to this one appear!
-                            for i in video.createDisplays
-                            {
-                                print("Retrieving for \(i)...")
-                                if let itemToDisplay = elementsArray.elements[i] {
-                                    itemToDisplay.element.display = true
-                                } else { }// else if textArray blah blah blah
-                            }
-                            
-                            // Make all displays linked to this one disappear
-                            for i in video.disappearDisplays
-                            {
-                                if let itemToDisplay = elementsArray.elements[i] {
-                                    itemToDisplay.element.display = false
-                                } // else if textArray blah blah blah
-                            }
-                        
-                        // Summon the rewind button for editing
-                        if video.createDisplays.count != 0 || video.disappearDisplays.count != 0 {
-                            sharedEditNotifier.rewindButtonPresent = true
-                        }
-                    }
-                    
-                    
+//                .onTapGesture(count: 2) {
+//                    video.currentShape = video.currentShape.next
+//                }
+//            
+//                .onTapGesture
+//                {
+//                    if sharedEditNotifier.editorDisplayed == .photoDisappear {
+//                        sharedEditNotifier.selectedImage?.disappearDisplays.append(self.video.id)
+//                        sharedEditNotifier.editorDisplayed = .none
 //                    }
-                }
-            
-                .gesture(
-                    DragGesture() // Have to add UI disappearing but not yet
-                        .onChanged { gesture in
-//                            let scaledWidth = video.size[0] * CGFloat(video.scalar)
-//                            let scaledHeight = video.size[1] * CGFloat(video.scalar)
-//                            let halfScaledWidth = scaledWidth / 2
-//                            let halfScaledHeight = scaledHeight / 2
-                            let newX = gesture.location.x
-                            let newY = gesture.location.y
-                            video.totalOffset = CGPoint(x: newX, y: newY)
-                            sharedEditNotifier.currentlyEdited = true
-                            sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-                            sharedEditNotifier.editToggle()
-                                    }
-                    
-                        .onEnded { gesture in
-                            if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                                deleteElement(elementsArray: elementsArray, id: video.id)
-                            } else {
-                                video.startPosition = video.totalOffset
-                            }
-                            sharedEditNotifier.currentlyEdited = false
-                            sharedEditNotifier.editToggle()
-                        })
-            
-                .gesture(
-                SimultaneousGesture( // Rotating and Size change
-                        RotationGesture()
-                        .updating($currentRotation) { value, state, _ in state = value
-                            }
-                        .onEnded { value in
-                            video.rotationDegrees += value
-                        },
-                    MagnificationGesture()
-                        .onChanged { amount in
-                            currentAmount = amount - 1
-                            sharedEditNotifier.currentlyEdited = true
-                            sharedEditNotifier.editToggle()
-                        }
-                        .onEnded { amount in
-                            video.scalar += currentAmount
-                            currentAmount = 0
-                            sharedEditNotifier.currentlyEdited = false
-                            sharedEditNotifier.editToggle()
-                            
-                        }))
+//                    
+//                    else
+//                    {
+//                            // Make all displays linked to this one appear!
+//                            for i in video.createDisplays
+//                            {
+//                                print("Retrieving for \(i)...")
+//                                if let itemToDisplay = elementsArray.elements[i] {
+//                                    itemToDisplay.element.display = true
+//                                } else { }// else if textArray blah blah blah
+//                            }
+//                            
+//                            // Make all displays linked to this one disappear
+//                            for i in video.disappearDisplays
+//                            {
+//                                if let itemToDisplay = elementsArray.elements[i] {
+//                                    itemToDisplay.element.display = false
+//                                } // else if textArray blah blah blah
+//                            }
+//                        
+//                        // Summon the rewind button for editing
+//                        if video.createDisplays.count != 0 || video.disappearDisplays.count != 0 {
+//                            sharedEditNotifier.rewindButtonPresent = true
+//                        }
+//                    }
+//                    
+//                    
+////                    }
+//                }
+//            
+//                .gesture(
+//                    DragGesture() // Have to add UI disappearing but not yet
+//                        .onChanged { gesture in
+////                            let scaledWidth = video.size[0] * CGFloat(video.scalar)
+////                            let scaledHeight = video.size[1] * CGFloat(video.scalar)
+////                            let halfScaledWidth = scaledWidth / 2
+////                            let halfScaledHeight = scaledHeight / 2
+//                            let newX = gesture.location.x
+//                            let newY = gesture.location.y
+//                            video.totalOffset = CGPoint(x: newX, y: newY)
+//                            sharedEditNotifier.currentlyEdited = true
+//                            sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+//                            sharedEditNotifier.editToggle()
+//                                    }
+//                    
+//                        .onEnded { gesture in
+//                            if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+//                                deleteElement(elementsArray: elementsArray, id: video.id)
+//                            } else {
+//                                video.startPosition = video.totalOffset
+//                            }
+//                            sharedEditNotifier.currentlyEdited = false
+//                            sharedEditNotifier.editToggle()
+//                        })
+//            
+//                .gesture(
+//                SimultaneousGesture( // Rotating and Size change
+//                        RotationGesture()
+//                        .updating($currentRotation) { value, state, _ in state = value
+//                            }
+//                        .onEnded { value in
+//                            video.rotationDegrees += value
+//                        },
+//                    MagnificationGesture()
+//                        .onChanged { amount in
+//                            currentAmount = amount - 1
+//                            sharedEditNotifier.currentlyEdited = true
+//                            sharedEditNotifier.editToggle()
+//                        }
+//                        .onEnded { amount in
+//                            video.scalar += currentAmount
+//                            currentAmount = 0
+//                            sharedEditNotifier.currentlyEdited = false
+//                            sharedEditNotifier.editToggle()
+//                            
+//                        }))
         }
     }
 }

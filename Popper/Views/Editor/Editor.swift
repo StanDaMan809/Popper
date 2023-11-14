@@ -95,31 +95,14 @@ struct Editor: View {
                 ZStack {
                     ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
                         if let itemToDisplay = elementsArray.elements[key] {
-                            switch itemToDisplay.element {
-                            case .image(let editableImage):
-                                    
-                                EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                                
-                            case .video(let editableVid):
-                                
-                                EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                                
-                            case .text(let editableTxt):
-                                
-                                EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier, editPrio: editTextPrio)
-                                
-                            case .shape(let editableShp):
-                                
-                                EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                                    
-                            }
-                                
+                            EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                             
                         }
                         
                     }
                 }
                 .zIndex(Double(parent.sharedEditNotifier.objectsCount))
+                
             }
             
         }
@@ -133,12 +116,12 @@ func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEdit
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
         
-        if let currentImg = sharedEditNotifier.selectedImage
+        if let currentElement = sharedEditNotifier.selectedElement
         {
             display = false // Set display to false so it doesn't show up until touched
             defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
-            currentImg.createDisplays.append(elementsArray.objectsCount)
-            print(currentImg.createDisplays)
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
+            print(currentElement.element.createDisplays)
         }
         
     }
@@ -149,7 +132,7 @@ func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEdit
         
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .image(editableImg(id: elementsArray.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: [CGFloat(imgSource.size.width), CGFloat(imgSource.size.height)], scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .image(editableImg(id: elementsArray.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: CGSizeMake(imgSource.size.width, imgSource.size.height), scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
 
     elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
     sharedEditNotifier.editorDisplayed = .none
@@ -161,13 +144,13 @@ func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditS
     var defaultDisplaySetting = true
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentImg = sharedEditNotifier.selectedImage {
-            currentImg.createDisplays.append(elementsArray.objectsCount)
+        if let currentElement = sharedEditNotifier.selectedElement {
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
             defaultDisplaySetting = false
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Lorem Ipsum", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: [80, 80], scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Hold to Edit", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }
@@ -177,8 +160,8 @@ func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sha
     var defaultDisplaySetting = true 
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentImg = sharedEditNotifier.selectedImage {
-            currentImg.createDisplays.append(elementsArray.objectsCount)
+        if let currentElement = sharedEditNotifier.selectedElement {
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
             defaultDisplaySetting = false
         }
         
@@ -365,6 +348,7 @@ class SharedEditState: ObservableObject {
     @Published var selectedImage: editableImg?
     @Published var selectedText: editableTxt?
     @Published var selectedShape: editableShp?
+    @Published var selectedElement: editorElement?
     @Published var editorDisplayed = EditorDisplayed.none
     @Published var pressedButton: UIButtonPress = .noButton
     @Published var rewindButtonPresent: Bool = false
@@ -404,6 +388,23 @@ class SharedEditState: ObservableObject {
         selectedShape = editableShp
     }
     
+    
+    
+    func selectElement(element: editorElement) {
+        selectedElement = element
+        
+        switch element.element {
+        case .image:
+            pressedButton = .imageEdit
+        case .video:
+            pressedButton = .imageEdit // this will be changed if i decide to implement video-specific changes later... but im not quite sure ab that
+        case .text:
+            pressedButton = .textEdit
+        case .shape:
+            pressedButton = .shapeEdit
+        }
+    }
+    
     func restoreDefaults() { // For when you need to make sure that everything is fine
         deselectAll()
         editorDisplayed = .none
@@ -414,6 +415,7 @@ class SharedEditState: ObservableObject {
         selectedText = nil
         selectedImage = nil
         selectedShape = nil
+        selectedElement = nil
     }
     
     

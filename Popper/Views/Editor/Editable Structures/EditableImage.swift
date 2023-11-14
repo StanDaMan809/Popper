@@ -13,7 +13,7 @@ class editableImg: Identifiable, ObservableObject {
     let imgSrc: UIImage
     @Published var currentShape: ClippableShape = .rectangle
     @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
-    @Published var size: [CGFloat] = [80, 40] // Image's true specs, to not be touched
+    @Published var size: CGSize // Image's true specs, to not be touched
     @Published var scalar: Double
     @Published var transparency: Double
     @Published var display: Bool
@@ -23,7 +23,7 @@ class editableImg: Identifiable, ObservableObject {
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     
-    init(id: Int, imgSrc: UIImage, currentShape: ClippableShape, totalOffset: CGPoint, size: [CGFloat], scalar: Double, display: Bool, transparency: Double, defaultDisplaySetting: Bool) {
+    init(id: Int, imgSrc: UIImage, currentShape: ClippableShape, totalOffset: CGPoint, size: CGSize, scalar: Double, display: Bool, transparency: Double, defaultDisplaySetting: Bool) {
         self.id = id
         self.imgSrc = imgSrc
         self.currentShape = currentShape
@@ -42,9 +42,9 @@ struct EditableImage: View {
     
     @ObservedObject var image: editableImg
     @ObservedObject var elementsArray: editorElementsArray
-    @State var currentAmount = 0.0
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @GestureState var currentRotation = Angle.zero
+    @Binding var currentAmount: Double
+    @Binding var currentRotation: Angle
     
     var body: some View
         {
@@ -53,7 +53,7 @@ struct EditableImage: View {
                     Image(uiImage: image.imgSrc)
                             // Image characteristics
                         .resizable()
-                        .frame(width: image.size[0], height: image.size[1])
+                        .frame(width: image.size.width, height: image.size.height)
                         .clipShape(image.currentShape)
                         .rotationEffect(currentRotation + image.rotationDegrees)
                         .scaleEffect(image.scalar + currentAmount)
@@ -63,103 +63,103 @@ struct EditableImage: View {
             
                     // Image Gestures
                 
-                    .onTapGesture (count: 2)
-                    {
-                        image.currentShape = image.currentShape.next
-                        
-                    }
-                
-                    .onTapGesture
-                    {
-                        if sharedEditNotifier.editorDisplayed == .photoDisappear {
-                            sharedEditNotifier.selectedImage?.disappearDisplays.append(self.image.id)
-                            sharedEditNotifier.editorDisplayed = .none
-                        }
-                        
-                        else
-                        {
-                                // Make all displays linked to this one appear!
-                                for i in image.createDisplays
-                                {
-                                    print("Retrieving for \(i)...")
-                                    if let itemToDisplay = elementsArray.elements[i] {
-                                        itemToDisplay.element.display = true
-                                    } else { }// else if textArray blah blah blah
-                                }
-                                
-                                // Make all displays linked to this one disappear
-                                for i in image.disappearDisplays
-                                {
-                                    if let itemToDisplay = elementsArray.elements[i] {
-                                        itemToDisplay.element.display = false
-                                    } // else if textArray blah blah blah
-                                }
-                            
-                            // Summon the rewind button for editing
-                            if image.createDisplays.count != 0 || image.disappearDisplays.count != 0 {
-                                sharedEditNotifier.rewindButtonPresent = true
-                            }
-                        }
-                        
-                        
-    //                    }
-                    }
-                
-                    .gesture(
-                        DragGesture() // Have to add UI disappearing but not yet
-                            .onChanged { gesture in
-                                
-                                let scaledWidth = image.size[0] * CGFloat(image.scalar)
-                                let scaledHeight = image.size[1] * CGFloat(image.scalar)
-
-                                let newX = gesture.location.x
-                                let newY = gesture.location.y
-                                image.totalOffset = CGPoint(x: newX, y: newY)
-                                sharedEditNotifier.currentlyEdited = true
-                                sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-                                sharedEditNotifier.editToggle()
-                            }
-                        
-                            .onEnded { gesture in
-                                
-                                if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                                    deleteElement(elementsArray: elementsArray, id: image.id)
-                                } else {
-                                    image.startPosition = image.totalOffset
-                                }
-                                
-//                                image.startPosition = image.totalOffset
-                                sharedEditNotifier.currentlyEdited = false
-                                sharedEditNotifier.editToggle()
-                            })
-                
-                    .gesture(
-                    SimultaneousGesture( // Rotating and Size change
-                            RotationGesture()
-                            .updating($currentRotation) { value, state, _ in state = value
-                                }
-                            .onEnded { value in
-                                image.rotationDegrees += value
-                            },
-                        MagnificationGesture()
-                            .onChanged { amount in
-                                currentAmount = amount - 1
-                                sharedEditNotifier.currentlyEdited = true
-                                sharedEditNotifier.editToggle()
-                            }
-                            .onEnded { amount in
-                                image.scalar += currentAmount
-                                currentAmount = 0
-                                sharedEditNotifier.currentlyEdited = false
-                                sharedEditNotifier.editToggle()
-                                
-                            }))
-                
-                    .gesture(LongPressGesture()
-                        .onEnded{_ in
-                    sharedEditNotifier.pressedButton = .imageEdit
-                    sharedEditNotifier.selectImage(editableImg: image)
-                            })
+//                    .onTapGesture (count: 2)
+//                    {
+//                        image.currentShape = image.currentShape.next
+//                        
+//                    }
+//                
+//                    .onTapGesture
+//                    {
+//                        if sharedEditNotifier.editorDisplayed == .photoDisappear {
+//                            sharedEditNotifier.selectedImage?.disappearDisplays.append(self.image.id)
+//                            sharedEditNotifier.editorDisplayed = .none
+//                        }
+//                        
+//                        else
+//                        {
+//                                // Make all displays linked to this one appear!
+//                                for i in image.createDisplays
+//                                {
+//                                    print("Retrieving for \(i)...")
+//                                    if let itemToDisplay = elementsArray.elements[i] {
+//                                        itemToDisplay.element.display = true
+//                                    } else { }// else if textArray blah blah blah
+//                                }
+//                                
+//                                // Make all displays linked to this one disappear
+//                                for i in image.disappearDisplays
+//                                {
+//                                    if let itemToDisplay = elementsArray.elements[i] {
+//                                        itemToDisplay.element.display = false
+//                                    } // else if textArray blah blah blah
+//                                }
+//                            
+//                            // Summon the rewind button for editing
+//                            if image.createDisplays.count != 0 || image.disappearDisplays.count != 0 {
+//                                sharedEditNotifier.rewindButtonPresent = true
+//                            }
+//                        }
+//                        
+//                        
+//    //                    }
+//                    }
+//                
+//                    .gesture(
+//                        DragGesture() // Have to add UI disappearing but not yet
+//                            .onChanged { gesture in
+//                                
+//                                let scaledWidth = image.size.width * CGFloat(image.scalar)
+//                                let scaledHeight = image.size.height * CGFloat(image.scalar)
+//
+//                                let newX = gesture.location.x
+//                                let newY = gesture.location.y
+//                                image.totalOffset = CGPoint(x: newX, y: newY)
+//                                sharedEditNotifier.currentlyEdited = true
+//                                sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+//                                sharedEditNotifier.editToggle()
+//                            }
+//                        
+//                            .onEnded { gesture in
+//                                
+//                                if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+//                                    deleteElement(elementsArray: elementsArray, id: image.id)
+//                                } else {
+//                                    image.startPosition = image.totalOffset
+//                                }
+//                                
+////                                image.startPosition = image.totalOffset
+//                                sharedEditNotifier.currentlyEdited = false
+//                                sharedEditNotifier.editToggle()
+//                            })
+//                
+//                    .gesture(
+//                    SimultaneousGesture( // Rotating and Size change
+//                            RotationGesture()
+//                            .updating($currentRotation) { value, state, _ in state = value
+//                                }
+//                            .onEnded { value in
+//                                image.rotationDegrees += value
+//                            },
+//                        MagnificationGesture()
+//                            .onChanged { amount in
+//                                currentAmount = amount - 1
+//                                sharedEditNotifier.currentlyEdited = true
+//                                sharedEditNotifier.editToggle()
+//                            }
+//                            .onEnded { amount in
+//                                image.scalar += currentAmount
+//                                currentAmount = 0
+//                                sharedEditNotifier.currentlyEdited = false
+//                                sharedEditNotifier.editToggle()
+//                                
+//                            }))
+//                
+//                    .gesture(LongPressGesture()
+//                        .onEnded{_ in
+//                    sharedEditNotifier.pressedButton = .imageEdit
+//                    sharedEditNotifier.selectImage(editableImg: image)
+//                            })
             }
         }
 }
@@ -182,7 +182,7 @@ struct EditableImageData: Codable, Equatable, Hashable {
         self.id = editableImage.id
         self.currentShape = editableImage.currentShape.rawValue // For encoding
         self.totalOffset = [Double(editableImage.totalOffset.x), Double(editableImage.totalOffset.y)] // For encoding
-        self.size = editableImage.size.map { Double($0) } // For encoding
+        self.size = [Double(editableImage.size.width), Double(editableImage.size.height)] // For encoding
         self.scalar = editableImage.scalar
         self.transparency = editableImage.transparency
         self.display = editableImage.defaultDisplaySetting // If user uploads a post that's already interacted with, it'll upload just fine

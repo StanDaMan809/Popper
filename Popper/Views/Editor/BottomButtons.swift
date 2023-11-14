@@ -40,9 +40,9 @@ struct bottomButtons: View {
             
         case .transparencySlider:
             
-            if let currentlySelected = sharedEditNotifier.selectedImage
+            if let currentlySelected = sharedEditNotifier.selectedElement
             {
-                TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
+                TransparencySlider(transparency: Binding(get: { currentlySelected.element.transparency }, set: { currentlySelected.element.transparency = $0 }))
                     .vAlign(.bottom)
                     .padding()
             }
@@ -60,33 +60,41 @@ struct bottomButtons: View {
             
         case .colorPickerText:
             
-            if let currentlySelected = sharedEditNotifier.selectedText
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
             {
-                ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
-                    .vAlign(.bottom)
+                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
                 
             }
             
         case .colorPickerTextBG:
-            if let currentlySelected = sharedEditNotifier.selectedText
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
             {
-                ColorPicker(elementColor: Binding(get: {currentlySelected.bgColor}, set: { currentlySelected.bgColor = $0 }), sharedEditNotifier: sharedEditNotifier)
-                    .vAlign(.bottom)
+                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.bgColor}, set: { currentlySelected.bgColor = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
             }
             
             
         case .colorPickerShape:
-            if let currentlySelected = sharedEditNotifier.selectedShape
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
             {
-                ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
-                    .vAlign(.bottom)
+                if case .shape(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
             }
             
         case .fontPicker:
-            if let currentlySelected = sharedEditNotifier.selectedText
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
             {
-                FontPicker(textFont: Binding(get: {currentlySelected.font }, set: {  currentlySelected.font = $0 }), sharedEditNotifier: sharedEditNotifier)
-                    .vAlign(.bottom)
+                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
+                    FontPicker(textFont: Binding(get: {currentlySelected.font }, set: {  currentlySelected.font = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
             }
         }
         

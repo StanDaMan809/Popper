@@ -20,18 +20,21 @@ class editableShp: ObservableObject {
     @Published var bValue: Double = 0.0
     @Published var transparency: Double
     @Published var display: Bool
-    @Published var size: [CGFloat] = [80, 80]
+    @Published var size: CGSize
+    @Published var createDisplays: [Int] = []
+    @Published var disappearDisplays: [Int] = []
     @Published var scalar: Double
     @Published var rotationDegrees: Angle = Angle.zero
     var startPosition: CGPoint
     let defaultDisplaySetting: Bool
     
-    init(id: Int, totalOffset: CGPoint, transparency: Double, display: Bool, scalar: Double, defaultDisplaySetting: Bool)
+    init(id: Int, totalOffset: CGPoint, transparency: Double, display: Bool, size: CGSize, scalar: Double, defaultDisplaySetting: Bool)
     {
         self.id = id
         self.totalOffset = totalOffset
         self.transparency = transparency
         self.display = display
+        self.size = size
         self.scalar = scalar
         self.startPosition = totalOffset
         self.defaultDisplaySetting = defaultDisplaySetting
@@ -43,15 +46,15 @@ struct EditableShape: View {
     @ObservedObject var shape: editableShp
     @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @State var currentAmount = 0.0
-    @GestureState var currentRotation = Angle.zero
+    @Binding var currentAmount: Double
+    @Binding var currentRotation: Angle
     
     var body: some View {
         
         if shape.display {
             Rectangle()
                 .foregroundStyle(shape.color)
-                .frame(width: shape.size[0], height: shape.size[1])
+                .frame(width: shape.size.width, height: shape.size.height)
                 .clipShape(shape.currentShape)
                 .rotationEffect(currentRotation + shape.rotationDegrees)
                 .scaleEffect(shape.scalar + currentAmount)
@@ -65,17 +68,17 @@ struct EditableShape: View {
                     
                     switch shape.currentShape {
                     case .rectangle:
-                        shape.size[1] = shape.size[0]
+                        shape.size.height = shape.size.width
                     case .circle:
-                        shape.size[1] = shape.size[0]
+                        shape.size.height = shape.size.width
                     case .ellipse:
-                        shape.size[1] = 2 * shape.size[0]
+                        shape.size.height = 2 * shape.size.width
                     case .capsule:
-                        shape.size[1] = 2 * shape.size[0]
+                        shape.size.height = 2 * shape.size.width
                     case .triangle:
-                        shape.size[1] = shape.size[0]
+                        shape.size.height = shape.size.width
                     case .star:
-                        shape.size[1] = shape.size[0]
+                        shape.size.height = shape.size.width
                     }
                 }
             
@@ -107,56 +110,56 @@ struct EditableShape: View {
             
             //                    }
             
-            .gesture(
-                DragGesture() // Have to add UI disappearing but not yet
-                    .onChanged { gesture in
-//                        let scaledWidth = shape.size[0] * CGFloat(shape.scalar)
-//                        let scaledHeight = shape.size[1] * CGFloat(shape.scalar)
-                        let newX = gesture.location.x
-                        let newY = gesture.location.y
-                        shape.totalOffset = CGPoint(x: newX, y: newY)
-                        sharedEditNotifier.currentlyEdited = true
-                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-                        sharedEditNotifier.editToggle()
-                    }
-                
-                    .onEnded { gesture in
-                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                            deleteElement(elementsArray: elementsArray, id: shape.id)
-                        } else {
-                            shape.startPosition = shape.totalOffset
-                        }
-                        sharedEditNotifier.currentlyEdited = false
-                        sharedEditNotifier.editToggle()
-                    })
-            
-            .gesture(
-                SimultaneousGesture( // Rotating and Size change
-                    RotationGesture()
-                        .updating($currentRotation) { value, state, _ in state = value
-                        }
-                        .onEnded { value in
-                            shape.rotationDegrees += value
-                        },
-                    MagnificationGesture()
-                        .onChanged { amount in
-                            currentAmount = amount - 1
-                            sharedEditNotifier.currentlyEdited = true
-                            sharedEditNotifier.editToggle()
-                        }
-                        .onEnded { amount in
-                            shape.scalar += currentAmount
-                            currentAmount = 0
-                            sharedEditNotifier.currentlyEdited = false
-                            sharedEditNotifier.editToggle()
-                            
-                        }))
-            
-            .gesture(LongPressGesture()
-                .onEnded{_ in
-            sharedEditNotifier.pressedButton = .shapeEdit
-            sharedEditNotifier.selectShape(editableShp: shape)
-                    })
+//            .gesture(
+//                DragGesture() // Have to add UI disappearing but not yet
+//                    .onChanged { gesture in
+////                        let scaledWidth = shape.size.width * CGFloat(shape.scalar)
+////                        let scaledHeight = shape.height * CGFloat(shape.scalar)
+//                        let newX = gesture.location.x
+//                        let newY = gesture.location.y
+//                        shape.totalOffset = CGPoint(x: newX, y: newY)
+//                        sharedEditNotifier.currentlyEdited = true
+//                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+//                        sharedEditNotifier.editToggle()
+//                    }
+//                
+//                    .onEnded { gesture in
+//                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+//                            deleteElement(elementsArray: elementsArray, id: shape.id)
+//                        } else {
+//                            shape.startPosition = shape.totalOffset
+//                        }
+//                        sharedEditNotifier.currentlyEdited = false
+//                        sharedEditNotifier.editToggle()
+//                    })
+//            
+//            .gesture(
+//                SimultaneousGesture( // Rotating and Size change
+//                    RotationGesture()
+//                        .updating($currentRotation) { value, state, _ in state = value
+//                        }
+//                        .onEnded { value in
+//                            shape.rotationDegrees += value
+//                        },
+//                    MagnificationGesture()
+//                        .onChanged { amount in
+//                            currentAmount = amount - 1
+//                            sharedEditNotifier.currentlyEdited = true
+//                            sharedEditNotifier.editToggle()
+//                        }
+//                        .onEnded { amount in
+//                            shape.scalar += currentAmount
+//                            currentAmount = 0
+//                            sharedEditNotifier.currentlyEdited = false
+//                            sharedEditNotifier.editToggle()
+//                            
+//                        }))
+//            
+//            .gesture(LongPressGesture()
+//                .onEnded{_ in
+//            sharedEditNotifier.pressedButton = .shapeEdit
+//            sharedEditNotifier.selectShape(editableShp: shape)
+//                    })
         }
     }
 }
@@ -166,13 +169,13 @@ func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEdit
     var defaultDisplaySetting = true
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentImg = sharedEditNotifier.selectedImage {
-            currentImg.createDisplays.append(elementsArray.objectsCount)
+        if let currentElement = sharedEditNotifier.selectedElement {
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
             defaultDisplaySetting = false
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 300, y: 150), transparency: 1, display: defaultDisplaySetting, scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 300, y: 150), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

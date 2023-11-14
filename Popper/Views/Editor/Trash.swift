@@ -9,8 +9,6 @@ import SwiftUI
 
 struct Trash: View {
     
-    
-    
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     var body: some View {
@@ -25,28 +23,14 @@ struct Trash: View {
                             .onAppear {
                                 sharedEditNotifier.trashCanFrame = geo.frame(in: .global)
                             }
-                            .offset(y: 50)
+                            .offset(y: 50) // Workaround for the Geometry reader spawning 50 units below the actual trash can
                 }
                 .foregroundStyle(sharedEditNotifier.toDelete ? Color.red : Color.black)
                 .frame(width: 50, height: 50, alignment: .center)
                 
             }
             .padding(50)
-//
-//        .gesture(
-//            DragGesture()
-//                .onChanged { gesture in
-//                    toDelete = trashCanFrame.contains(gesture.location)
-//                }
-//                .onEnded { gesture in
-//                    
-//                }
-//        )
         
     }
 }
-
-//#Preview {
-//    Trash()
-//}
 

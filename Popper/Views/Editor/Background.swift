@@ -33,7 +33,7 @@ struct Background: View {
                         
                     case .text(let editableTxt):
                         
-                        EditableText(text: editableTxt, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
+                        EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, editPrio: editTextPrio)
                             .disabled(true)
                         
                     case .video(let editableVid):
@@ -41,7 +41,7 @@ struct Background: View {
                         
                     case .shape(let editableShp):
                         
-                        EditableShape(shape: editableShp, sharedEditNotifier: sharedEditNotifier)
+                        EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
                             .disabled(true)
                             
                     }

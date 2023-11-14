@@ -23,6 +23,19 @@ class editorElement: ObservableObject {
         case text(editableTxt)
         case shape(editableShp)
         
+        var data: Any {
+            switch self {
+                case .image(let editableImg):
+                    return editableImg
+                case .video(let editableVid):
+                    return editableVid
+                case .text(let editableTxt):
+                    return editableTxt
+                case .shape(let editableShp):
+                    return editableShp
+            }
+        }
+        
         var display: Bool {
                 get {
                     switch self {
@@ -72,3 +85,5 @@ class editorElementsArray: ObservableObject {
     @Published var objectsCount: Int = 0
     
 }
+
+

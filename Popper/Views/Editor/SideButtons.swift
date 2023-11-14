@@ -67,18 +67,48 @@ struct SideButtons: View {
             {
                 Button(action: {
                     sharedEditNotifier.pressedButton = .noButton
+                    sharedEditNotifier.restoreDefaults()
                 },
                        label: {
                         Image(systemName: "photo.circle.fill")
                 })
                 
-                Button(action: {
-//                    change the link value for  sharedEditNotifier.selectedImage
-                },
-                       label: {
-                        Image(systemName: "link")
-                })
-                .scaleEffect(miniButtonScaleEffect)
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+    //                    change the link value for  sharedEditNotifier.selectedImage
+                    },
+                           label: {
+                            Image(systemName: "link")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                }
+                
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+    //                    self.showImagePicker = true
+                        sharedEditNotifier.editorDisplayed = .photoAppear
+                        sharedEditNotifier.pressedButton = .elementAppear
+                    },
+                           label: {
+                            Image(systemName: "photo.on.rectangle.angled")
+                        
+                            .sheet(isPresented: $showImagePicker) {
+                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                                }
+                        
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                }
+                
+                if !sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .photoDisappear
+                    },
+                           label: {
+                            Image(systemName: "photo.stack")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                }
                 
                 Button(action: {
                     if sharedEditNotifier.selectedImage != nil {
@@ -91,28 +121,6 @@ struct SideButtons: View {
                 )
                 .scaleEffect(miniButtonScaleEffect)
                 
-                Button(action: {
-//                    self.showImagePicker = true
-                    sharedEditNotifier.editorDisplayed = .photoAppear
-                    sharedEditNotifier.pressedButton = .elementAppear
-                },
-                       label: {
-                        Image(systemName: "photo.on.rectangle.angled")
-                    
-                        .sheet(isPresented: $showImagePicker) {
-                            ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
-                            }
-                    
-                })
-                .scaleEffect(miniButtonScaleEffect)
-                
-                Button(action: {
-                    sharedEditNotifier.editorDisplayed = .photoDisappear
-                },
-                       label: {
-                        Image(systemName: "photo.stack")
-                })
-                .scaleEffect(miniButtonScaleEffect)
                 
                 Button(action: {
                     

@@ -27,8 +27,12 @@ struct bottomButtons: View {
             
         case .none:
             
-            controlButtons(parent: self)
-                .opacity(sharedEditNotifier.buttonDim)
+            if sharedEditNotifier.currentlyEdited == false {
+                controlButtons(parent: self)
+                    .opacity(sharedEditNotifier.buttonDim)
+            } else {
+               Trash(sharedEditNotifier: sharedEditNotifier)
+            }
             
         case .linkEditor:
             
@@ -85,6 +89,7 @@ struct bottomButtons: View {
                     .vAlign(.bottom)
             }
         }
+        
     }
     
     struct controlButtons: View {

@@ -40,15 +40,15 @@ struct Editor: View {
         let parent: Editor
         @ObservedObject var elementsArray: editorElementsArray
         
+        
         var body: some View {
-            @State var UIPrio = Double(elementsArray.elements.count + 1)
+            @State var UIPrio = Double(parent.sharedEditNotifier.objectsCount + 1)
             @State var editTextPrio = UIPrio - 1
             @State var editbarPrio = UIPrio + 2
             @State var actionButtonPrio = UIPrio + 3
             
             ZStack
             {
-                
                 VStack
                 {
                     
@@ -76,40 +76,50 @@ struct Editor: View {
                         
                         SideButtons(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                     }
+                    
+                    Spacer()
+                    
+                    bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                        .zIndex(Double(parent.sharedEditNotifier.objectsCount + 1))
+                    
                         
                 }
-                .zIndex(UIPrio)
+                .zIndex(Double(parent.sharedEditNotifier.objectsCount + 2))
+                
                 
                 if parent.sharedEditNotifier.backgroundEdit != true {
                     Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray, editTextPrio: editTextPrio)
+                        .zIndex(-1)
                 }
 
-                
-                bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                    .zIndex(actionButtonPrio)
-                
-                ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                    if let itemToDisplay = elementsArray.elements[key] {
-                        switch itemToDisplay.element {
-                        case .image(let editableImage):
+                ZStack {
+                    ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                        if let itemToDisplay = elementsArray.elements[key] {
+                            switch itemToDisplay.element {
+                            case .image(let editableImage):
+                                    
+                                EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                                 
-                            EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                            
-                        case .video(let editableVid):
-                            
-                            EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
-                            
-                        case .text(let editableTxt):
-                            
-                            EditableText(text: editableTxt, sharedEditNotifier: parent.sharedEditNotifier, editPrio: editTextPrio)
-                            
-                        case .shape(let editableShp):
-                            
-                            EditableShape(shape: editableShp, sharedEditNotifier: parent.sharedEditNotifier)
+                            case .video(let editableVid):
                                 
+                                EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                                
+                            case .text(let editableTxt):
+                                
+                                EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier, editPrio: editTextPrio)
+                                
+                            case .shape(let editableShp):
+                                
+                                EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                                    
+                            }
+                                
+                            
                         }
+                        
                     }
                 }
+                .zIndex(Double(parent.sharedEditNotifier.objectsCount))
             }
             
         }
@@ -197,7 +207,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIImagePickerController {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = sourceType
-        imagePicker.mediaTypes = ["public.image", "public.movie"]
+        if sharedEditNotifier.backgroundEdit == false {
+            imagePicker.mediaTypes = ["public.image", "public.movie"]
+        }
         imagePicker.delegate = context.coordinator
         return imagePicker
     }
@@ -360,6 +372,8 @@ class SharedEditState: ObservableObject {
     @Published var backgroundEdit: Bool = false
     @Published var bgObjectsCount: Int = 0
     @Published var delete: Bool = false
+    @Published var trashCanFrame = CGRect.zero
+    @Published var toDelete = false
     
     func editToggle()
     {
@@ -430,6 +444,11 @@ struct RotationSlider: View {
         .scaleEffect(0.80)
         .offset(y: 250)
     }
+}
+
+func deleteElement(elementsArray: editorElementsArray, id: Int) {
+    
+    elementsArray.elements.removeValue(forKey: id)
 }
 
 // image select settings

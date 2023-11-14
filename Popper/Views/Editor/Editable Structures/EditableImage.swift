@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// these are the image classes
+
 class editableImg: Identifiable, ObservableObject {
     @Published var id: Int
     let imgSrc: UIImage
@@ -50,43 +50,23 @@ struct EditableImage: View {
         {
             if image.display
             {
-                Image(uiImage: image.imgSrc)
-                    // Image characteristics
-                    .resizable()
-                    .frame(width: image.size[0], height: image.size[1])
-                    .clipShape(image.currentShape)
-                    .rotationEffect(currentRotation + image.rotationDegrees)
-                    .scaleEffect(image.scalar + currentAmount)
-                    .position(image.totalOffset)
-                    .opacity(image.transparency)
-                    .zIndex(Double(image.id))
-                    
+                    Image(uiImage: image.imgSrc)
+                            // Image characteristics
+                        .resizable()
+                        .frame(width: image.size[0], height: image.size[1])
+                        .clipShape(image.currentShape)
+                        .rotationEffect(currentRotation + image.rotationDegrees)
+                        .scaleEffect(image.scalar + currentAmount)
+                        .position(image.totalOffset)
+                        .opacity(image.transparency)
+                        .zIndex(Double(image.id))
+            
                     // Image Gestures
                 
                     .onTapGesture (count: 2)
                     {
                         image.currentShape = image.currentShape.next
                         
-//                        switch image.currentShape {
-//                        case .square:
-//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
-//                        case .rectangle:
-//                            image.dimensionsForDisplay[0] = image.size[0]
-//                            image.dimensionsForDisplay[1] = image.size[1]
-//                        case .circle:
-//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
-//                        case .ellipse:
-//                            image.dimensionsForDisplay[0] = image.size[0]
-//                            image.dimensionsForDisplay[1] = image.size[1]
-//                        case .capsule:
-//                            image.dimensionsForDisplay[0] = image.size[0]
-//                            image.dimensionsForDisplay[1] = image.size[1]
-//                        case .triangle:
-//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
-//                        case .star:
-//                            image.dimensionsForDisplay[1] = image.dimensionsForDisplay[0]
-//                        }
-//    
                     }
                 
                     .onTapGesture
@@ -128,19 +108,27 @@ struct EditableImage: View {
                     .gesture(
                         DragGesture() // Have to add UI disappearing but not yet
                             .onChanged { gesture in
+                                
                                 let scaledWidth = image.size[0] * CGFloat(image.scalar)
                                 let scaledHeight = image.size[1] * CGFloat(image.scalar)
-                                let halfScaledWidth = scaledWidth / 2
-                                let halfScaledHeight = scaledHeight / 2
+
                                 let newX = gesture.location.x
                                 let newY = gesture.location.y
                                 image.totalOffset = CGPoint(x: newX, y: newY)
                                 sharedEditNotifier.currentlyEdited = true
+                                sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                                 sharedEditNotifier.editToggle()
-                                        }
+                            }
                         
                             .onEnded { gesture in
-                                image.startPosition = image.totalOffset
+                                
+                                if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                                    deleteElement(elementsArray: elementsArray, id: image.id)
+                                } else {
+                                    image.startPosition = image.totalOffset
+                                }
+                                
+//                                image.startPosition = image.totalOffset
                                 sharedEditNotifier.currentlyEdited = false
                                 sharedEditNotifier.editToggle()
                             })

@@ -9,25 +9,44 @@ import SwiftUI
 
 struct Trash: View {
     
-    @State var isDeleting: Bool = false
+    
+    
+    @ObservedObject var sharedEditNotifier: SharedEditState
     
     var body: some View {
-
-        Image(systemName: isDeleting ? "trash.fill" : "trash")
-            .padding()
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onEnded { _ in DeleteElement() } )
+        
+            VStack {
+                
+                Spacer()
+                
+                GeometryReader { geo in
+                        Image(systemName: "trash")
+                            .resizable()
+                            .onAppear {
+                                sharedEditNotifier.trashCanFrame = geo.frame(in: .global)
+                            }
+                            .offset(y: 50)
+                }
+                .foregroundStyle(sharedEditNotifier.toDelete ? Color.red : Color.black)
+                .frame(width: 50, height: 50, alignment: .center)
+                
+            }
+            .padding(50)
+//
+//        .gesture(
+//            DragGesture()
+//                .onChanged { gesture in
+//                    toDelete = trashCanFrame.contains(gesture.location)
+//                }
+//                .onEnded { gesture in
+//                    
+//                }
+//        )
+        
     }
-        
-        
-        func DeleteElement() {
-            isDeleting.toggle()
-            print("fucking kill me")
-        }
-    
 }
 
-#Preview {
-    Trash()
-}
+//#Preview {
+//    Trash()
+//}
+

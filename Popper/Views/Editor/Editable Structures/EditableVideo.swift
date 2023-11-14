@@ -109,11 +109,16 @@ struct EditableVideo: View {
                             let newY = gesture.location.y
                             video.totalOffset = CGPoint(x: newX, y: newY)
                             sharedEditNotifier.currentlyEdited = true
+                            sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                             sharedEditNotifier.editToggle()
                                     }
                     
                         .onEnded { gesture in
-                            video.startPosition = video.totalOffset
+                            if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                                deleteElement(elementsArray: elementsArray, id: video.id)
+                            } else {
+                                video.startPosition = video.totalOffset
+                            }
                             sharedEditNotifier.currentlyEdited = false
                             sharedEditNotifier.editToggle()
                         })

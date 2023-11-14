@@ -45,6 +45,7 @@ class editableTxt: ObservableObject {
 struct EditableText: View {
     
     @ObservedObject var text: editableTxt
+    @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
     @State var currentAmount = 0.0
     @GestureState var currentRotation = Angle.zero
@@ -114,11 +115,16 @@ struct EditableText: View {
                                     text.totalOffset = CGPoint(x: newX, y: newY)
                                     
                                     sharedEditNotifier.currentlyEdited = true
+                                    sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                                     sharedEditNotifier.editToggle()
                                             }
                             
                                 .onEnded { gesture in
-                                    text.startPosition = text.totalOffset
+                                    if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                                        deleteElement(elementsArray: elementsArray, id: text.id)
+                                    } else {
+                                        text.startPosition = text.totalOffset
+                                    }
                                     
                                     sharedEditNotifier.currentlyEdited = false
                                     sharedEditNotifier.editToggle()

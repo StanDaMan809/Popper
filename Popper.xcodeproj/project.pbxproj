@@ -58,6 +58,7 @@
 		F6C8DC3B29DF7CF10014849C /* PopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */; };
 		F6C8DC3D29DF7CF10014849C /* PopperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */; };
 		F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6DD3229DF8198003727B2 /* Feed.swift */; };
+		F6FF24632B032066007F61BA /* EditableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24622B032066007F61BA /* EditableElement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,6 +127,7 @@
 		F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITests.swift; sourceTree = "<group>"; };
 		F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F6D6DD3229DF8198003727B2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		F6FF24622B032066007F61BA /* EditableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableElement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -289,6 +291,7 @@
 			isa = PBXGroup;
 			children = (
 				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F6FF24622B032066007F61BA /* EditableElement.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
@@ -512,6 +515,7 @@
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
 				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
+				F6FF24632B032066007F61BA /* EditableElement.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,

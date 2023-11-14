@@ -41,11 +41,13 @@ class editableShp: ObservableObject {
 struct EditableShape: View {
     
     @ObservedObject var shape: editableShp
+    @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
     @State var currentAmount = 0.0
     @GestureState var currentRotation = Angle.zero
     
     var body: some View {
+        
         if shape.display {
             Rectangle()
                 .foregroundStyle(shape.color)
@@ -108,17 +110,22 @@ struct EditableShape: View {
             .gesture(
                 DragGesture() // Have to add UI disappearing but not yet
                     .onChanged { gesture in
-                        let scaledWidth = shape.size[0] * CGFloat(shape.scalar)
-                        let scaledHeight = shape.size[1] * CGFloat(shape.scalar)
+//                        let scaledWidth = shape.size[0] * CGFloat(shape.scalar)
+//                        let scaledHeight = shape.size[1] * CGFloat(shape.scalar)
                         let newX = gesture.location.x
                         let newY = gesture.location.y
                         shape.totalOffset = CGPoint(x: newX, y: newY)
                         sharedEditNotifier.currentlyEdited = true
+                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                         sharedEditNotifier.editToggle()
                     }
                 
                     .onEnded { gesture in
-                        shape.startPosition = shape.totalOffset
+                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                            deleteElement(elementsArray: elementsArray, id: shape.id)
+                        } else {
+                            shape.startPosition = shape.totalOffset
+                        }
                         sharedEditNotifier.currentlyEdited = false
                         sharedEditNotifier.editToggle()
                     })

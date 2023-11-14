@@ -15,7 +15,7 @@ struct TransparencySlider: View {
         {
                 Slider(value: $transparency, in: 0.01...1)
         }
-        .scaleEffect(0.80)
-        .offset(y: 250)
+        .scaleEffect(0.90)
+        .padding()
     }
 }

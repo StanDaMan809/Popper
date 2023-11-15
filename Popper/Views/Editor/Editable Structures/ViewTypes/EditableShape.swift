@@ -25,6 +25,7 @@ class editableShp: ObservableObject {
     @Published var disappearDisplays: [Int] = []
     @Published var scalar: Double
     @Published var rotationDegrees: Angle = Angle.zero
+    @Published var soundOnClick: URL? 
     @Published var lock: Bool = false
     var startPosition: CGPoint
     let defaultDisplaySetting: Bool

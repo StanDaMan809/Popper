@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct EditableElement: View {
     
@@ -15,6 +16,7 @@ struct EditableElement: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     @GestureState var currentRotation = Angle.zero
     @State private var rotationToSend = Angle.zero // This is the rotation to send, cannot convert gesturestate to binding
+    @State private var audioPlayer: AVAudioPlayer?
     @State var textSelected: Bool = false
     
     var body: some View {
@@ -37,6 +39,17 @@ struct EditableElement: View {
                 
                 else
                 {
+                        // Play sound on the structure
+                        
+                        if let soundToPlay = element.element.soundOnClick {
+                            do {
+                                audioPlayer = try AVAudioPlayer(contentsOf: soundToPlay)
+                                audioPlayer?.play()
+                            } catch {
+                                print("Error playing audio: \(error.localizedDescription)")
+                            }
+                        }
+                    
                         // Make all displays linked to this one appear!
                         for i in element.element.createDisplays
                         {

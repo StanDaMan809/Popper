@@ -230,6 +230,14 @@ struct SideButtons: View {
                             Image(systemName: "squareshape")
                     })
                     .scaleEffect(miniButtonScaleEffect)
+            
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .voiceRecorder
+                    },
+                           label: {
+                            Image(systemName: "speaker")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
                 
 
             }
@@ -267,7 +275,7 @@ struct SideButtons: View {
                 
                 if !parent.sharedEditNotifier.backgroundEdit {
                     Button(action: {
-                        parent.sharedEditNotifier.editorDisplayed = .photoDisappear
+                        parent.sharedEditNotifier.editorDisplayed = .elementDisappear
                     },
                            label: {
                             Image(systemName: "photo.stack")

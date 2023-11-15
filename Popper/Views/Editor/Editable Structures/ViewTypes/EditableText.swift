@@ -28,6 +28,7 @@ class editableTxt: ObservableObject {
     @Published var scalar: Double
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
+    @Published var soundOnClick: URL? 
     @Published var rotationDegrees: Angle = Angle(degrees: 0.0)
     @Published var lock: Bool = false
     let defaultDisplaySetting: Bool

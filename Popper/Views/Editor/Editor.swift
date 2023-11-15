@@ -373,11 +373,12 @@ class SharedEditState: ObservableObject {
         case linkEditor
         case transparencySlider
         case photoAppear
-        case photoDisappear
+        case elementDisappear
         case colorPickerText
         case colorPickerTextBG
         case colorPickerShape
         case fontPicker
+        case voiceRecorder
     }
 
 }
@@ -391,7 +392,6 @@ func deleteElement(elementsArray: editorElementsArray, id: Int) {
     // Rotation
     // Add link
     // Crop
-
 
     
 

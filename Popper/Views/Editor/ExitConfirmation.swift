@@ -9,7 +9,39 @@ import SwiftUI
 
 struct ExitConfirmation: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        VStack {
+            Text("Are you sure you'd like to exit?")
+                .font(.callout)
+                .padding()
+            
+            HStack {
+                Button {
+                    
+                } label: {
+                    Text("Yes")
+                        .font(.callout)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 6)
+                        .background(.pink, in: Capsule())
+                }
+                
+                Button {
+                    
+                } label: {
+                    Text("No")
+                        .font(.callout)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 6)
+                        .background(.pink, in: Capsule())
+                }
+            }
+            .padding()
+        }
+        .background(.gray, in: RoundedRectangle(cornerRadius: 10))
+        
     }
 }
 

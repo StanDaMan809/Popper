@@ -22,6 +22,7 @@ class editableImg: Identifiable, ObservableObject {
     @Published var rotationDegrees: Angle = Angle.zero
     @Published var lock: Bool = false 
     @Published var linkOnClink: URL? 
+    @Published var soundOnClick: URL? 
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     

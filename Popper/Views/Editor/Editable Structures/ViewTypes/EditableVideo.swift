@@ -22,7 +22,8 @@ class editableVid: Identifiable, ObservableObject {
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
     @Published var rotationDegrees: Angle = Angle.zero
-    @Published var lock: Bool = false 
+    @Published var soundOnClick: URL? 
+    @Published var lock: Bool = false
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
 

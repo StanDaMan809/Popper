@@ -61,6 +61,8 @@
 		F6FF24632B032066007F61BA /* EditableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24622B032066007F61BA /* EditableElement.swift */; };
 		F6FF24652B033041007F61BA /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24642B033041007F61BA /* ElementView.swift */; };
 		F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24662B045D47007F61BA /* ElementLock.swift */; };
+		F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF246A2B046DB0007F61BA /* audioButton.swift */; };
+		F6FF246D2B0486EA007F61BA /* ExitConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +134,8 @@
 		F6FF24622B032066007F61BA /* EditableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableElement.swift; sourceTree = "<group>"; };
 		F6FF24642B033041007F61BA /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
 		F6FF24662B045D47007F61BA /* ElementLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementLock.swift; sourceTree = "<group>"; };
+		F6FF246A2B046DB0007F61BA /* audioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audioButton.swift; sourceTree = "<group>"; };
+		F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConfirmation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C8DC2129DF7CEF0014849C /* Editor.swift */,
+				F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */,
 				F647CDD02AD64BCE00D362DB /* Background.swift */,
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
 				F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */,
@@ -288,6 +293,7 @@
 				F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */,
 				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
 				F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */,
+				F6FF246A2B046DB0007F61BA /* audioButton.swift */,
 			);
 			path = SubUI;
 			sourceTree = "<group>";
@@ -296,12 +302,9 @@
 			isa = PBXGroup;
 			children = (
 				F6FF24622B032066007F61BA /* EditableElement.swift */,
-				F647CDC82AD649F200D362DB /* EditableImage.swift */,
 				F6FF24642B033041007F61BA /* ElementView.swift */,
-				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
-				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
-				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
 				F62685612AFC3720002A02EA /* editorElements.swift */,
+				F6FF24692B046D5E007F61BA /* ViewTypes */,
 			);
 			path = "Editable Structures";
 			sourceTree = "<group>";
@@ -364,6 +367,17 @@
 				F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */,
 			);
 			path = PopperUITests;
+			sourceTree = "<group>";
+		};
+		F6FF24692B046D5E007F61BA /* ViewTypes */ = {
+			isa = PBXGroup;
+			children = (
+				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
+				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
+				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
+			);
+			path = ViewTypes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -529,7 +543,9 @@
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
 				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
+				F6FF246D2B0486EA007F61BA /* ExitConfirmation.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
+				F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */,
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,

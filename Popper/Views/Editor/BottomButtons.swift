@@ -52,7 +52,7 @@ struct bottomButtons: View {
             Text("Select what you'd like to make appear.")
                 .vAlign(.bottom)
             
-        case .photoDisappear:
+        case .elementDisappear:
             
             Text("Disappearing Photo (Tap)")
                 .vAlign(.bottom)
@@ -96,6 +96,9 @@ struct bottomButtons: View {
                         .vAlign(.bottom)
                 }
             }
+            
+        case .voiceRecorder:
+            audioButton(sharedEditNotifier: sharedEditNotifier)
         }
         
     }

@@ -347,6 +347,33 @@ class editorElement: ObservableObject {
                 }
             }
         }
+        
+        var soundOnClick: URL? {
+                get {
+                    switch self {
+                    case .image(let editableImg):
+                        return editableImg.soundOnClick
+                    case .video(let editableVid):
+                        return editableVid.soundOnClick
+                    case .text(let editableTxt):
+                        return editableTxt.soundOnClick
+                    case .shape(let editableShp):
+                        return editableShp.soundOnClick
+                    }
+                }
+                set {
+                    switch self {
+                    case .image(let editableImg):
+                        editableImg.soundOnClick = newValue
+                    case .video(let editableVid):
+                        editableVid.soundOnClick = newValue
+                    case .text(let editableTxt):
+                        editableTxt.soundOnClick = newValue
+                    case .shape(let editableShp):
+                        editableShp.soundOnClick = newValue
+                }
+            }
+        }
     }
 }
 

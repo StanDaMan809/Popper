@@ -15,6 +15,7 @@ class editableTxt: ObservableObject {
     // Include alignment
     @Published var font: Font = Font.system(size: defaultTextSize)
     @Published var message: String
+    @Published var currentShape: ClippableShape = .roundedrectangle
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
     @Published var color: Color = .black
     @Published var bgColor: Color = .clear
@@ -28,6 +29,7 @@ class editableTxt: ObservableObject {
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
     @Published var rotationDegrees: Angle = Angle(degrees: 0.0)
+    @Published var lock: Bool = false
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
     
@@ -93,7 +95,18 @@ struct EditableText: View {
                         .font(text.font)
 //                        .frame(width: defaultTextFrame)
                         .foregroundColor(text.color)
-                        .background(text.bgColor)
+                        .padding()
+                        .background(
+                            shapeForClippableShape(shape: text.currentShape)
+                                .foregroundStyle(text.bgColor)
+                        )
+                        .overlay(
+                            Group {
+                                if text.lock {
+                                    elementLock(id: text.id, text: true)
+                                }
+                            }
+                        )
                         .rotationEffect(currentRotation + text.rotationDegrees)
                         .scaleEffect(text.scalar + currentAmount)
                         .opacity(text.transparency)
@@ -202,4 +215,20 @@ struct EditableTextData: Codable, Equatable, Hashable {
         self.scalar = editableText.scalar
         self.rotationDegrees = editableText.rotationDegrees.degrees
     }
+}
+
+func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
+    
+    var defaultDisplaySetting = true
+    
+    if sharedEditNotifier.editorDisplayed == .photoAppear {
+        if let currentElement = sharedEditNotifier.selectedElement {
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
+            defaultDisplaySetting = false
+        }
+    }
+    
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Hold to Edit", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
+    
+    elementsArray.objectsCount += 1
 }

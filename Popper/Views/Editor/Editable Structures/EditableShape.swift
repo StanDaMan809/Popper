@@ -12,7 +12,7 @@ class editableShp: ObservableObject {
     // Include color as a dimension
     // Include font as a dimension
     // Include alignment
-    @Published var currentShape: ClippableShape = .rectangle
+    @Published var currentShape: ClippableShape = .roundedrectangle
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
     @Published var color: Color = .black
     @Published var rValue: Double = 0.0
@@ -25,6 +25,7 @@ class editableShp: ObservableObject {
     @Published var disappearDisplays: [Int] = []
     @Published var scalar: Double
     @Published var rotationDegrees: Angle = Angle.zero
+    @Published var lock: Bool = false
     var startPosition: CGPoint
     let defaultDisplaySetting: Bool
     
@@ -54,11 +55,19 @@ struct EditableShape: View {
         if shape.display {
             Rectangle()
                 .foregroundStyle(shape.color)
-                .frame(width: shape.size.width, height: shape.size.height)
                 .clipShape(shape.currentShape)
+                .frame(width: shape.size.width, height: shape.size.height)
+                .overlay(
+                    Group {
+                        if shape.lock {
+                            elementLock(id: shape.id)
+                        }
+                    }
+                )
                 .rotationEffect(currentRotation + shape.rotationDegrees)
                 .scaleEffect(shape.scalar + currentAmount)
                 .position(shape.totalOffset)
+                .opacity(shape.transparency)
                 .zIndex(Double(shape.id)) // Controls layer
             
                 .onTapGesture (count: 2)
@@ -67,19 +76,25 @@ struct EditableShape: View {
                     shape.currentShape = shape.currentShape.next
                     
                     switch shape.currentShape {
-                    case .rectangle:
-                        shape.size.height = shape.size.width
-                    case .circle:
-                        shape.size.height = shape.size.width
-                    case .ellipse:
-                        shape.size.height = 2 * shape.size.width
-                    case .capsule:
-                        shape.size.height = 2 * shape.size.width
-                    case .triangle:
-                        shape.size.height = shape.size.width
-                    case .star:
-                        shape.size.height = shape.size.width
-                    }
+                        case .square:
+                            shape.size.height = shape.size.width
+                        case .roundedsquare:
+                            shape.size.height = shape.size.width
+                        case .rectangle:
+                            shape.size.height = 2 * shape.size.width
+                        case .roundedrectangle:
+                            shape.size.height = 2 * shape.size.width
+                        case .circle:
+                            shape.size.height = shape.size.width
+                        case .ellipse:
+                            shape.size.height = 2 * shape.size.width
+                        case .capsule:
+                            shape.size.height = 2 * shape.size.width
+                        case .triangle:
+                            shape.size.height = shape.size.width
+                        case .star:
+                            shape.size.height = shape.size.width
+                        }
                 }
             
             //            .onTapGesture
@@ -175,7 +190,7 @@ func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEdit
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 300, y: 150), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 200, y: 400), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 200, height: 200), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

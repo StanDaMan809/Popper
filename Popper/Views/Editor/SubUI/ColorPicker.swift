@@ -183,5 +183,6 @@ struct ColorPicker: View {
             }
             
         }
+        .backgroundStyle(Color.clear)
     }
 }

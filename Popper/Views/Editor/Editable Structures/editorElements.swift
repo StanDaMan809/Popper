@@ -43,8 +43,8 @@ class editorElement: ObservableObject {
                     return editableImg.currentShape
                 case .video(let editableVid):
                     return editableVid.currentShape
-                case .text( _):
-                    return .rectangle
+                case .text(let editableTxt):
+                    return editableTxt.currentShape
                 case .shape(let editableShp):
                     return editableShp.currentShape
                 }
@@ -55,8 +55,8 @@ class editorElement: ObservableObject {
                     editableImg.currentShape = newValue
                 case .video(let editableVid):
                     editableVid.currentShape = newValue
-                case .text( _):
-                    print("Cannot set currentshape to text.")
+                case .text(let editableTxt):
+                    editableTxt.currentShape = newValue
                 case .shape(let editableShp):
                     editableShp.currentShape = newValue
                 }
@@ -318,6 +318,33 @@ class editorElement: ObservableObject {
                     case .shape(let editableShp):
                         return editableShp.defaultDisplaySetting
                     }
+            }
+        }
+        
+        var lock: Bool {
+                get {
+                    switch self {
+                    case .image(let editableImg):
+                        return editableImg.lock
+                    case .video(let editableVid):
+                        return editableVid.lock
+                    case .text(let editableTxt):
+                        return editableTxt.lock
+                    case .shape(let editableShp):
+                        return editableShp.lock
+                    }
+                }
+                set {
+                    switch self {
+                    case .image(let editableImg):
+                        editableImg.lock = newValue
+                    case .video(let editableVid):
+                        editableVid.lock = newValue
+                    case .text(let editableTxt):
+                        editableTxt.lock = newValue
+                    case .shape(let editableShp):
+                        editableShp.lock = newValue
+                }
             }
         }
     }

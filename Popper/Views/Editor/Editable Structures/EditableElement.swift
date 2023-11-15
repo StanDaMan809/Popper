@@ -18,15 +18,19 @@ struct EditableElement: View {
     @State var textSelected: Bool = false
     
     var body: some View {
-        ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend, textSelected: $textSelected)
+
+            ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend, textSelected: $textSelected)
+            
             .onTapGesture (count: 2)
             {
-                element.element.currentShape = element.element.currentShape.next
+                if !element.element.lock {
+                    element.element.currentShape = element.element.currentShape.next
+                }
             }
         
             .onTapGesture
             {
-                if sharedEditNotifier.editorDisplayed == .photoDisappear {
+                if sharedEditNotifier.editorDisplayed == .photoDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
                     sharedEditNotifier.selectedElement?.element.disappearDisplays.append(self.element.element.id)
                     sharedEditNotifier.editorDisplayed = .none
                 }
@@ -64,53 +68,68 @@ struct EditableElement: View {
                 DragGesture() // Have to add UI disappearing but not yet
                     .onChanged { gesture in
                         
-                        let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
-                        let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
+                        if !element.element.lock {
+//                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
+//                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
 
-                        let newX = gesture.location.x
-                        let newY = gesture.location.y
-                        element.element.totalOffset = CGPoint(x: newX, y: newY)
-                        sharedEditNotifier.currentlyEdited = true
-                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-                        sharedEditNotifier.editToggle()
+                            let newX = gesture.location.x
+                            let newY = gesture.location.y
+                            element.element.totalOffset = CGPoint(x: newX, y: newY)
+                            sharedEditNotifier.currentlyEdited = true
+                            sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+                            sharedEditNotifier.editToggle()
+                        }
                     }
                 
                     .onEnded { gesture in
                         
-                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                            deleteElement(elementsArray: elementsArray, id: element.element.id)
-                        } else {
-                            element.element.startPosition = element.element.totalOffset
+                        if !element.element.lock {
+                            if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                                deleteElement(elementsArray: elementsArray, id: element.element.id)
+                            } else {
+                                element.element.startPosition = element.element.totalOffset
+                            }
+                            
+    //                                element.element.startPosition = element.element.totalOffset
+                            sharedEditNotifier.currentlyEdited = false
+                            sharedEditNotifier.editToggle()
                         }
-                        
-//                                element.element.startPosition = element.element.totalOffset
-                        sharedEditNotifier.currentlyEdited = false
-                        sharedEditNotifier.editToggle()
                     })
         
             .gesture(
             SimultaneousGesture( // Rotating and Size change
                     RotationGesture()
-                    .updating($currentRotation) { value, state, _ in state = value
+                    .updating($currentRotation) { value, state, _ in 
+                        if !element.element.lock {
+                            state = value
+                            }
                         }
                     .onEnded { value in
-                        element.element.rotationDegrees += value
+                        if !element.element.lock {
+                            element.element.rotationDegrees += value
+                        }
                     },
                 MagnificationGesture()
                     .onChanged { amount in
-                        currentAmount = amount - 1
-                        sharedEditNotifier.currentlyEdited = true
-                        sharedEditNotifier.editToggle()
+                        if !element.element.lock {
+                            currentAmount = amount - 1
+                            sharedEditNotifier.currentlyEdited = true
+                            sharedEditNotifier.editToggle()
+                        }
                     }
                     .onEnded { amount in
-                        element.element.scalar += currentAmount
-                        currentAmount = 0
-                        sharedEditNotifier.currentlyEdited = false
-                        sharedEditNotifier.editToggle()
+                        if !element.element.lock {
+                            element.element.scalar += currentAmount
+                            currentAmount = 0
+                            sharedEditNotifier.currentlyEdited = false
+                            sharedEditNotifier.editToggle()
+                        }
                         
                     }))
             .onChange(of: currentRotation) { newValue in
-                rotationToSend = currentRotation
+                if !element.element.lock {
+                    rotationToSend = currentRotation
+                }
             }
         
             .gesture(LongPressGesture()

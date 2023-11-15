@@ -109,69 +109,6 @@ struct Editor: View {
     }
 }
 
-func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var display = true
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        
-        if let currentElement = sharedEditNotifier.selectedElement
-        {
-            display = false // Set display to false so it doesn't show up until touched
-            defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            print(currentElement.element.createDisplays)
-        }
-        
-    }
-
-    else
-    {
-        display = true
-        
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .image(editableImg(id: elementsArray.objectsCount, imgSrc: imgSource, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: CGSizeMake(imgSource.size.width, imgSource.size.height), scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
-
-    elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
-    sharedEditNotifier.editorDisplayed = .none
-    
-}
-
-func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentElement = sharedEditNotifier.selectedElement {
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            defaultDisplaySetting = false
-        }
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Hold to Edit", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
-    
-    elementsArray.objectsCount += 1
-}
-
-func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true 
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentElement = sharedEditNotifier.selectedElement {
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            defaultDisplaySetting = false
-        }
-        
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: size, scalar: 1.0, display: defaultDisplaySetting, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
-    
-    elementsArray.objectsCount += 1
-}
-
 struct ImagePickerView: UIViewControllerRepresentable {
 
     @Binding var image: UIImage?
@@ -296,7 +233,10 @@ enum UIButtonPress {
 
 enum ClippableShape: Int {
     
+    case square
+    case roundedsquare
     case rectangle
+    case roundedrectangle
     case circle
     case ellipse
     case capsule
@@ -304,7 +244,7 @@ enum ClippableShape: Int {
     case star
     
     var next: ClippableShape {
-        ClippableShape(rawValue: rawValue + 1) ?? .rectangle
+        ClippableShape(rawValue: rawValue + 1) ?? .square
     }
 }
 
@@ -318,18 +258,24 @@ struct ClippableShapeViewModifier: ViewModifier {
     
     @ViewBuilder func body(content: Content) -> some View {
         switch clippableShape {
-        case .rectangle:
-            content.clipShape(Rectangle())
-        case .circle:
-            content.clipShape(Circle())
-        case .ellipse:
-            content.clipShape(Ellipse())
-        case .capsule:
-            content.clipShape(Capsule())
-        case .triangle:
-            content.clipShape(Triangle())
-        case .star:
-            content.clipShape(Star())
+            case .square:
+                content.clipShape(Square())
+            case .roundedsquare:
+                content.clipShape(RoundedSquare(cornerRadius: 10))
+            case .rectangle:
+                content.clipShape(Rectangle())
+            case .roundedrectangle:
+                content.clipShape(RoundedRectangle(cornerRadius: 10))
+            case .circle:
+                content.clipShape(Circle())
+            case .ellipse:
+                content.clipShape(Ellipse())
+            case .capsule:
+                content.clipShape(Capsule())
+            case .triangle:
+                content.clipShape(Triangle())
+            case .star:
+                content.clipShape(Star())
         }
     }
 }
@@ -340,14 +286,34 @@ extension View {
     }
 }
 
+func shapeForClippableShape(shape: ClippableShape) -> some View {
+        switch shape {
+        case .square:
+            return AnyView(Square())
+        case .roundedsquare:
+            return AnyView(RoundedSquare(cornerRadius: 10))
+        case .rectangle:
+            return AnyView(Rectangle())
+        case .roundedrectangle:
+            return AnyView(RoundedRectangle(cornerRadius: 10))
+        case .circle:
+            return AnyView(Circle())
+        case .ellipse:
+            return AnyView(Ellipse())
+        case .capsule:
+            return AnyView(Capsule())
+        case .triangle:
+            return AnyView(Triangle())
+        case .star:
+            return AnyView(Star())
+        }
+    }
+
 class SharedEditState: ObservableObject {
     
     @Published var currentlyEdited: Bool = false
     @Published var buttonDim: Double = 1
     @Published var disabled: Bool = false
-    @Published var selectedImage: editableImg?
-    @Published var selectedText: editableTxt?
-    @Published var selectedShape: editableShp?
     @Published var selectedElement: editorElement?
     @Published var editorDisplayed = EditorDisplayed.none
     @Published var pressedButton: UIButtonPress = .noButton
@@ -373,22 +339,6 @@ class SharedEditState: ObservableObject {
         }
     }
     
-    func selectImage(editableImg: editableImg) {
-        deselectAll()
-        selectedImage = editableImg
-    }
-    
-    func selectText(editableTxt: editableTxt) {
-        deselectAll()
-        selectedText = editableTxt
-    }
-    
-    func selectShape(editableShp: editableShp) {
-        deselectAll()
-        selectedShape = editableShp
-    }
-    
-    
     
     func selectElement(element: editorElement) {
         selectedElement = element
@@ -412,9 +362,6 @@ class SharedEditState: ObservableObject {
     }
     
     func deselectAll() {
-        selectedText = nil
-        selectedImage = nil
-        selectedShape = nil
         selectedElement = nil
     }
     
@@ -433,19 +380,6 @@ class SharedEditState: ObservableObject {
         case fontPicker
     }
 
-}
-
-struct RotationSlider: View {
-    @Binding var angle: Double
-    
-    var body: some View {
-        HStack
-        {
-            Slider(value: $angle, in: 0.0...360.0)
-        }
-        .scaleEffect(0.80)
-        .offset(y: 250)
-    }
 }
 
 func deleteElement(elementsArray: editorElementsArray, id: Int) {

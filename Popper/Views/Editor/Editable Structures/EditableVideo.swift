@@ -13,7 +13,7 @@ import UIKit
 class editableVid: Identifiable, ObservableObject {
     @Published var id: Int
     let videoURL: URL
-    @Published var currentShape: ClippableShape = .rectangle
+    @Published var currentShape: ClippableShape = .roundedrectangle
     @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
     @Published var size: CGSize // Video's true specs, to not be touched
     @Published var scalar: CGFloat
@@ -22,6 +22,7 @@ class editableVid: Identifiable, ObservableObject {
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
     @Published var rotationDegrees: Angle = Angle.zero
+    @Published var lock: Bool = false 
     let defaultDisplaySetting: Bool
     var startPosition: CGPoint
 
@@ -52,6 +53,13 @@ struct EditableVideo: View {
             CustomVideoPlayer(videoURL: video.videoURL, play: $play)
                 .frame(width: video.size.width, height: video.size.height)
                 .clipShape(video.currentShape)
+                .overlay(
+                    Group {
+                        if video.lock {
+                            elementLock(id: video.id)
+                        }
+                    }
+                )
                 .rotationEffect(currentRotation + video.rotationDegrees)
                 .scaleEffect(video.scalar + currentAmount)
                 .position(video.totalOffset)
@@ -186,4 +194,21 @@ struct CustomVideoPlayer: UIViewControllerRepresentable {
             self.parent = parent
         }
     }
+}
+
+func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
+    
+    var defaultDisplaySetting = true
+    
+    if sharedEditNotifier.editorDisplayed == .photoAppear {
+        if let currentElement = sharedEditNotifier.selectedElement {
+            currentElement.element.createDisplays.append(elementsArray.objectsCount)
+            defaultDisplaySetting = false
+        }
+        
+    }
+    
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: size, scalar: 1.0, display: defaultDisplaySetting, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    
+    elementsArray.objectsCount += 1
 }

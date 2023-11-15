@@ -19,298 +19,220 @@ struct SideButtons: View {
     var miniButtonScaleEffect = 0.80
     
     var body: some View
-    { VStack()
-        { // Regular Menu
-            
-            if sharedEditNotifier.pressedButton == .noButton
-            {
-//                Button(action: {
-//                    pressedButton = .imageButton
-//                },
-//                       label: {
-//                        Image(systemName: "photo.circle")
-//                })
-
-
-                Button(action: {
-//                    sharedEditNotifier.pressedButton = .bgButton
-                    sharedEditNotifier.backgroundEdit.toggle()
-                },
-                       label: {
-                    Image(systemName: sharedEditNotifier.backgroundEdit ? "rectangle.on.rectangle.circle.fill" : "rectangle.on.rectangle.circle")
-                })
+    { VStack
+        { switch sharedEditNotifier.pressedButton
+            { // Regular Menu
                 
+            case .noButton:
+    //                Button(action: {
+    //                    pressedButton = .imageButton
+    //                },
+    //                       label: {
+    //                        Image(systemName: "photo.circle")
+    //                })
 
 
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .extrasButton
-                },
-                       label: {
-                        Image(systemName: "doc.circle")
-                })
-
-
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .txtButton
-                },
-                       label: {
-                        Image(systemName: "t.circle")
-                })
-            }
-            
-            
-
-            // Photo Button Menu
-            if sharedEditNotifier.pressedButton == .imageEdit
-            {
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .noButton
-                    sharedEditNotifier.restoreDefaults()
-                },
-                       label: {
-                        Image(systemName: "photo.circle.fill")
-                })
-                
-                if !sharedEditNotifier.backgroundEdit {
                     Button(action: {
-    //                    change the link value for  sharedEditNotifier.selectedImage
+    //                    sharedEditNotifier.pressedButton = .bgButton
+                        sharedEditNotifier.backgroundEdit.toggle()
                     },
                            label: {
-                            Image(systemName: "link")
+                        Image(systemName: sharedEditNotifier.backgroundEdit ? "rectangle.on.rectangle.circle.fill" : "rectangle.on.rectangle.circle")
                     })
-                    .scaleEffect(miniButtonScaleEffect)
-                }
-                
-                if !sharedEditNotifier.backgroundEdit {
-                    Button(action: {
-    //                    self.showImagePicker = true
-                        sharedEditNotifier.editorDisplayed = .photoAppear
-                        sharedEditNotifier.pressedButton = .elementAppear
-                    },
-                           label: {
-                            Image(systemName: "photo.on.rectangle.angled")
-                        
-                    })
-                    .scaleEffect(miniButtonScaleEffect)
-                }
-                
-                if !sharedEditNotifier.backgroundEdit {
-                    Button(action: {
-                        sharedEditNotifier.editorDisplayed = .photoDisappear
-                    },
-                           label: {
-                            Image(systemName: "photo.stack")
-                    })
-                    .scaleEffect(miniButtonScaleEffect)
-                }
-                
-                Button(action: {
-                    if sharedEditNotifier.selectedElement != nil {
-                        sharedEditNotifier.editorDisplayed = .transparencySlider
-                    }
-                },
-                       label: {
-                        Image(systemName: "square.dotted")}
-                
-                )
-                .scaleEffect(miniButtonScaleEffect)
-                
-                
-                Button(action: {
                     
-                },
-                       label: {
-                        Image(systemName: "lock")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-            }
 
-            // Background Button Menu
-            if sharedEditNotifier.pressedButton == .bgButton
-            {
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .noButton
-                },
-                       label: {
-                        Image(systemName: "rectangle.on.rectangle.circle.fill")
-                })
-            }
 
-            // Extraneous Button Menu
-            if sharedEditNotifier.pressedButton == .extrasButton
-            {
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .noButton
-                },
-                       label: {
-                        Image(systemName: "doc.circle.fill")
-                })
-                
-                Button(action: {
-                    shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-                },
-                       label: {
-                        Image(systemName: "squareshape")
-                })
-            }
-
-            if sharedEditNotifier.pressedButton == .txtButton
-            {
-                Button(action: {
-                    sharedEditNotifier.pressedButton = .noButton
-                },
-                       label: {
-                        Image(systemName: "t.circle.fill")
-                })
-
-                Button(action: {
-//                    makeText()
-                    textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-                },
-                       label: {
-                        Image(systemName: "text.cursor")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-            }
-            
-            if sharedEditNotifier.pressedButton == .textEdit
-            {
-                Button(action: {
-                    sharedEditNotifier.restoreDefaults()
-                },
-                       label: {
-                        Image(systemName: "t.circle.fill")
-                })
-                
-                if !sharedEditNotifier.backgroundEdit {
                     Button(action: {
-                        //                    self.showImagePicker = true
-                        sharedEditNotifier.editorDisplayed = .photoAppear
-                        sharedEditNotifier.pressedButton = .elementAppear
+                        sharedEditNotifier.pressedButton = .extrasButton
                     },
                            label: {
-                        Image(systemName: "photo.on.rectangle.angled")
-                        
+                            Image(systemName: "doc.circle")
                     })
-                    .scaleEffect(miniButtonScaleEffect)}
-                
-                if !sharedEditNotifier.backgroundEdit {
-                    Button(action: {
-                        sharedEditNotifier.editorDisplayed = .photoDisappear
-                    },
-                           label: {
-                            Image(systemName: "photo.stack")
-                    })
-                    .scaleEffect(miniButtonScaleEffect)
-                }
 
-                Button(action: {
-                    sharedEditNotifier.editorDisplayed = .colorPickerTextBG
-                },
-                       label: {
-                        Image(systemName: "textbox")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-                
-                Button(action: {
-                    sharedEditNotifier.editorDisplayed = .colorPickerText
-                },
-                       label: {
-                        Image(systemName: "paintpalette")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-                
-                Button(action: {
-                    sharedEditNotifier.editorDisplayed = .fontPicker
-                },
-                       label: {
-                        Image(systemName: "textformat.size.smaller")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-            }
-            
-            if sharedEditNotifier.pressedButton == .disappeared
-            {
-                
-            }
-            
-            if sharedEditNotifier.pressedButton == .shapeEdit
-            {
-                Button(action: {
-                    sharedEditNotifier.restoreDefaults()
-                },
-                       label: {
-                        Image(systemName: "doc.circle.fill")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-                
-                if !sharedEditNotifier.backgroundEdit {
+
                     Button(action: {
-                        sharedEditNotifier.editorDisplayed = .photoAppear
-                        sharedEditNotifier.pressedButton = .elementAppear
+                        sharedEditNotifier.pressedButton = .txtButton
                     },
                            label: {
-                        Image(systemName: "photo.on.rectangle.angled")
-                        
+                            Image(systemName: "t.circle")
                     })
-                    .scaleEffect(miniButtonScaleEffect)}
                 
-                if !sharedEditNotifier.backgroundEdit {
+                
+
+                // Photo Button Menu
+            case .imageEdit:
+                
                     Button(action: {
-                        sharedEditNotifier.editorDisplayed = .photoDisappear
+                        sharedEditNotifier.pressedButton = .noButton
+                        sharedEditNotifier.restoreDefaults()
                     },
                            label: {
-                            Image(systemName: "photo.stack")
+                            Image(systemName: "photo.circle.fill")
+                    })
+            
+                    if !sharedEditNotifier.backgroundEdit {
+                        Button(action: {
+        //                    change the link value for  sharedEditNotifier.selectedImage
+                        },
+                               label: {
+                                Image(systemName: "link")
+                        })
+                        .scaleEffect(miniButtonScaleEffect)
+                    }
+            
+                    reusableElementButtons(parent: self)
+                
+
+                // Background Button Menu
+                case .bgButton:
+                
+                    Button(action: {
+                        sharedEditNotifier.pressedButton = .noButton
+                    },
+                           label: {
+                            Image(systemName: "rectangle.on.rectangle.circle.fill")
+                    })
+                
+
+                // Extraneous Button Menu
+                case .extrasButton:
+                
+                    Button(action: {
+                        sharedEditNotifier.pressedButton = .noButton
+                    },
+                           label: {
+                            Image(systemName: "doc.circle.fill")
+                    })
+                    
+                    Button(action: {
+                        shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                            Image(systemName: "squareshape")
+                    })
+                
+
+                case .txtButton:
+                
+                    Button(action: {
+                        sharedEditNotifier.pressedButton = .noButton
+                    },
+                           label: {
+                            Image(systemName: "t.circle.fill")
+                    })
+
+                    Button(action: {
+    //                    makeText()
+                        textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                            Image(systemName: "text.cursor")
                     })
                     .scaleEffect(miniButtonScaleEffect)
-                }
                 
-                Button(action: {
-                    sharedEditNotifier.editorDisplayed = .colorPickerShape
-                },
-                       label: {
-                        Image(systemName: "paintpalette")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-            }
-            
-            if sharedEditNotifier.pressedButton == .elementAppear
-            {
-                Button(action: {
-                    sharedEditNotifier.restoreDefaults()
-                },
-                       label: {
-                        Image(systemName: "paperclip.circle.fill")
-                })
                 
-                Button(action: {
-                    showImagePicker = true
-                },
-                       label: {
-                        Image(systemName: "photo")
-                        .sheet(isPresented: $showImagePicker) {
-                            ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
-                            }
-                })
-                .scaleEffect(miniButtonScaleEffect)
+                case .textEdit:
                 
-                Button(action: {
-                    textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-                },
-                       label: {
-                        Image(systemName: "text.cursor")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-                
-                Button(action: {
-                    shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-                },
-                       label: {
-                        Image(systemName: "squareshape")
-                })
-                .scaleEffect(miniButtonScaleEffect)
-            }
+                    Button(action: {
+                        sharedEditNotifier.restoreDefaults()
+                    },
+                           label: {
+                            Image(systemName: "t.circle.fill")
+                    })
 
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .colorPickerTextBG
+                    },
+                           label: {
+                            Image(systemName: "textbox")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .colorPickerText
+                    },
+                           label: {
+                            Image(systemName: "paintpalette")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .fontPicker
+                    },
+                           label: {
+                            Image(systemName: "textformat.size.smaller")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+            
+                    reusableElementButtons(parent: self)
+                
+                
+            case .disappeared: // No side buttons...
+                VStack { // Doesn't allow nothing to exist
+                
+                }
+                    
+                
+                
+            case .shapeEdit:
+                
+                    Button(action: {
+                        sharedEditNotifier.restoreDefaults()
+                    },
+                           label: {
+                            Image(systemName: "doc.circle.fill")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .colorPickerShape
+                    },
+                           label: {
+                            Image(systemName: "paintpalette")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+            
+                    reusableElementButtons(parent: self)
+                
+                
+                case .elementAppear:
+                
+                    Button(action: {
+                        sharedEditNotifier.restoreDefaults()
+                    },
+                           label: {
+                            Image(systemName: "paperclip.circle.fill")
+                    })
+                    
+                    Button(action: {
+                        showImagePicker = true
+                    },
+                           label: {
+                            Image(systemName: "photo")
+                            .sheet(isPresented: $showImagePicker) {
+                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                                }
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                    
+                    Button(action: {
+                        textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                            Image(systemName: "text.cursor")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                    
+                    Button(action: {
+                        shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                            Image(systemName: "squareshape")
+                    })
+                    .scaleEffect(miniButtonScaleEffect)
+                
+
+            }
         }
         .tint(.black)
         .scaleEffect(3, anchor: .top)
@@ -322,6 +244,58 @@ struct SideButtons: View {
         
         .opacity(sharedEditNotifier.buttonDim)
         .disabled(sharedEditNotifier.disabled)
+    }
+    
+    struct reusableElementButtons: View { // Holds the elementAppear, elementDisappear, transparencyDisappear, and lock that every element uses
+        
+        let parent: SideButtons
+        
+        var body: some View {
+            VStack {
+                if !parent.sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+    //                    self.showImagePicker = true
+                        parent.sharedEditNotifier.editorDisplayed = .photoAppear
+                        parent.sharedEditNotifier.pressedButton = .elementAppear
+                    },
+                           label: {
+                            Image(systemName: "photo.on.rectangle.angled")
+                        
+                    })
+                    .scaleEffect(parent.miniButtonScaleEffect)
+                }
+                
+                if !parent.sharedEditNotifier.backgroundEdit {
+                    Button(action: {
+                        parent.sharedEditNotifier.editorDisplayed = .photoDisappear
+                    },
+                           label: {
+                            Image(systemName: "photo.stack")
+                    })
+                    .scaleEffect(parent.miniButtonScaleEffect)
+                }
+                
+                Button(action: {
+                    if parent.sharedEditNotifier.selectedElement != nil {
+                        parent.sharedEditNotifier.editorDisplayed = .transparencySlider
+                    }
+                },
+                       label: {
+                        Image(systemName: "square.dotted")}
+                
+                )
+                .scaleEffect(parent.miniButtonScaleEffect)
+                
+                
+                Button(action: {
+                    parent.sharedEditNotifier.selectedElement?.element.lock.toggle()
+                },
+                       label: {
+                    Image(systemName: parent.sharedEditNotifier.selectedElement?.element.lock ?? false ? "lock.fill" : "lock")
+                })
+                .scaleEffect(parent.miniButtonScaleEffect)
+            }
+        }
     }
 }
 

@@ -60,6 +60,7 @@
 		F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6DD3229DF8198003727B2 /* Feed.swift */; };
 		F6FF24632B032066007F61BA /* EditableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24622B032066007F61BA /* EditableElement.swift */; };
 		F6FF24652B033041007F61BA /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24642B033041007F61BA /* ElementView.swift */; };
+		F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24662B045D47007F61BA /* ElementLock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -130,6 +131,7 @@
 		F6D6DD3229DF8198003727B2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		F6FF24622B032066007F61BA /* EditableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableElement.swift; sourceTree = "<group>"; };
 		F6FF24642B033041007F61BA /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
+		F6FF24662B045D47007F61BA /* ElementLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementLock.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -282,6 +284,7 @@
 		F6964A9E2AF9DE2B000E9C94 /* SubUI */ = {
 			isa = PBXGroup;
 			children = (
+				F6FF24662B045D47007F61BA /* ElementLock.swift */,
 				F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */,
 				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
 				F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */,
@@ -292,8 +295,8 @@
 		F6964A9F2AF9DE4C000E9C94 /* Editable Structures */ = {
 			isa = PBXGroup;
 			children = (
-				F647CDC82AD649F200D362DB /* EditableImage.swift */,
 				F6FF24622B032066007F61BA /* EditableElement.swift */,
+				F647CDC82AD649F200D362DB /* EditableImage.swift */,
 				F6FF24642B033041007F61BA /* ElementView.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
@@ -517,6 +520,7 @@
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
+				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
 				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
 				F6FF24632B032066007F61BA /* EditableElement.swift in Sources */,

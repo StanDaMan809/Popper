@@ -93,6 +93,27 @@ struct Triangle: Shape {
     }
 }
 
+struct Square: Shape {
+    func path(in rect: CGRect) -> Path {
+            let sideLength = min(rect.size.width, rect.size.height)
+            let xOffset = (rect.size.width - sideLength) / 2
+            let yOffset = (rect.size.height - sideLength) / 2
+            return Rectangle().path(in: CGRect(x: xOffset, y: yOffset, width: sideLength, height: sideLength))
+        }
+}
+
+struct RoundedSquare: Shape {
+    let cornerRadius: CGFloat
+    
+    func path(in rect: CGRect) -> Path {
+        let sideLength = min(rect.size.width, rect.size.height)
+        let xOffset = (rect.size.width - sideLength) / 2
+        let yOffset = (rect.size.height - sideLength) / 2
+        return RoundedRectangle(cornerRadius: cornerRadius).path(in: CGRect(x: xOffset, y: yOffset, width: sideLength, height: sideLength))
+    }
+}
+
+
 extension View {
     
     func closeKeyboard() {

@@ -60,7 +60,7 @@ struct EditableText: View {
     var body: some View
     { if text.display
             {
-        if textSelected, case .text = sharedEditNotifier.selectedElement?.element, sharedEditNotifier.editorDisplayed != .photoDisappear {
+        if textSelected, case .text = sharedEditNotifier.selectedElement?.element, sharedEditNotifier.editorDisplayed != .elementDisappear {
                     
                     Color.black
                         .opacity(0.2)
@@ -113,77 +113,6 @@ struct EditableText: View {
                         .position(text.totalOffset)
                         .zIndex(Double(text.id)) // Controls layer
                         .multilineTextAlignment(.center)
-            
-                        
-                        
-//                        // Text gestures
-//                        .onTapGesture
-//                        {
-//                            textSelected.toggle()
-//                            sharedEditNotifier.pressedButton = .textEdit
-//                            sharedEditNotifier.selectText(editableTxt: text)
-//                        }
-//                        .gesture(
-//                            DragGesture()
-//                                .onChanged { gesture in
-//                                    let scaledWidth = text.size.width * CGFloat(text.scalar)
-//                                    let scaledHeight = text.size.height * CGFloat(text.scalar)
-//                                    let halfScaledWidth = scaledWidth / 2
-//                                    let halfScaledHeight = scaledHeight / 2
-//                                    let newX = gesture.location.x
-//                                    let newY = gesture.location.y
-//                                    text.totalOffset = CGPoint(x: newX, y: newY)
-//                                    
-//                                    sharedEditNotifier.currentlyEdited = true
-//                                    sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-//                                    sharedEditNotifier.editToggle()
-//                                            }
-//                            
-//                                .onEnded { gesture in
-//                                    if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-//                                        deleteElement(elementsArray: elementsArray, id: text.id)
-//                                    } else {
-//                                        text.startPosition = text.totalOffset
-//                                    }
-//                                    
-//                                    sharedEditNotifier.currentlyEdited = false
-//                                    sharedEditNotifier.editToggle()
-//                                })
-//                    
-//    //                    .gesture(
-//    //                        RotationGesture()
-//    //                        .updating($currentRotation) { value, state, _ in state = value }
-//    //                                .onEnded { value in
-//    //                                        finalRotation += value
-//    //                                               })
-//    //
-//    //                    .gesture(
-//    //                        MagnificationGesture()
-//    //                            .onChanged { amount in
-//    //                                currentAmount = amount - 1
-//    //                            }
-//    //                            .onEnded { amount in
-//    //                                text.scalar += currentAmount
-//    //                                currentAmount = 0
-//    //                            })
-//                    
-//                        .gesture(
-//                            SimultaneousGesture(
-//                                RotationGesture()
-//                                    .updating($currentRotation) { value, state, _ in state = value }
-//                                    .onEnded { value in
-//                                        text.rotationDegrees += value
-//                                    },
-//                                MagnificationGesture()
-//                                    .onChanged { amount in
-//                                        currentAmount = amount - 1
-//                                    }
-//                                    .onEnded { amount in
-//                                        text.scalar += currentAmount
-//                                        currentAmount = 0
-//                                    }
-//                            )
-//                        )
                     
                     
                 }

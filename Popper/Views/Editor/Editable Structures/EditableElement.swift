@@ -30,7 +30,7 @@ struct EditableElement: View {
         
             .onTapGesture
             {
-                if sharedEditNotifier.editorDisplayed == .photoDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
+                if sharedEditNotifier.editorDisplayed == .elementDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
                     sharedEditNotifier.selectedElement?.element.disappearDisplays.append(self.element.element.id)
                     sharedEditNotifier.editorDisplayed = .none
                 }

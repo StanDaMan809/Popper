@@ -12,11 +12,14 @@ struct ColorPicker: View {
     //    @Published var elementColor: Color
     
     @Binding var elementColor: Color
+    @State var colorToWatch: Color = Color.clear
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     @State var colorsArray: [Color] = [.red, .green, .blue, .orange, .purple, .pink, .yellow, .brown]
     
     @State var colorSelected: Bool = false
+    
+    
     
     let standardColors: [Color] = [.red, .green, .blue, .orange, .purple, .pink, .yellow, .brown]
     
@@ -115,67 +118,62 @@ struct ColorPicker: View {
         [.brown, .caramelBrown, .walnutBrown, .beaverBrown, .umberBrown, .burntBrown, .sepiaBrown, .siennaBrown, .sableBrown, .mahoganyBrown, .fawnBrown, .espressoBrown]
     ]
     
-    
     var body: some View {
         
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 
                 if sharedEditNotifier.editorDisplayed == .colorPickerTextBG {
-                    Circle()
-                        .stroke(Color.black, lineWidth: 1) // Adjust the line color and width as needed
+                    Image(systemName: "circle")
+                        .resizable()
+                        .scaledToFit()
                         .frame(width: 40, height: 40)
                         .padding(.horizontal, 5)
                         .onTapGesture {
+                            colorToWatch = Color.clear
                             elementColor = Color.clear
                         }
                 }
                 
                 ForEach(Array(colorsArray.enumerated()), id: \.offset) { index, color in
-                        Circle()
-                            .fill(color)
-                            .frame(width: 40, height: 40)
-                            .onTapGesture(count: 2){
-                                if colorSelected {
-                                    colorsArray = standardColors
-                                    colorSelected = false
-                                } else {
-                                    colorsArray = sortedColors[index]
-                                    colorSelected = true
+                            if colorToWatch != color {
+                                Circle()
+                                    .fill(color)
+                                    .frame(width: 40, height: 40)
+                                    .onTapGesture() {
+                                        elementColor = color
+                                        colorToWatch = color
+                                    }
+                                    
+                            } else {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color.black)
+                                        .opacity(0.8)
+                                        .frame(width: 40, height: 40)
+                                        
+                                    Circle()
+                                        .fill(color)
+                                        .frame(width: 20, height: 20)
                                 }
-                            }
-                            .onTapGesture {
-                                elementColor = color
+                                .onTapGesture() {
+                                    if colorSelected {
+                                        colorsArray = standardColors
+                                        colorSelected = false
+                                    } else {
+                                        colorsArray = sortedColors[index]
+                                        colorSelected = true
+                                    }
+                                }
                             }
                     }
                     .padding(.horizontal, 5)
+                
                     
                     if colorSelected == false {
-                        Circle()
-                            .fill(Color.white)
-                            .frame(width: 40, height: 40)
-                            .padding(.horizontal, 5)
-                            .onTapGesture {
-                                elementColor = .white
-                            }
-                    
-                        Circle()
-                            .fill(Color.gray)
-                            .frame(width: 40, height: 40)
-                            .padding(.horizontal, 5)
-                            .onTapGesture {
-                                elementColor = .gray
-                            }
-                    
-                        Circle()
-                            .fill(Color.black)
-                            .frame(width: 40, height: 40)
-                            .padding(.horizontal, 5)
-                            .onTapGesture {
-                                elementColor = .black
-                            }
-                        
-                        
+                        ColorPickerCircle(parent: self, color: Color.white)
+                        ColorPickerCircle(parent: self, color: Color.gray)
+                        ColorPickerCircle(parent: self, color: Color.black)
                     }
                 
                     // Will add a button in the future for custom colors
@@ -184,5 +182,43 @@ struct ColorPicker: View {
             
         }
         .backgroundStyle(Color.clear)
+        .padding(.top, 10)
+        .ignoresSafeArea()
+        .onAppear() {
+            colorToWatch = elementColor
+        }
     }
+    
+    struct ColorPickerCircle: View {
+        let parent: ColorPicker
+        let color: Color
+        
+        var body: some View {
+            Group {
+                if parent.colorToWatch != color {
+                    Circle()
+                        .fill(color)
+                        .frame(width: 40, height: 40)
+                        .onTapGesture() {
+                            parent.elementColor = color
+                            parent.colorToWatch = color
+                        }
+                        
+                } else {
+                    ZStack {
+                        Circle()
+                            .fill(Color.black)
+                            .opacity(0.8)
+                            .frame(width: 40, height: 40)
+                            
+                        Circle()
+                            .fill(color)
+                            .frame(width: 20, height: 20)
+                    }
+                }
+            }
+            .padding(.horizontal, 5)
+        }
+    }
+
 }

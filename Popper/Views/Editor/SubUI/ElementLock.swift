@@ -10,13 +10,13 @@ import SwiftUI
 struct elementLock: View {
     
     let id: Int
-    let text: Bool
+    let small: Bool
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                   if !text {
+                   if !small {
                         Image(systemName: "lock.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fill)
@@ -44,8 +44,8 @@ struct elementLock: View {
         }
     }
     
-    init(id: Int, text: Bool = false) {
+    init(id: Int, small: Bool = false) {
         self.id = id
-        self.text = text
+        self.small = small
     }
 }

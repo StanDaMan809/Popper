@@ -17,12 +17,12 @@ struct SideButtons: View {
     @State var image: UIImage?
     @State var videoURL: URL?
     @State private var newImageChosen = false
-    let grayOpacityRegular = 0.3
+    let grayOpacityRegular = 0.4
     let grayOpacitySelected = 0.8
-    var miniButtonScaleEffect = 0.80
     
     var body: some View
-    { VStack
+    {
+        HStack
         { switch sharedEditNotifier.pressedButton
             { // Regular Menu
             
@@ -38,7 +38,7 @@ struct SideButtons: View {
                 textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
             },
                    label: {
-                sideButton(systemName: "textformat.size.larger", grayOpacity: grayOpacityRegular, buttonSizeDifference: 5)
+                sideButton(systemName: "character", grayOpacity: grayOpacityRegular, buttonSizeDifference: 5)
             })
             
             
@@ -55,7 +55,7 @@ struct SideButtons: View {
                 sharedEditNotifier.backgroundEdit.toggle()
             },
                    label: {
-                sideButton(systemName: "rectangle.on.rectangle", grayOpacity: sharedEditNotifier.backgroundEdit ? grayOpacitySelected : grayOpacityRegular)
+                sideButton(systemName: "rectangle.on.rectangle.fill", grayOpacity: sharedEditNotifier.backgroundEdit ? grayOpacitySelected : grayOpacityRegular)
             })
             
             
@@ -65,25 +65,51 @@ struct SideButtons: View {
             // Photo Button Menu
         case .imageEdit:
             
-            Button(action: {
-                sharedEditNotifier.pressedButton = .noButton
-                sharedEditNotifier.restoreDefaults()
-            },
-                   label: {
-                Image(systemName: "photo.circle.fill")
-            })
-            
             if !sharedEditNotifier.backgroundEdit {
-                Button(action: {
-                    //                    change the link value for  sharedEditNotifier.selectedImage
-                },
-                       label: {
-                    Image(systemName: "link")
-                })
-                .scaleEffect(miniButtonScaleEffect)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        Button(action: {
+                            sharedEditNotifier.pressedButton = .noButton
+                            sharedEditNotifier.restoreDefaults()
+                        },
+                               label: {
+                            sideButton(systemName: "photo.fill", grayOpacity: grayOpacitySelected)
+                        })
+                        
+                        if !sharedEditNotifier.backgroundEdit {
+                            Button(action: {
+                                //                    change the link value for  sharedEditNotifier.selectedImage
+                            },
+                                   label: {
+                                sideButton(systemName: "link", grayOpacity: grayOpacityRegular)
+                            })
+                        }
+                        
+                        reusableElementButtons(parent: self)
+                    }
+                    .padding(.horizontal, 20)
+                }
+            } else {
+                        Button(action: {
+                            sharedEditNotifier.pressedButton = .noButton
+                            sharedEditNotifier.restoreDefaults()
+                        },
+                               label: {
+                            sideButton(systemName: "photo.fill", grayOpacity: grayOpacitySelected)
+                        })
+                        
+                        if !sharedEditNotifier.backgroundEdit {
+                            Button(action: {
+                                //                    change the link value for  sharedEditNotifier.selectedImage
+                            },
+                                   label: {
+                                sideButton(systemName: "link", grayOpacity: grayOpacityRegular)
+                            })
+                        }
+                        
+                        reusableElementButtons(parent: self)
             }
-            
-            reusableElementButtons(parent: self)
+                        
             
             
             // Background Button Menu
@@ -93,7 +119,7 @@ struct SideButtons: View {
                 sharedEditNotifier.pressedButton = .noButton
             },
                    label: {
-                Image(systemName: "rectangle.on.rectangle.circle.fill")
+                sideButton(systemName: "rectangle.on.rectangle", grayOpacity: grayOpacitySelected)
             })
             
             
@@ -104,187 +130,202 @@ struct SideButtons: View {
                 sharedEditNotifier.pressedButton = .noButton
             },
                    label: {
-                Image(systemName: "doc.circle.fill")
+                sideButton(systemName: "ellipsis", grayOpacity: grayOpacitySelected)
             })
             
             Button(action: {
                 shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
             },
                    label: {
-                Image(systemName: "squareshape")
+                sideButton(systemName: "square", grayOpacity: grayOpacityRegular)
             })
             
             Button(action: {
                 showStickerPicker = true
             },
                    label: {
-                Image(systemName: "timer.square")
+                sideButton(systemName: "timer", grayOpacity: grayOpacityRegular)
                     .sheet(isPresented: $showStickerPicker) {
                         GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: elementsArray)
                     }
             })
             
-            
-            
-        case .txtButton:
-            
-            Button(action: {
-                sharedEditNotifier.pressedButton = .noButton
-            },
-                   label: {
-                Image(systemName: "t.circle.fill")
-            })
-            
-            Button(action: {
-                //                    makeText()
-                textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-            },
-                   label: {
-                Image(systemName: "text.cursor")
-            })
-            .scaleEffect(miniButtonScaleEffect)
             
             
         case .textEdit:
             
-            Button(action: {
-                sharedEditNotifier.restoreDefaults()
-            },
-                   label: {
-                Image(systemName: "t.circle.fill")
-            })
-            
-            Button(action: {
-                sharedEditNotifier.editorDisplayed = .colorPickerTextBG
-            },
-                   label: {
-                Image(systemName: "textbox")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                sharedEditNotifier.editorDisplayed = .colorPickerText
-            },
-                   label: {
-                Image(systemName: "paintpalette")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                sharedEditNotifier.editorDisplayed = .fontPicker
-            },
-                   label: {
-                Image(systemName: "textformat.size.smaller")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            reusableElementButtons(parent: self)
-            
-            
-        case .disappeared: // No side buttons...
-            VStack { // Doesn't allow nothing to exist
-                
+            ScrollView (.horizontal, showsIndicators: false) {
+                HStack {
+                    Button(action: {
+                        sharedEditNotifier.restoreDefaults()
+                    },
+                           label: {
+                        sideButton(systemName: "character", grayOpacity: grayOpacitySelected, buttonSizeDifference: 5)
+                    })
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .colorPickerTextBG
+                    },
+                           label: {
+                        sideButton(systemName: "textbox", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .colorPickerText
+                    },
+                           label: {
+                        sideButton(systemName: "paintpalette.fill", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .fontPicker
+                    },
+                           label: {
+                        sideButton(systemName: "textformat.size", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    reusableElementButtons(parent: self)
+                }
+                .padding(.horizontal, 20)
             }
             
             
+        case .disappeared: // No side buttons...
+            Group {
+                
+            }
             
         case .shapeEdit:
             
-            Button(action: {
-                sharedEditNotifier.restoreDefaults()
-            },
-                   label: {
-                Image(systemName: "doc.circle.fill")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                sharedEditNotifier.editorDisplayed = .colorPickerShape
-            },
-                   label: {
-                Image(systemName: "paintpalette")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            reusableElementButtons(parent: self)
+            if !sharedEditNotifier.backgroundEdit {
+                ScrollView (.horizontal, showsIndicators: false) {
+                    HStack {
+                        Button(action: {
+                            sharedEditNotifier.restoreDefaults()
+                        },
+                               label: {
+                            sideButton(systemName: "square.fill", grayOpacity: grayOpacitySelected)
+                        })
+                        
+                        Button(action: {
+                            sharedEditNotifier.editorDisplayed = .colorPickerShape
+                        },
+                               label: {
+                            sideButton(systemName: "paintpalette.fill", grayOpacity: grayOpacityRegular)
+                        })
+                        
+                        reusableElementButtons(parent: self)
+                    }
+                    .padding(.horizontal, 20)
+                }
+            } else {
+                Button(action: {
+                    sharedEditNotifier.restoreDefaults()
+                },
+                       label: {
+                    sideButton(systemName: "square.fill", grayOpacity: grayOpacitySelected)
+                })
+                
+                Button(action: {
+                    sharedEditNotifier.editorDisplayed = .colorPickerShape
+                },
+                       label: {
+                    sideButton(systemName: "paintpalette.fill", grayOpacity: grayOpacityRegular)
+                })
+                
+                reusableElementButtons(parent: self)
+            }
             
         case .stickerEdit:
             
-            Button(action: {
-                sharedEditNotifier.pressedButton = .noButton
-                sharedEditNotifier.restoreDefaults()
-            },
-                   label: {
-                Image(systemName: "timer.circle.fill")
-            })
-            
-            reusableElementButtons(parent: self)
-            
+            if !sharedEditNotifier.backgroundEdit {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        Button(action: {
+                            sharedEditNotifier.pressedButton = .noButton
+                            sharedEditNotifier.restoreDefaults()
+                        },
+                               label: {
+                            sideButton(systemName: "timer.circle", grayOpacity: grayOpacitySelected)
+                        })
+                        
+                        reusableElementButtons(parent: self)
+                    }
+                    .padding(.horizontal, 20)
+                }
+            } else {
+                Button(action: {
+                    sharedEditNotifier.pressedButton = .noButton
+                    sharedEditNotifier.restoreDefaults()
+                },
+                       label: {
+                    sideButton(systemName: "timer.circle", grayOpacity: grayOpacitySelected)
+                })
+                
+                reusableElementButtons(parent: self)
+            }
             
         case .elementAppear:
             
-            Button(action: {
-                sharedEditNotifier.restoreDefaults()
-            },
-                   label: {
-                Image(systemName: "paperclip.circle.fill")
-            })
-            
-            Button(action: {
-                showImagePicker = true
-            },
-                   label: {
-                Image(systemName: "photo")
-                    .sheet(isPresented: $showImagePicker) {
-                        ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
-                    }
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-            },
-                   label: {
-                Image(systemName: "text.cursor")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-            },
-                   label: {
-                Image(systemName: "squareshape")
-            })
-            .scaleEffect(miniButtonScaleEffect)
-            
-            Button(action: {
-                showStickerPicker = true
-            },
-                   label: {
-                Image(systemName: "timer.square")
-                    .sheet(isPresented: $showStickerPicker) {
-                        GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: elementsArray)
-                    }
-            })
-            
-            Button(action: {
-                sharedEditNotifier.editorDisplayed = .voiceRecorder
-            },
-                   label: {
-                Image(systemName: "speaker")
-            })
-            .scaleEffect(miniButtonScaleEffect)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    Button(action: {
+                        sharedEditNotifier.restoreDefaults()
+                    },
+                           label: {
+                        sideButton(systemName: "paperclip", grayOpacity: grayOpacitySelected)
+                    })
+                    
+                    Button(action: {
+                        showImagePicker = true
+                    },
+                           label: {
+                        sideButton(systemName: "photo", grayOpacity: grayOpacityRegular)
+                            .sheet(isPresented: $showImagePicker) {
+                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                            }
+                    })
+                    
+                    Button(action: {
+                        textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                        sideButton(systemName: "character", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    Button(action: {
+                        shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                        sideButton(systemName: "square", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    Button(action: {
+                        showStickerPicker = true
+                    },
+                           label: {
+                        sideButton(systemName: "timer", grayOpacity: grayOpacityRegular)
+                            .sheet(isPresented: $showStickerPicker) {
+                                GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: elementsArray)
+                            }
+                    })
+                    
+                    Button(action: {
+                        sharedEditNotifier.editorDisplayed = .voiceRecorder
+                    },
+                           label: {
+                        sideButton(systemName: "speaker.wave.2.fill", grayOpacity: grayOpacityRegular)
+                    })
+                }
+                .padding(.horizontal, 20)
+            }
             
             
         }
         }
         .tint(.black)
-//        .scaleEffect(3, anchor: .top)
-        .padding(.horizontal, 20)
-//        .vAlign(.top)
-        .hAlign(.trailing)
-        //        .scaleEffect(3)
-        //        .padding(20)
+//        .padding(.horizontal, (sharedEditNotifier.pressedButton == .noButton || sharedEditNotifier.pressedButton == .bgButton || sharedEditNotifier.pressedButton == .extrasButton || sharedEditNotifier.pressedButton == .stickerEdit) ? 20 : 0)
+        .padding(.horizontal, (needsPadding()) ? 20 : 0)
         
         .opacity(sharedEditNotifier.buttonDim)
         .disabled(sharedEditNotifier.disabled)
@@ -295,7 +336,6 @@ struct SideButtons: View {
         let parent: SideButtons
         
         var body: some View {
-            VStack {
                 if !parent.sharedEditNotifier.backgroundEdit {
                     Button(action: {
                         //                    self.showImagePicker = true
@@ -303,10 +343,9 @@ struct SideButtons: View {
                         parent.sharedEditNotifier.pressedButton = .elementAppear
                     },
                            label: {
-                        Image(systemName: "photo.on.rectangle.angled")
+                        sideButton(systemName: "plus", grayOpacity: parent.grayOpacityRegular, buttonSizeDifference: 5)
                         
                     })
-                    .scaleEffect(parent.miniButtonScaleEffect)
                 }
                 
                 if !parent.sharedEditNotifier.backgroundEdit {
@@ -314,9 +353,8 @@ struct SideButtons: View {
                         parent.sharedEditNotifier.editorDisplayed = .elementDisappear
                     },
                            label: {
-                        Image(systemName: "photo.stack")
+                        sideButton(systemName: "minus", grayOpacity: parent.grayOpacityRegular, buttonSizeDifference: 5)
                     })
-                    .scaleEffect(parent.miniButtonScaleEffect)
                 }
                 
                 Button(action: {
@@ -325,20 +363,19 @@ struct SideButtons: View {
                     }
                 },
                        label: {
-                    Image(systemName: "square.dotted")}
+                    sideButton(systemName: "square.dotted", grayOpacity: parent.grayOpacityRegular)
+                }
                        
                 )
-                .scaleEffect(parent.miniButtonScaleEffect)
                 
                 
                 Button(action: {
                     parent.sharedEditNotifier.selectedElement?.element.lock.toggle()
                 },
                        label: {
-                    Image(systemName: parent.sharedEditNotifier.selectedElement?.element.lock ?? false ? "lock.fill" : "lock")
+                    sideButton(systemName: parent.sharedEditNotifier.selectedElement?.element.lock ?? false ? "lock.fill" : "lock", grayOpacity: parent.grayOpacityRegular)
                 })
-                .scaleEffect(parent.miniButtonScaleEffect)
-            }
+            
         }
     }
     
@@ -371,12 +408,14 @@ struct SideButtons: View {
             }
         }
     }
+    
+    func needsPadding() -> Bool { // Checks and disables padding if a ScrollView is necessary for the current display
+        
+        
+        if (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .textEdit) || (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .shapeEdit) || sharedEditNotifier.pressedButton == .noButton || sharedEditNotifier.pressedButton == .bgButton || sharedEditNotifier.pressedButton == .extrasButton { // basically if not scrollview
+            return true
+        } else {
+            return false
+        }
+    }
 }
-
-
-
-//struct SideButtonss_Previews: PreviewProvider {
-//        static var previews: some View {
-//            Editor()
-//        }
-//    }

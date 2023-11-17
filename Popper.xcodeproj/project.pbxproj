@@ -66,6 +66,7 @@
 		F6FF24702B06CCED007F61BA /* GiphyUISDK in Frameworks */ = {isa = PBXBuildFile; productRef = F6FF246F2B06CCED007F61BA /* GiphyUISDK */; };
 		F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24712B06CE19007F61BA /* GifSelector.swift */; };
 		F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24742B06E19E007F61BA /* EditableSticker.swift */; };
+		F6FF24772B07545D007F61BA /* EditablePoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24762B07545D007F61BA /* EditablePoll.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +142,7 @@
 		F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConfirmation.swift; sourceTree = "<group>"; };
 		F6FF24712B06CE19007F61BA /* GifSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSelector.swift; sourceTree = "<group>"; };
 		F6FF24742B06E19E007F61BA /* EditableSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSticker.swift; sourceTree = "<group>"; };
+		F6FF24762B07545D007F61BA /* EditablePoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePoll.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -384,6 +386,7 @@
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
+				F6FF24762B07545D007F61BA /* EditablePoll.swift */,
 			);
 			path = ViewTypes;
 			sourceTree = "<group>";
@@ -549,6 +552,7 @@
 				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
 				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
+				F6FF24772B07545D007F61BA /* EditablePoll.swift in Sources */,
 				F6FF24632B032066007F61BA /* EditableElement.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,

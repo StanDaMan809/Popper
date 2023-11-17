@@ -48,5 +48,7 @@ struct FontPicker: View {
                 .padding(.horizontal, 5)
             }
         }
+        .padding(.top, 10)
+        .backgroundStyle(Color.clear)
     }
 }

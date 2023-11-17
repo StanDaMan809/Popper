@@ -17,6 +17,7 @@ struct EditableElement: View {
     @GestureState var currentRotation = Angle.zero
     @State private var rotationToSend = Angle.zero // This is the rotation to send, cannot convert gesturestate to binding
     @State private var audioPlayer: AVAudioPlayer?
+    @State private var timer: Timer?
     @State var textSelected: Bool = false
     
     var body: some View {
@@ -164,13 +165,30 @@ struct EditableElement: View {
             
         }
         
-        .gesture(LongPressGesture()
-            .onEnded{_ in
-                if case .text = element.element {
-                    textSelected = true
-                }
-                sharedEditNotifier.selectElement(element: element)
-            })
+        .onLongPressGesture(minimumDuration: 0.5, pressing: { inProgress in
+                        // Called continuously while the long press is in progress
+
+                        if inProgress {
+                            // Start a timer when the long press begins
+                            if timer == nil {
+                                timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                                    // Your action after 0.5 seconds
+                                    if case .text = element.element {
+                                        textSelected = true
+                                    }
+                                    sharedEditNotifier.selectElement(element: element)
+                                }
+                            }
+                        } else {
+                            // Invalidate the timer when the long press ends
+                            timer?.invalidate()
+                            timer = nil
+                        }
+                    }, perform: {
+                        // Perform the final action when the long press ends
+                            print("Long press ended")
+                            // Your final command here
+                    })
     }
 }
 

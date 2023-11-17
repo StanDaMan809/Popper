@@ -18,18 +18,32 @@ struct Trash: View {
                 Spacer()
                 
                 GeometryReader { geo in
-                        Image(systemName: "trash")
-                            .resizable()
+                        ZStack {
+                            Circle()
+                                .foregroundStyle(sharedEditNotifier.toDelete ? Color.red : Color.black)
+                                .opacity(sharedEditNotifier.toDelete ? 1.0 : 0.8)
+                                .frame(width: 70, height: 70)
+                            
+                            Image(systemName: "trash")
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundStyle(Color.white)
+                                .frame(width: 40, height: 40)
+                                
+                        }
                             .onAppear {
                                 sharedEditNotifier.trashCanFrame = geo.frame(in: .global)
+                                
                             }
-                            .offset(y: 50) // Workaround for the Geometry reader spawning 50 units below the actual trash can
+                            .offset(y: 70) // Workaround for the Geometry reader spawning 70 units below the actual trash can
                 }
                 .foregroundStyle(sharedEditNotifier.toDelete ? Color.red : Color.black)
-                .frame(width: 50, height: 50, alignment: .center)
+                .frame(width: 70, height: 70, alignment: .center)
                 
             }
-            .padding(50)
+            .ignoresSafeArea()
+            .padding(70)
+            
         
     }
 }

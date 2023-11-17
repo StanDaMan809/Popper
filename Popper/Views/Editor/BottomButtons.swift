@@ -43,19 +43,17 @@ struct bottomButtons: View {
             if let currentlySelected = sharedEditNotifier.selectedElement
             {
                 TransparencySlider(transparency: Binding(get: { currentlySelected.element.transparency }, set: { currentlySelected.element.transparency = $0 }))
-                    .vAlign(.bottom)
                     .padding()
             }
             
         case .photoAppear:
             
             Text("Select what you'd like to make appear.")
-                .vAlign(.bottom)
+                .padding()
             
         case .elementDisappear:
             
             Text("Disappearing Photo (Tap)")
-                .vAlign(.bottom)
                 .padding()
             
         case .colorPickerText:
@@ -106,6 +104,8 @@ struct bottomButtons: View {
     struct controlButtons: View {
         
         let parent: bottomButtons
+        let bgSize: CGFloat = 50
+        let photoSize: CGFloat = 30
         
         var body: some View {
             HStack
@@ -115,7 +115,18 @@ struct bottomButtons: View {
                     parent.showImagePicker = true
                 },
                        label: {
-                        Image(systemName: "photo")
+                    ZStack {
+                        Circle()
+                            .backgroundStyle(Color.black)
+                            .opacity(0.8)
+                            .frame(width: bgSize, height: bgSize)
+                        
+                        Image(systemName: "photo.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: photoSize, height: photoSize)
+                            .foregroundStyle(Color.white)
+                    }
                     
                         .sheet(isPresented: parent.$showImagePicker) {
                             ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
@@ -125,24 +136,28 @@ struct bottomButtons: View {
                         
                     
                 })
-                .scaleEffect(2.5)
                 .tint(.black)
-                .offset(x: -80)
-                .padding()
+//                .offset(x: -80)
+                
+                Spacer()
                 
                 Button(action: {
                     parent.showCamera = true
                 },
                        label: {
                         Image(systemName: "circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 75, height: 75)
+                        .opacity(0.8)
                         .sheet(isPresented: parent.$showCamera) {
                             ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
                                 .ignoresSafeArea()
                             }
                 })
-                .scaleEffect(4)
                 .tint(.black)
-                .padding()
+                
+                Spacer()
                 
                 Button(action: {
                     parent.sharedEditNotifier.backgroundEdit = false // Just in case they're editing the background, we don't want them to upload the background stuff as their post
@@ -155,12 +170,21 @@ struct bottomButtons: View {
     //                }
                 },
                        label: {
+                    ZStack {
+                        Circle()
+                            .backgroundStyle(Color.black)
+                            .opacity(0.8)
+                            .frame(width: bgSize, height: bgSize)
+                        
                         Image(systemName: "arrow.forward")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: photoSize, height: photoSize)
+                            .foregroundStyle(Color.white)
+                    }
                 })
-                .scaleEffect(3)
                 .tint(.black)
-                .offset(x: 80)
-                .padding()
+//                .offset(x: 80)
                 .fullScreenCover(isPresented: parent.$createNewPost) {
                     CreateNewPost(onPost: { post in
                         // Adding created post at the top of the recent post
@@ -177,7 +201,7 @@ struct bottomButtons: View {
                 
             }
             .vAlign(.bottom)
-            .padding(10)
+            .padding(.horizontal, 20)
         }
     }
 }

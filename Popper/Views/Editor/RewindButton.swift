@@ -15,9 +15,18 @@ struct RewindButton: View {
         Button {
             rewind()
         } label: {
-            Image(systemName: "backward.fill")
-                .foregroundStyle(Color.black)
-                .padding()
+            ZStack {
+                Circle()
+                    .foregroundStyle(Color.black)
+                    .opacity(0.4)
+                    .frame(width: 30, height: 30)
+                
+                Image(systemName: "backward.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(Color.white)
+                    .frame(width: 15, height: 15)
+            }
         }
     }
     

@@ -54,16 +54,33 @@ struct Editor: View {
                     
                     // Back Button
                     
-                    Button(action: {
-                        parent.isEditorActive = false
-                    }, label: {
-                        Image(systemName: "arrow.backward")
-                    })
-                    .opacity(parent.sharedEditNotifier.buttonDim)
-                    .scaleEffect(1.5)
-                    .tint(.black)
-                    .hAlign(.leading)
-                    .padding()
+                    HStack {
+                        Button(action: {
+                            parent.isEditorActive = false
+                        }, label: {
+                            ZStack {
+                                Circle()
+                                    .backgroundStyle(Color.gray)
+                                    .opacity(0.8)
+                                    .frame(width: 50, height: 50)
+                                
+                                Image(systemName: "arrow.backward")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 30, height: 30)
+                                    .foregroundStyle(Color.white)
+                            }
+                        })
+                        .tint(.black)
+                        .opacity(parent.sharedEditNotifier.buttonDim)
+                        .disabled(parent.sharedEditNotifier.disabled)
+                        .padding()
+                        
+                        Spacer()
+                        
+                        SideButtons(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                        
+                    }
                     
                     // Side Buttons
                     
@@ -72,10 +89,10 @@ struct Editor: View {
                             RewindButton(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         }
                         
-                        Spacer()
+                        Spacer()                        
                         
-                        SideButtons(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                     }
+                    .padding()
                     
                     Spacer()
                     
@@ -223,7 +240,6 @@ enum UIButtonPress {
     case imageEdit
     case bgButton
     case extrasButton
-    case txtButton
     case disappeared
     case textEdit
     case shapeEdit

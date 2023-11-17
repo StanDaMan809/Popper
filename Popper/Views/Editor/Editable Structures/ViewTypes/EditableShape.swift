@@ -61,7 +61,7 @@ struct EditableShape: View {
                 .overlay(
                     Group {
                         if shape.lock {
-                            elementLock(id: shape.id)
+                            elementLock(id: shape.id, small: true)
                         }
                     }
                 )
@@ -112,7 +112,7 @@ func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEdit
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 200, y: 400), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 200, height: 200), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 200, y: 400), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 100, height: 100), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

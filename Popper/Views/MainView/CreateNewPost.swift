@@ -153,6 +153,9 @@ struct CreateNewPost: View {
                     case .shape(let shape):
                         print("just give it a little")
                         
+                    case .sticker(let sticker):
+                        print("just give it a little")
+                        
                     }
                 }
 

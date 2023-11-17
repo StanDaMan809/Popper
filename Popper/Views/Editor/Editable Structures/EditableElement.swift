@@ -20,103 +20,120 @@ struct EditableElement: View {
     @State var textSelected: Bool = false
     
     var body: some View {
-
-            ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend, textSelected: $textSelected)
-            
+        
+        ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend, textSelected: $textSelected)
+        
             .onTapGesture (count: 2)
-            {
-                if !element.element.lock {
-                    element.element.currentShape = element.element.currentShape.next
-                }
+        {
+            if !element.element.lock {
+                element.element.currentShape = element.element.currentShape.next
             }
+        }
         
-            .onTapGesture
+        .onTapGesture
+        {
+            if sharedEditNotifier.editorDisplayed == .elementDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
+                sharedEditNotifier.selectedElement?.element.disappearDisplays.append(self.element.element.id)
+                sharedEditNotifier.editorDisplayed = .none
+            }
+            
+            else if sharedEditNotifier.editorDisplayed == .photoAppear {
+                sharedEditNotifier.selectedElement?.element.createDisplays.append(self.element.element.id)
+                sharedEditNotifier.editorDisplayed = .none
+            }
+            
+            else
             {
-                if sharedEditNotifier.editorDisplayed == .elementDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
-                    sharedEditNotifier.selectedElement?.element.disappearDisplays.append(self.element.element.id)
-                    sharedEditNotifier.editorDisplayed = .none
+                // Play sound on the structure
+                
+                if let soundToPlay = element.element.soundOnClick {
+                    do {
+                        audioPlayer = try AVAudioPlayer(contentsOf: soundToPlay)
+                        audioPlayer?.play()
+                    } catch {
+                        print("Error playing audio: \(error.localizedDescription)")
+                    }
                 }
                 
-                else
+                // Make all displays linked to this one appear!
+                for i in element.element.createDisplays
                 {
-                        // Play sound on the structure
-                        
-                        if let soundToPlay = element.element.soundOnClick {
-                            do {
-                                audioPlayer = try AVAudioPlayer(contentsOf: soundToPlay)
-                                audioPlayer?.play()
-                            } catch {
-                                print("Error playing audio: \(error.localizedDescription)")
-                            }
-                        }
-                    
-                        // Make all displays linked to this one appear!
-                        for i in element.element.createDisplays
-                        {
-                            print("Retrieving for \(i)...")
-                            if let itemToDisplay = elementsArray.elements[i] {
-                                itemToDisplay.element.display = true
-                            } else { }// else if textArray blah blah blah
-                        }
-                        
-                        // Make all displays linked to this one disappear
-                        for i in element.element.disappearDisplays
-                        {
-                            if let itemToDisplay = elementsArray.elements[i] {
-                                itemToDisplay.element.display = false
-                            } // else if textArray blah blah blah
-                        }
-                    
-                    // Summon the rewind button for editing
-                    if element.element.createDisplays.count != 0 || element.element.disappearDisplays.count != 0 {
-                        sharedEditNotifier.rewindButtonPresent = true
-                    }
+                    print("Retrieving for \(i)...")
+                    if let itemToDisplay = elementsArray.elements[i] {
+                        itemToDisplay.element.display = true
+                    } else { }// else if textArray blah blah blah
                 }
                 
+                // Make all displays linked to this one disappear
+                for i in element.element.disappearDisplays
+                {
+                    if let itemToDisplay = elementsArray.elements[i] {
+                        itemToDisplay.element.display = false
+                    } // else if textArray blah blah blah
+                }
                 
-//                    }
+                // Summon the rewind button for editing
+                if element.element.createDisplays.count != 0 || element.element.disappearDisplays.count != 0 {
+                    sharedEditNotifier.rewindButtonPresent = true
+                }
             }
+            
+            
+            //                    }
+        }
         
-            .gesture(
-                DragGesture() // Have to add UI disappearing but not yet
-                    .onChanged { gesture in
+        .gesture(
+            DragGesture() // Have to add UI disappearing but not yet
+                .onChanged { gesture in
+                    
+                    if !element.element.lock {
+                        //                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
+                        //                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
                         
-                        if !element.element.lock {
-//                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
-//                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
-
-                            let newX = gesture.location.x
-                            let newY = gesture.location.y
-                            element.element.totalOffset = CGPoint(x: newX, y: newY)
-                            sharedEditNotifier.currentlyEdited = true
-                            sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
-                            sharedEditNotifier.editToggle()
-                        }
+                        let newX = gesture.location.x
+                        let newY = gesture.location.y
+                        element.element.totalOffset = CGPoint(x: newX, y: newY)
+                        sharedEditNotifier.currentlyEdited = true
+                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+                        sharedEditNotifier.editToggle()
                     }
-                
-                    .onEnded { gesture in
-                        
-                        if !element.element.lock {
-                            if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                                deleteElement(elementsArray: elementsArray, id: element.element.id)
-                            } else {
-                                element.element.startPosition = element.element.totalOffset
-                            }
-                            
-    //                                element.element.startPosition = element.element.totalOffset
-                            sharedEditNotifier.currentlyEdited = false
-                            sharedEditNotifier.editToggle()
+                }
+            
+                .onEnded { gesture in
+                    
+                    if !element.element.lock {
+                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+                            deleteElement(elementsArray: elementsArray, id: element.element.id)
+                        } else {
+                            element.element.startPosition = element.element.totalOffset
                         }
-                    })
+                        
+                        //                                element.element.startPosition = element.element.totalOffset
+                        sharedEditNotifier.currentlyEdited = false
+                        sharedEditNotifier.editToggle()
+                    }
+                })
         
-            .gesture(
+        .gesture(
             SimultaneousGesture( // Rotating and Size change
-                    RotationGesture()
-                    .updating($currentRotation) { value, state, _ in 
+                RotationGesture()
+                    .updating($currentRotation) { value, state, _ in
+                        
+                        //                        var canSendRotation = true
+                        //
+                        //                        if rotationToSend + element.element.rotationDegrees == Angle(degrees: 0.0) {
+                        //                            // Disable rotation sending temporarily
+                        //                            canSendRotation = false
+                        //
+                        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                        //                                            canSendRotation = true
+                        //                                        }
+                        //                        }
+                        
                         if !element.element.lock {
                             state = value
-                            }
                         }
+                    }
                     .onEnded { value in
                         if !element.element.lock {
                             element.element.rotationDegrees += value
@@ -139,19 +156,21 @@ struct EditableElement: View {
                         }
                         
                     }))
-            .onChange(of: currentRotation) { newValue in
-                if !element.element.lock {
-                    rotationToSend = currentRotation
-                }
+        .onChange(of: currentRotation) { newValue in
+            
+            if !element.element.lock {
+                rotationToSend = currentRotation
             }
+            
+        }
         
-            .gesture(LongPressGesture()
-                .onEnded{_ in
-                    if case .text = element.element {
-                        textSelected = true
-                    }
-            sharedEditNotifier.selectElement(element: element)
-                    })
+        .gesture(LongPressGesture()
+            .onEnded{_ in
+                if case .text = element.element {
+                    textSelected = true
+                }
+                sharedEditNotifier.selectElement(element: element)
+            })
     }
 }
 

@@ -134,7 +134,7 @@ struct bottomButtons: View {
                     parent.showCamera = true
                 },
                        label: {
-                        Image(systemName: "camera.aperture")
+                        Image(systemName: "circle")
                         .sheet(isPresented: parent.$showCamera) {
                             ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
                                 .ignoresSafeArea()
@@ -155,7 +155,7 @@ struct bottomButtons: View {
     //                }
                 },
                        label: {
-                        Image(systemName: "arrowshape.right")
+                        Image(systemName: "arrow.forward")
                 })
                 .scaleEffect(3)
                 .tint(.black)

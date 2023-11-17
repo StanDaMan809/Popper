@@ -40,10 +40,13 @@ struct ExitConfirmation: View {
             }
             .padding()
         }
-        .background(.gray, in: RoundedRectangle(cornerRadius: 10))
-        
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .foregroundStyle(.gray))
     }
 }
+
+
 
 #Preview {
     ExitConfirmation()

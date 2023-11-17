@@ -54,16 +54,16 @@ struct Editor: View {
                     
                     // Back Button
                     
-                        Button(action: {
-                            parent.isEditorActive = false
-                        }, label: {
-                                Image(systemName: "arrow.backward")
-                        })
-                        .opacity(parent.sharedEditNotifier.buttonDim)
-                        .scaleEffect(1.5)
-                        .tint(.black)
-                        .hAlign(.leading)
-                        .padding()
+                    Button(action: {
+                        parent.isEditorActive = false
+                    }, label: {
+                        Image(systemName: "arrow.backward")
+                    })
+                    .opacity(parent.sharedEditNotifier.buttonDim)
+                    .scaleEffect(1.5)
+                    .tint(.black)
+                    .hAlign(.leading)
+                    .padding()
                     
                     // Side Buttons
                     
@@ -82,7 +82,7 @@ struct Editor: View {
                     bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         .zIndex(Double(parent.sharedEditNotifier.objectsCount + 1))
                     
-                        
+                    
                 }
                 .zIndex(Double(parent.sharedEditNotifier.objectsCount + 2))
                 
@@ -91,7 +91,7 @@ struct Editor: View {
                     Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray, editTextPrio: editTextPrio)
                         .zIndex(-1)
                 }
-
+                
                 ZStack {
                     ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
                         if let itemToDisplay = elementsArray.elements[key] {
@@ -110,7 +110,7 @@ struct Editor: View {
 }
 
 struct ImagePickerView: UIViewControllerRepresentable {
-
+    
     @Binding var image: UIImage?
     @Binding var videoURL: URL?
     @Binding var showImagePicker: Bool
@@ -149,7 +149,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
             if let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
                 let screenWidth = UIScreen.main.bounds.width
                 let maxHeight: CGFloat = postHeight
-
+                
                 let aspectRatio = originalImage.size.width / originalImage.size.height
                 let targetHeight = min(maxHeight, screenWidth / aspectRatio)
                 let targetSize = CGSize(width: screenWidth, height: targetHeight)
@@ -161,9 +161,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 {
                     if let downsampledImage = originalImage.downsample(to: targetSize) {
                         imageAdd(imgSource: downsampledImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    }
                 }
-                }
-            
+                
                 
             }
             else if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
@@ -201,13 +201,13 @@ struct ImagePickerView: UIViewControllerRepresentable {
 
 
 struct EditorTopUIButtons: View {
-
+    
     var body: some View
     {
         Button(action: {
             print("hey")
         }, label: {
-                Image(systemName: "arrow.backward")
+            Image(systemName: "arrow.backward")
         })
         .scaleEffect(1.5)
         .tint(.black)
@@ -227,8 +227,9 @@ enum UIButtonPress {
     case disappeared
     case textEdit
     case shapeEdit
+    case stickerEdit
     case elementAppear
-
+    
 }
 
 enum ClippableShape: Int {
@@ -258,24 +259,24 @@ struct ClippableShapeViewModifier: ViewModifier {
     
     @ViewBuilder func body(content: Content) -> some View {
         switch clippableShape {
-            case .square:
-                content.clipShape(Square())
-            case .roundedsquare:
-                content.clipShape(RoundedSquare(cornerRadius: 10))
-            case .rectangle:
-                content.clipShape(Rectangle())
-            case .roundedrectangle:
-                content.clipShape(RoundedRectangle(cornerRadius: 10))
-            case .circle:
-                content.clipShape(Circle())
-            case .ellipse:
-                content.clipShape(Ellipse())
-            case .capsule:
-                content.clipShape(Capsule())
-            case .triangle:
-                content.clipShape(Triangle())
-            case .star:
-                content.clipShape(Star())
+        case .square:
+            content.clipShape(Square())
+        case .roundedsquare:
+            content.clipShape(RoundedSquare(cornerRadius: 10))
+        case .rectangle:
+            content.clipShape(Rectangle())
+        case .roundedrectangle:
+            content.clipShape(RoundedRectangle(cornerRadius: 10))
+        case .circle:
+            content.clipShape(Circle())
+        case .ellipse:
+            content.clipShape(Ellipse())
+        case .capsule:
+            content.clipShape(Capsule())
+        case .triangle:
+            content.clipShape(Triangle())
+        case .star:
+            content.clipShape(Star())
         }
     }
 }
@@ -287,27 +288,27 @@ extension View {
 }
 
 func shapeForClippableShape(shape: ClippableShape) -> some View {
-        switch shape {
-        case .square:
-            return AnyView(Square())
-        case .roundedsquare:
-            return AnyView(RoundedSquare(cornerRadius: 10))
-        case .rectangle:
-            return AnyView(Rectangle())
-        case .roundedrectangle:
-            return AnyView(RoundedRectangle(cornerRadius: 10))
-        case .circle:
-            return AnyView(Circle())
-        case .ellipse:
-            return AnyView(Ellipse())
-        case .capsule:
-            return AnyView(Capsule())
-        case .triangle:
-            return AnyView(Triangle())
-        case .star:
-            return AnyView(Star())
-        }
+    switch shape {
+    case .square:
+        return AnyView(Square())
+    case .roundedsquare:
+        return AnyView(RoundedSquare(cornerRadius: 10))
+    case .rectangle:
+        return AnyView(Rectangle())
+    case .roundedrectangle:
+        return AnyView(RoundedRectangle(cornerRadius: 10))
+    case .circle:
+        return AnyView(Circle())
+    case .ellipse:
+        return AnyView(Ellipse())
+    case .capsule:
+        return AnyView(Capsule())
+    case .triangle:
+        return AnyView(Triangle())
+    case .star:
+        return AnyView(Star())
     }
+}
 
 class SharedEditState: ObservableObject {
     
@@ -328,10 +329,10 @@ class SharedEditState: ObservableObject {
     func editToggle()
     {
         if self.currentlyEdited
-            {
-                self.buttonDim = 0.4
-                self.disabled = true
-            }
+        {
+            self.buttonDim = 0.4
+            self.disabled = true
+        }
         else
         {
             self.buttonDim = 1
@@ -352,6 +353,9 @@ class SharedEditState: ObservableObject {
             pressedButton = .textEdit
         case .shape:
             pressedButton = .shapeEdit
+        case .sticker:
+            pressedButton = .stickerEdit
+            
         }
     }
     
@@ -380,7 +384,7 @@ class SharedEditState: ObservableObject {
         case fontPicker
         case voiceRecorder
     }
-
+    
 }
 
 func deleteElement(elementsArray: editorElementsArray, id: Int) {
@@ -389,9 +393,9 @@ func deleteElement(elementsArray: editorElementsArray, id: Int) {
 }
 
 // image select settings
-    // Rotation
-    // Add link
-    // Crop
+// Rotation
+// Add link
+// Crop
 
-    
+
 

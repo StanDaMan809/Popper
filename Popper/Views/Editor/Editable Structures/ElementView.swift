@@ -20,7 +20,7 @@ struct ElementView: View {
     var body: some View {
         switch element.element {
         case .image(let editableImage):
-                
+            
             EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
             
         case .video(let editableVid):
@@ -37,6 +37,10 @@ struct ElementView: View {
         case .shape(let editableShp):
             
             EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+            
+        case .sticker(let editableStick):
+            EditableSticker(sticker: editableStick, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+            
         }
     }
 }

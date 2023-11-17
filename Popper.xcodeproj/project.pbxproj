@@ -63,6 +63,9 @@
 		F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24662B045D47007F61BA /* ElementLock.swift */; };
 		F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF246A2B046DB0007F61BA /* audioButton.swift */; };
 		F6FF246D2B0486EA007F61BA /* ExitConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */; };
+		F6FF24702B06CCED007F61BA /* GiphyUISDK in Frameworks */ = {isa = PBXBuildFile; productRef = F6FF246F2B06CCED007F61BA /* GiphyUISDK */; };
+		F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24712B06CE19007F61BA /* GifSelector.swift */; };
+		F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24742B06E19E007F61BA /* EditableSticker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +139,8 @@
 		F6FF24662B045D47007F61BA /* ElementLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementLock.swift; sourceTree = "<group>"; };
 		F6FF246A2B046DB0007F61BA /* audioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = audioButton.swift; sourceTree = "<group>"; };
 		F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConfirmation.swift; sourceTree = "<group>"; };
+		F6FF24712B06CE19007F61BA /* GifSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSelector.swift; sourceTree = "<group>"; };
+		F6FF24742B06E19E007F61BA /* EditableSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSticker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +153,7 @@
 				F63432572AC7A14B00E756BA /* FirebaseAuth in Frameworks */,
 				F63432642AC7CA7200E756BA /* FirebaseFirestore in Frameworks */,
 				F63432682AC7CA7200E756BA /* FirebaseStorage in Frameworks */,
+				F6FF24702B06CCED007F61BA /* GiphyUISDK in Frameworks */,
 				F63432662AC7CA7200E756BA /* FirebaseFirestoreSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,6 +275,7 @@
 				F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */,
 				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
 				F6964AA22AF9F447000E9C94 /* DrawingView.swift */,
+				F6FF24712B06CE19007F61BA /* GifSelector.swift */,
 				F6964A9F2AF9DE4C000E9C94 /* Editable Structures */,
 				F6964A9E2AF9DE2B000E9C94 /* SubUI */,
 				F6964A982AF9C14A000E9C94 /* Trash.swift */,
@@ -373,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				F647CDC82AD649F200D362DB /* EditableImage.swift */,
+				F6FF24742B06E19E007F61BA /* EditableSticker.swift */,
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
@@ -403,6 +411,7 @@
 				F63432652AC7CA7200E756BA /* FirebaseFirestoreSwift */,
 				F63432672AC7CA7200E756BA /* FirebaseStorage */,
 				F634327F2AC7F26E00E756BA /* SDWebImageSwiftUI */,
+				F6FF246F2B06CCED007F61BA /* GiphyUISDK */,
 			);
 			productName = Popper;
 			productReference = F6C8DC1C29DF7CEF0014849C /* Popper.app */;
@@ -479,6 +488,7 @@
 			packageReferences = (
 				F63432552AC7A14B00E756BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F634327E2AC7F26E00E756BA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				F6FF246E2B06CCED007F61BA /* XCRemoteSwiftPackageReference "giphy-ios-sdk" */,
 			);
 			productRefGroup = F6C8DC1D29DF7CEF0014849C /* Products */;
 			projectDirPath = "";
@@ -524,6 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
+				F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */,
 				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F6FF24652B033041007F61BA /* ElementView.swift in Sources */,
@@ -534,6 +545,7 @@
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
+				F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */,
 				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
 				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
@@ -909,6 +921,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		F6FF246E2B06CCED007F61BA /* XCRemoteSwiftPackageReference "giphy-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Giphy/giphy-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.22;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -941,6 +961,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F634327E2AC7F26E00E756BA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		F6FF246F2B06CCED007F61BA /* GiphyUISDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F6FF246E2B06CCED007F61BA /* XCRemoteSwiftPackageReference "giphy-ios-sdk" */;
+			productName = GiphyUISDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

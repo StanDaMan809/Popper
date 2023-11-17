@@ -24,6 +24,8 @@ struct elementLock: View {
                             .foregroundStyle(Color.white)
                             .zIndex(Double(id))
                             .padding()
+                            .background(Circle().backgroundStyle(Color.gray).opacity(0.2))
+                            
                    } else {
                        Image(systemName: "lock.fill")
                            .resizable()
@@ -33,6 +35,8 @@ struct elementLock: View {
                            .zIndex(Double(id))
                            .padding(.vertical, 5)
                            .padding(.horizontal, 5)
+                           .background(Circle().backgroundStyle(Color.gray).opacity(0.2))
+                           
                    }
                 
             }

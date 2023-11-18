@@ -7,5 +7,5 @@
 
 import SwiftUI
 
-let defaultTextSize = CGFloat(24.0)
+let defaultTextSize = CGFloat(30.0)
 let defaultTextFrame = CGFloat(300)

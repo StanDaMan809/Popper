@@ -156,6 +156,9 @@ struct CreateNewPost: View {
                     case .sticker(let sticker):
                         print("just give it a little")
                         
+                    case .poll(let poll):
+                        print("just give it a little")
+                        
                     }
                 }
 

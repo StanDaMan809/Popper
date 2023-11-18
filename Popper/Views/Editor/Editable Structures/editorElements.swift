@@ -23,6 +23,7 @@ class editorElement: ObservableObject {
         case text(editableTxt)
         case shape(editableShp)
         case sticker(editableStick)
+        case poll(editablePoll)
         
         var id: Int {
             switch self {
@@ -36,6 +37,8 @@ class editorElement: ObservableObject {
                 return editableShp.id
             case .sticker(let editableStick):
                 return editableStick.id
+            case .poll(let editablePoll):
+                return editablePoll.id
             }
         }
         
@@ -52,6 +55,8 @@ class editorElement: ObservableObject {
                     return editableShp.currentShape
                 case .sticker(let editableStick):
                     return editableStick.currentShape
+                case .poll:
+                    return .square
                 }
             }
             set {
@@ -66,6 +71,8 @@ class editorElement: ObservableObject {
                     editableShp.currentShape = newValue
                 case .sticker(let editableStick):
                     editableStick.currentShape = newValue
+                case .poll:
+                    print("Poll has no member currentShape")
                 }
             }
         }
@@ -83,6 +90,8 @@ class editorElement: ObservableObject {
                     return editableShp.totalOffset
                 case .sticker(let editableStick):
                     return editableStick.totalOffset
+                case .poll(let editablePoll):
+                    return editablePoll.totalOffset
                 }
             }
             set {
@@ -97,6 +106,8 @@ class editorElement: ObservableObject {
                     editableShp.totalOffset = newValue
                 case .sticker(let editableStick):
                     editableStick.totalOffset = newValue
+                case .poll(let editablePoll):
+                    editablePoll.totalOffset = newValue
                 }
             }
         }
@@ -114,6 +125,8 @@ class editorElement: ObservableObject {
                     return editableShp.size
                 case .sticker:
                     return CGSize(width: 0, height: 0)
+                case .poll:
+                    return CGSize(width: 0, height: 0)
                 }
             }
             set {
@@ -127,6 +140,8 @@ class editorElement: ObservableObject {
                 case .shape(let editableShp):
                     editableShp.size = newValue
                 case .sticker:
+                    print("Cannot set sticker size")
+                case .poll:
                     print("Cannot set sticker size")
                 }
             }
@@ -145,6 +160,8 @@ class editorElement: ObservableObject {
                     return editableShp.startPosition
                 case .sticker(let editableStick):
                     return editableStick.startPosition
+                case .poll(let editablePoll):
+                    return editablePoll.startPosition
                 }
             }
             set {
@@ -159,6 +176,8 @@ class editorElement: ObservableObject {
                     editableShp.startPosition = newValue
                 case .sticker(let editableStick):
                     editableStick.startPosition = newValue
+                case .poll(let editablePoll):
+                    editablePoll.startPosition = newValue
                 }
             }
         }
@@ -176,6 +195,8 @@ class editorElement: ObservableObject {
                     return editableShp.scalar
                 case .sticker(let editableStick):
                     return editableStick.scalar
+                case .poll(let editablePoll):
+                    return editablePoll.scalar
                 }
             }
             set {
@@ -190,6 +211,8 @@ class editorElement: ObservableObject {
                     editableShp.scalar = newValue
                 case .sticker(let editableStick):
                     editableStick.scalar = newValue
+                case .poll(let editablePoll):
+                    editablePoll.scalar = newValue
                 }
             }
         }
@@ -207,6 +230,8 @@ class editorElement: ObservableObject {
                     return editableShp.transparency
                 case .sticker(let editableStick):
                     return editableStick.transparency
+                case .poll(let editablePoll):
+                    return editablePoll.transparency
                 }
             }
             set {
@@ -221,6 +246,8 @@ class editorElement: ObservableObject {
                     editableShp.transparency = newValue
                 case .sticker(let editableStick):
                     editableStick.transparency = newValue
+                case .poll(let editablePoll):
+                    editablePoll.transparency = newValue
                 }
             }
         }
@@ -238,6 +265,8 @@ class editorElement: ObservableObject {
                     return editableShp.display
                 case .sticker(let editableStick):
                     return editableStick.display
+                case .poll(let editablePoll):
+                    return editablePoll.display
                 }
             }
             set {
@@ -252,6 +281,8 @@ class editorElement: ObservableObject {
                     editableShp.display = newValue
                 case .sticker(let editableStick):
                     editableStick.display = newValue
+                case .poll(let editablePoll):
+                    editablePoll.display = newValue
                 }
             }
         }
@@ -269,6 +300,8 @@ class editorElement: ObservableObject {
                     return editableShp.createDisplays
                 case .sticker(let editableStick):
                     return editableStick.createDisplays
+                case .poll:
+                    return []
                 }
             }
             set {
@@ -283,6 +316,8 @@ class editorElement: ObservableObject {
                     editableShp.createDisplays = newValue
                 case .sticker(let editableStick):
                     editableStick.createDisplays = newValue
+                case .poll:
+                    print("polls cannot create elemetns")
                 }
             }
         }
@@ -300,6 +335,8 @@ class editorElement: ObservableObject {
                     return editableShp.disappearDisplays
                 case .sticker(let editableStick):
                     return editableStick.disappearDisplays
+                case .poll:
+                    return []
                 }
             }
             set {
@@ -314,6 +351,8 @@ class editorElement: ObservableObject {
                     editableShp.disappearDisplays = newValue
                 case .sticker(let editableStick):
                     editableStick.disappearDisplays = newValue
+                case .poll:
+                    print("Cannot retrieve disappeardisplays from a poll")
                 }
             }
         }
@@ -331,6 +370,8 @@ class editorElement: ObservableObject {
                     return editableShp.rotationDegrees
                 case .sticker(let editableStick):
                     return editableStick.rotationDegrees
+                case .poll(let editablePoll):
+                    return editablePoll.rotationDegrees
                 }
             }
             set {
@@ -345,6 +386,8 @@ class editorElement: ObservableObject {
                     editableShp.rotationDegrees = newValue
                 case .sticker(let editableStick):
                     editableStick.rotationDegrees = newValue
+                case .poll(let editablePoll):
+                    editablePoll.rotationDegrees = newValue
                 }
             }
         }
@@ -362,6 +405,8 @@ class editorElement: ObservableObject {
                     return editableShp.defaultDisplaySetting
                 case .sticker(let editableStick):
                     return editableStick.defaultDisplaySetting
+                case .poll(let editablePoll):
+                    return editablePoll.defaultDisplaySetting
                 }
             }
         }
@@ -379,6 +424,8 @@ class editorElement: ObservableObject {
                     return editableShp.lock
                 case .sticker(let editableStick):
                     return editableStick.lock
+                case .poll(let editablePoll):
+                    return editablePoll.lock
                 }
             }
             set {
@@ -393,6 +440,8 @@ class editorElement: ObservableObject {
                     editableShp.lock = newValue
                 case .sticker(let editableStick):
                     editableStick.lock = newValue
+                case .poll(let editablePoll):
+                    editablePoll.lock = newValue
                 }
             }
         }
@@ -410,6 +459,8 @@ class editorElement: ObservableObject {
                     return editableShp.soundOnClick
                 case .sticker(let editableStick):
                     return editableStick.soundOnClick
+                case .poll(let editablePoll):
+                    return editablePoll.soundOnClick
                 }
             }
             set {
@@ -424,6 +475,8 @@ class editorElement: ObservableObject {
                     editableShp.soundOnClick = newValue
                 case .sticker(let editableStick):
                     editableStick.soundOnClick = newValue
+                case .poll(let editablePoll):
+                    editablePoll.soundOnClick = newValue
                 }
             }
         }

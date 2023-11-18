@@ -13,6 +13,7 @@ struct ExitConfirmation: View {
         VStack {
             Text("Are you sure you'd like to exit?")
                 .font(.callout)
+                .foregroundStyle(.black)
                 .padding()
             
             HStack {
@@ -38,11 +39,11 @@ struct ExitConfirmation: View {
                         .background(.pink, in: Capsule())
                 }
             }
-            .padding()
+            .padding(.bottom)
         }
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .foregroundStyle(.gray))
+                .foregroundStyle(.black).opacity(0.4))
     }
 }
 

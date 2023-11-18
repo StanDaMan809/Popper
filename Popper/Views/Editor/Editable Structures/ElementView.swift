@@ -15,7 +15,6 @@ struct ElementView: View {
     @State var textEditPrio: Double = 1.0
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
-    @Binding var textSelected: Bool
     
     var body: some View {
         switch element.element {
@@ -29,7 +28,7 @@ struct ElementView: View {
             
         case .text(let editableTxt):
             
-            EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation, textSelected: $textSelected, editPrio: $textEditPrio)
+            EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation, editPrio: $textEditPrio)
                 .onChange(of: sharedEditNotifier.objectsCount) { _ in
                     textEditPrio = Double(sharedEditNotifier.objectsCount + 2)
                 }
@@ -39,7 +38,12 @@ struct ElementView: View {
             EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
             
         case .sticker(let editableStick):
+            
             EditableSticker(sticker: editableStick, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+            
+        case .poll(let editablePoll):
+            
+            EditablePoll(poll: editablePoll, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
             
         }
     }

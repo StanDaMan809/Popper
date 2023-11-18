@@ -66,7 +66,40 @@
 		F6FF24702B06CCED007F61BA /* GiphyUISDK in Frameworks */ = {isa = PBXBuildFile; productRef = F6FF246F2B06CCED007F61BA /* GiphyUISDK */; };
 		F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24712B06CE19007F61BA /* GifSelector.swift */; };
 		F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24742B06E19E007F61BA /* EditableSticker.swift */; };
-		F6FF24772B07545D007F61BA /* EditablePoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24762B07545D007F61BA /* EditablePoll.swift */; };
+		F6FF24772B07545D007F61BA /* PollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24762B07545D007F61BA /* PollView.swift */; };
+		F6FF24932B084371007F61BA /* OldLondon.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247A2B084032007F61BA /* OldLondon.ttf */; };
+		F6FF24942B084373007F61BA /* Louis George Cafe.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247B2B084063007F61BA /* Louis George Cafe.ttf */; };
+		F6FF24952B084375007F61BA /* SCRIPTIN.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247C2B084071007F61BA /* SCRIPTIN.ttf */; };
+		F6FF24962B084378007F61BA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247D2B08408E007F61BA /* Montserrat-Regular.ttf */; };
+		F6FF24972B08437A007F61BA /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247E2B0840B0007F61BA /* PlayfairDisplay-Regular.ttf */; };
+		F6FF24982B08437C007F61BA /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF247F2B0840C8007F61BA /* Nunito-Regular.ttf */; };
+		F6FF24992B08437E007F61BA /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24802B0840F2007F61BA /* Lato-Regular.ttf */; };
+		F6FF249A2B084380007F61BA /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24812B084119007F61BA /* Rubik-Regular.ttf */; };
+		F6FF249B2B084382007F61BA /* JosefinSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24822B084149007F61BA /* JosefinSans-Regular.ttf */; };
+		F6FF249C2B084384007F61BA /* BebasNeue-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24832B08417B007F61BA /* BebasNeue-Regular.ttf */; };
+		F6FF249D2B084386007F61BA /* BarlowCondensed-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24842B0841B4007F61BA /* BarlowCondensed-Regular.ttf */; };
+		F6FF249E2B084388007F61BA /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24852B0841C0007F61BA /* SourceCodePro-Regular.ttf */; };
+		F6FF249F2B08438B007F61BA /* Cabin-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24862B0841D4007F61BA /* Cabin-Bold.ttf */; };
+		F6FF24A02B084393007F61BA /* DancingScript-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24872B0841F3007F61BA /* DancingScript-Regular.ttf */; };
+		F6FF24A12B084395007F61BA /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24882B084200007F61BA /* Pacifico-Regular.ttf */; };
+		F6FF24A22B084397007F61BA /* Caveat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24892B08420F007F61BA /* Caveat-Regular.ttf */; };
+		F6FF24A32B08439A007F61BA /* ShadowsIntoLight-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF248A2B08421C007F61BA /* ShadowsIntoLight-Regular.ttf */; };
+		F6FF24A52B08439F007F61BA /* IndieFlower-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF248C2B084237007F61BA /* IndieFlower-Regular.ttf */; };
+		F6FF24A62B0843A1007F61BA /* PermanentMarker-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF248D2B084242007F61BA /* PermanentMarker-Regular.ttf */; };
+		F6FF24A82B0843A5007F61BA /* Kalam-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF248F2B08425E007F61BA /* Kalam-Regular.ttf */; };
+		F6FF24A92B0843A7007F61BA /* GreatVibes-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24902B084269007F61BA /* GreatVibes-Regular.ttf */; };
+		F6FF24AB2B0843AB007F61BA /* CaviarDreams_Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24922B0842A8007F61BA /* CaviarDreams_Italic.ttf */; };
+		F6FF24AE2B084C55007F61BA /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24AD2B084C4F007F61BA /* Roboto-Bold.ttf */; };
+		F6FF24B02B08511C007F61BA /* Montserrat-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24AF2B08511C007F61BA /* Montserrat-ExtraBold.ttf */; };
+		F6FF24B22B08522C007F61BA /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24B12B085208007F61BA /* Nunito-ExtraBold.ttf */; };
+		F6FF24B42B085336007F61BA /* AmaticSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24B32B085336007F61BA /* AmaticSC-Bold.ttf */; };
+		F6FF24B62B0853EE007F61BA /* ChakraPetch-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24B52B0853EE007F61BA /* ChakraPetch-Bold.ttf */; };
+		F6FF24B82B08544E007F61BA /* Caveat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24B72B085444007F61BA /* Caveat-SemiBold.ttf */; };
+		F6FF24BA2B0854B7007F61BA /* DancingScript-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24B92B0854B7007F61BA /* DancingScript-Bold.ttf */; };
+		F6FF24BC2B085503007F61BA /* BarlowCondensed-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24BB2B085503007F61BA /* BarlowCondensed-Bold.ttf */; };
+		F6FF24BE2B085768007F61BA /* BarlowCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24BD2B085767007F61BA /* BarlowCondensed-Medium.ttf */; };
+		F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24BF2B085C97007F61BA /* EditablePoll.swift */; };
+		F6FF24C32B086045007F61BA /* SharedEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C22B086045007F61BA /* SharedEditState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,7 +175,41 @@
 		F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitConfirmation.swift; sourceTree = "<group>"; };
 		F6FF24712B06CE19007F61BA /* GifSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifSelector.swift; sourceTree = "<group>"; };
 		F6FF24742B06E19E007F61BA /* EditableSticker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableSticker.swift; sourceTree = "<group>"; };
-		F6FF24762B07545D007F61BA /* EditablePoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePoll.swift; sourceTree = "<group>"; };
+		F6FF24762B07545D007F61BA /* PollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollView.swift; sourceTree = "<group>"; };
+		F6FF247A2B084032007F61BA /* OldLondon.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = OldLondon.ttf; sourceTree = "<group>"; };
+		F6FF247B2B084063007F61BA /* Louis George Cafe.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Louis George Cafe.ttf"; path = "../../../Downloads/louis_george_cafe/Louis George Cafe.ttf"; sourceTree = "<group>"; };
+		F6FF247C2B084071007F61BA /* SCRIPTIN.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = SCRIPTIN.ttf; path = ../../../Downloads/scriptina/SCRIPTIN.ttf; sourceTree = "<group>"; };
+		F6FF247D2B08408E007F61BA /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-Regular.ttf"; path = "../../../Downloads/Montserrat/static/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF247E2B0840B0007F61BA /* PlayfairDisplay-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PlayfairDisplay-Regular.ttf"; path = "../../../Downloads/Playfair_Display/static/PlayfairDisplay-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF247F2B0840C8007F61BA /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-Regular.ttf"; path = "../../../Downloads/Nunito/static/Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24802B0840F2007F61BA /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "../../../Downloads/Lato/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24812B084119007F61BA /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Rubik-Regular.ttf"; path = "../../../Downloads/Rubik/static/Rubik-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24822B084149007F61BA /* JosefinSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "JosefinSans-Regular.ttf"; path = "../../../Downloads/Josefin_Sans/static/JosefinSans-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24832B08417B007F61BA /* BebasNeue-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BebasNeue-Regular.ttf"; path = "../../../Downloads/Bebas_Neue/BebasNeue-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24842B0841B4007F61BA /* BarlowCondensed-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BarlowCondensed-Regular.ttf"; path = "../../../Downloads/Barlow_Condensed/BarlowCondensed-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24852B0841C0007F61BA /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "../../../Downloads/Source_Code_Pro/static/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24862B0841D4007F61BA /* Cabin-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Cabin-Bold.ttf"; path = "../../../Downloads/Cabin/static/Cabin-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24872B0841F3007F61BA /* DancingScript-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DancingScript-Regular.ttf"; path = "../../../Downloads/Dancing_Script/static/DancingScript-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24882B084200007F61BA /* Pacifico-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pacifico-Regular.ttf"; path = "../../../Downloads/Pacifico/Pacifico-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24892B08420F007F61BA /* Caveat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Caveat-Regular.ttf"; path = "../../../Downloads/Caveat/static/Caveat-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF248A2B08421C007F61BA /* ShadowsIntoLight-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ShadowsIntoLight-Regular.ttf"; path = "../../../Downloads/Shadows_Into_Light/ShadowsIntoLight-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF248C2B084237007F61BA /* IndieFlower-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "IndieFlower-Regular.ttf"; path = "../../../Downloads/Indie_Flower/IndieFlower-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF248D2B084242007F61BA /* PermanentMarker-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PermanentMarker-Regular.ttf"; path = "../../../Downloads/Permanent_Marker/PermanentMarker-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF248F2B08425E007F61BA /* Kalam-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Kalam-Regular.ttf"; path = "../../../Downloads/Kalam/Kalam-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24902B084269007F61BA /* GreatVibes-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "GreatVibes-Regular.ttf"; path = "../../../Downloads/Great_Vibes/GreatVibes-Regular.ttf"; sourceTree = "<group>"; };
+		F6FF24922B0842A8007F61BA /* CaviarDreams_Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = CaviarDreams_Italic.ttf; path = ../../../Downloads/caviar_dreams/CaviarDreams_Italic.ttf; sourceTree = "<group>"; };
+		F6FF24AC2B084555007F61BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F6FF24AD2B084C4F007F61BA /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Roboto-Bold.ttf"; path = "../../../Downloads/Roboto/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24AF2B08511C007F61BA /* Montserrat-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Montserrat-ExtraBold.ttf"; path = "../../../Downloads/Montserrat/static/Montserrat-ExtraBold.ttf"; sourceTree = "<group>"; };
+		F6FF24B12B085208007F61BA /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Nunito-ExtraBold.ttf"; path = "../../../Downloads/Nunito/static/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		F6FF24B32B085336007F61BA /* AmaticSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "AmaticSC-Bold.ttf"; path = "../../../Downloads/Amatic_SC/AmaticSC-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24B52B0853EE007F61BA /* ChakraPetch-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ChakraPetch-Bold.ttf"; path = "../../../Downloads/Chakra_Petch/ChakraPetch-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24B72B085444007F61BA /* Caveat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Caveat-SemiBold.ttf"; path = "../../../Downloads/Caveat/static/Caveat-SemiBold.ttf"; sourceTree = "<group>"; };
+		F6FF24B92B0854B7007F61BA /* DancingScript-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DancingScript-Bold.ttf"; path = "../../../Downloads/Dancing_Script/static/DancingScript-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24BB2B085503007F61BA /* BarlowCondensed-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BarlowCondensed-Bold.ttf"; path = "../../../Downloads/Barlow_Condensed/BarlowCondensed-Bold.ttf"; sourceTree = "<group>"; };
+		F6FF24BD2B085767007F61BA /* BarlowCondensed-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BarlowCondensed-Medium.ttf"; path = "../../../Downloads/Barlow_Condensed/BarlowCondensed-Medium.ttf"; sourceTree = "<group>"; };
+		F6FF24BF2B085C97007F61BA /* EditablePoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePoll.swift; sourceTree = "<group>"; };
+		F6FF24C22B086045007F61BA /* SharedEditState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEditState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -193,6 +260,7 @@
 		F63432592AC7A16C00E756BA /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				F6FF24782B083F57007F61BA /* fonts */,
 				F63432692AC7CC1500E756BA /* User.swift */,
 				F647CDC72AD649CB00D362DB /* Post */,
 			);
@@ -271,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C8DC2129DF7CEF0014849C /* Editor.swift */,
+				F6FF24C12B086011007F61BA /* Editor Classes */,
 				F6FF246C2B0486EA007F61BA /* ExitConfirmation.swift */,
 				F647CDD02AD64BCE00D362DB /* Background.swift */,
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
@@ -342,6 +411,7 @@
 		F6C8DC1E29DF7CEF0014849C /* Popper */ = {
 			isa = PBXGroup;
 			children = (
+				F6FF24AC2B084555007F61BA /* Info.plist */,
 				F634326D2AC7D94C00E756BA /* GoogleService-Info.plist */,
 				F63432592AC7A16C00E756BA /* Model */,
 				F63432582AC7A15E00E756BA /* Views */,
@@ -386,9 +456,56 @@
 				F647CDCA2AD64A0600D362DB /* EditableText.swift */,
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
-				F6FF24762B07545D007F61BA /* EditablePoll.swift */,
+				F6FF24BF2B085C97007F61BA /* EditablePoll.swift */,
+				F6FF24762B07545D007F61BA /* PollView.swift */,
 			);
 			path = ViewTypes;
+			sourceTree = "<group>";
+		};
+		F6FF24782B083F57007F61BA /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F6FF247A2B084032007F61BA /* OldLondon.ttf */,
+				F6FF247B2B084063007F61BA /* Louis George Cafe.ttf */,
+				F6FF247C2B084071007F61BA /* SCRIPTIN.ttf */,
+				F6FF247D2B08408E007F61BA /* Montserrat-Regular.ttf */,
+				F6FF24AF2B08511C007F61BA /* Montserrat-ExtraBold.ttf */,
+				F6FF247E2B0840B0007F61BA /* PlayfairDisplay-Regular.ttf */,
+				F6FF247F2B0840C8007F61BA /* Nunito-Regular.ttf */,
+				F6FF24B12B085208007F61BA /* Nunito-ExtraBold.ttf */,
+				F6FF24802B0840F2007F61BA /* Lato-Regular.ttf */,
+				F6FF24812B084119007F61BA /* Rubik-Regular.ttf */,
+				F6FF24822B084149007F61BA /* JosefinSans-Regular.ttf */,
+				F6FF24832B08417B007F61BA /* BebasNeue-Regular.ttf */,
+				F6FF24BB2B085503007F61BA /* BarlowCondensed-Bold.ttf */,
+				F6FF24BD2B085767007F61BA /* BarlowCondensed-Medium.ttf */,
+				F6FF24842B0841B4007F61BA /* BarlowCondensed-Regular.ttf */,
+				F6FF24852B0841C0007F61BA /* SourceCodePro-Regular.ttf */,
+				F6FF24862B0841D4007F61BA /* Cabin-Bold.ttf */,
+				F6FF24B92B0854B7007F61BA /* DancingScript-Bold.ttf */,
+				F6FF24872B0841F3007F61BA /* DancingScript-Regular.ttf */,
+				F6FF24882B084200007F61BA /* Pacifico-Regular.ttf */,
+				F6FF24892B08420F007F61BA /* Caveat-Regular.ttf */,
+				F6FF24B72B085444007F61BA /* Caveat-SemiBold.ttf */,
+				F6FF248A2B08421C007F61BA /* ShadowsIntoLight-Regular.ttf */,
+				F6FF24B52B0853EE007F61BA /* ChakraPetch-Bold.ttf */,
+				F6FF248C2B084237007F61BA /* IndieFlower-Regular.ttf */,
+				F6FF248D2B084242007F61BA /* PermanentMarker-Regular.ttf */,
+				F6FF24B32B085336007F61BA /* AmaticSC-Bold.ttf */,
+				F6FF248F2B08425E007F61BA /* Kalam-Regular.ttf */,
+				F6FF24902B084269007F61BA /* GreatVibes-Regular.ttf */,
+				F6FF24AD2B084C4F007F61BA /* Roboto-Bold.ttf */,
+				F6FF24922B0842A8007F61BA /* CaviarDreams_Italic.ttf */,
+			);
+			name = fonts;
+			sourceTree = "<group>";
+		};
+		F6FF24C12B086011007F61BA /* Editor Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F6FF24C22B086045007F61BA /* SharedEditState.swift */,
+			);
+			path = "Editor Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,8 +626,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6FF24B42B085336007F61BA /* AmaticSC-Bold.ttf in Resources */,
+				F6FF24BC2B085503007F61BA /* BarlowCondensed-Bold.ttf in Resources */,
+				F6FF24952B084375007F61BA /* SCRIPTIN.ttf in Resources */,
+				F6FF249B2B084382007F61BA /* JosefinSans-Regular.ttf in Resources */,
+				F6FF24A52B08439F007F61BA /* IndieFlower-Regular.ttf in Resources */,
+				F6FF249C2B084384007F61BA /* BebasNeue-Regular.ttf in Resources */,
 				F6C8DC2729DF7CF00014849C /* Preview Assets.xcassets in Resources */,
+				F6FF249D2B084386007F61BA /* BarlowCondensed-Regular.ttf in Resources */,
+				F6FF24A82B0843A5007F61BA /* Kalam-Regular.ttf in Resources */,
+				F6FF249F2B08438B007F61BA /* Cabin-Bold.ttf in Resources */,
+				F6FF24BA2B0854B7007F61BA /* DancingScript-Bold.ttf in Resources */,
+				F6FF24A32B08439A007F61BA /* ShadowsIntoLight-Regular.ttf in Resources */,
+				F6FF24962B084378007F61BA /* Montserrat-Regular.ttf in Resources */,
 				F6C8DC2429DF7CF00014849C /* Assets.xcassets in Resources */,
+				F6FF24A62B0843A1007F61BA /* PermanentMarker-Regular.ttf in Resources */,
+				F6FF24A22B084397007F61BA /* Caveat-Regular.ttf in Resources */,
+				F6FF24972B08437A007F61BA /* PlayfairDisplay-Regular.ttf in Resources */,
+				F6FF24A12B084395007F61BA /* Pacifico-Regular.ttf in Resources */,
+				F6FF24942B084373007F61BA /* Louis George Cafe.ttf in Resources */,
+				F6FF24AB2B0843AB007F61BA /* CaviarDreams_Italic.ttf in Resources */,
+				F6FF24A02B084393007F61BA /* DancingScript-Regular.ttf in Resources */,
+				F6FF249A2B084380007F61BA /* Rubik-Regular.ttf in Resources */,
+				F6FF24982B08437C007F61BA /* Nunito-Regular.ttf in Resources */,
+				F6FF24AE2B084C55007F61BA /* Roboto-Bold.ttf in Resources */,
+				F6FF24B02B08511C007F61BA /* Montserrat-ExtraBold.ttf in Resources */,
+				F6FF24B82B08544E007F61BA /* Caveat-SemiBold.ttf in Resources */,
+				F6FF24992B08437E007F61BA /* Lato-Regular.ttf in Resources */,
+				F6FF24A92B0843A7007F61BA /* GreatVibes-Regular.ttf in Resources */,
+				F6FF24BE2B085768007F61BA /* BarlowCondensed-Medium.ttf in Resources */,
+				F6FF24932B084371007F61BA /* OldLondon.ttf in Resources */,
+				F6FF24B62B0853EE007F61BA /* ChakraPetch-Bold.ttf in Resources */,
+				F6FF24B22B08522C007F61BA /* Nunito-ExtraBold.ttf in Resources */,
+				F6FF249E2B084388007F61BA /* SourceCodePro-Regular.ttf in Resources */,
 				F634326E2AC7D94C00E756BA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,9 +700,10 @@
 				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
 				F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */,
 				F6C3BD8F2AF5A9ED00DD4405 /* ColorPicker.swift in Sources */,
-				F6FF24772B07545D007F61BA /* EditablePoll.swift in Sources */,
+				F6FF24772B07545D007F61BA /* PollView.swift in Sources */,
 				F6FF24632B032066007F61BA /* EditableElement.swift in Sources */,
 				F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */,
+				F6FF24C32B086045007F61BA /* SharedEditState.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
 				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,
@@ -566,6 +715,7 @@
 				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
+				F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
 				F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */,
@@ -744,6 +894,7 @@
 				DEVELOPMENT_TEAM = 8Q9WG9FM4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Popper/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Popper;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -775,6 +926,7 @@
 				DEVELOPMENT_TEAM = 8Q9WG9FM4D;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Popper/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Popper;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.social-networking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

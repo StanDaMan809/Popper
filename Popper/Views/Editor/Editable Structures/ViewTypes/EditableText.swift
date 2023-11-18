@@ -13,7 +13,7 @@ class editableTxt: ObservableObject {
     // Include color as a dimension
     // Include font as a dimension
     // Include alignment
-    @Published var font: Font = Font.system(size: defaultTextSize)
+    @Published var font: Font = Font.custom("BarlowCondensed-Medium", size: defaultTextSize)
     @Published var message: String
     @Published var currentShape: ClippableShape = .roundedrectangle
     @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
@@ -55,45 +55,46 @@ struct EditableText: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
-    @Binding var textSelected: Bool
     @Binding var editPrio: Double
+    @State var priority: Double = 0
     
     var body: some View
     { if text.display
             {
-        if textSelected, case .text = sharedEditNotifier.selectedElement?.element, sharedEditNotifier.editorDisplayed != .elementDisappear {
+        if amISelected(), sharedEditNotifier.editorDisplayed != .elementDisappear {
                     
-                    Color.black
-                        .opacity(0.2)
+                        Color.black
+                            .opacity(0.2)
+                            
+                            .edgesIgnoringSafeArea(.all)
                         
-                        .edgesIgnoringSafeArea(.all)
-                    
-                        .onTapGesture {
-                            textSelected.toggle()
-                            sharedEditNotifier.restoreDefaults()
-                        }
-                        .zIndex(editPrio)
+                            .onTapGesture {
+                                sharedEditNotifier.restoreDefaults()
+                            }
+                            .zIndex(Double(text.id))
+                            
                         
-                    
-                    TextField("", text: $text.message, axis: .vertical)
-                        .font(text.font)
-                        .foregroundColor(text.color)
-                        .background(text.bgColor)
-                        .offset(x: 0, y: -100)
-    //                        .frame(width: defaultTextFrame)
-    //                        .zIndex(Double(sharedEditNotifier.objectsCount + 1)) // Controls layer
-                        .multilineTextAlignment(.center)
-                        .onSubmit {
-                            textSelected.toggle()
-                            sharedEditNotifier.restoreDefaults()
-                        }
-                        .zIndex(editPrio)
+                        TextField("", text: $text.message, axis: .vertical)
+                            .font(text.font)
+                            .fontWeight(.bold)
+                            .foregroundColor(text.color)
+                            .background(text.bgColor)
+                            .offset(x: 0, y: -100)
+        //                        .frame(width: defaultTextFrame)
+        //                        .zIndex(Double(sharedEditNotifier.objectsCount + 1)) // Controls layer
+                            .multilineTextAlignment(.center)
+                            .onSubmit {
+                                sharedEditNotifier.restoreDefaults()
+                            }
+                            .zIndex(Double(text.id))
+                            
                 }
                 else
                 {
                     Text(text.message)
                         // Text characteristics
                         .font(text.font)
+                        .fontWeight(.bold)
 //                        .frame(width: defaultTextFrame)
                         .foregroundColor(text.color)
                         .padding()
@@ -112,7 +113,7 @@ struct EditableText: View {
                         .scaleEffect(text.scalar + currentAmount)
                         .opacity(text.transparency)
                         .position(text.totalOffset)
-                        .zIndex(Double(text.id)) // Controls layer
+                        .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(text.id)) // Controls layer
                         .multilineTextAlignment(.center)
                     
                     
@@ -120,6 +121,18 @@ struct EditableText: View {
                 
             }
         }
+    
+    func amISelected() -> Bool {
+        if sharedEditNotifier.selectedElement?.element.id == text.id {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func generateIndex() -> Double {
+        return Double(sharedEditNotifier.objectsCount) + 1
+    }
 }
 
 struct EditableTextData: Codable, Equatable, Hashable {

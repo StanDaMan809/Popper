@@ -65,7 +65,7 @@ struct EditableVideo: View {
                 .scaleEffect(video.scalar + currentAmount)
                 .position(video.totalOffset)
                 .opacity(video.transparency)
-                .zIndex(Double(video.id))
+                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(video.id))
         }
     }
 }

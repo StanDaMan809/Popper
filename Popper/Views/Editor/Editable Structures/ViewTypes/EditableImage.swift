@@ -68,7 +68,7 @@ struct EditableImage: View {
                         .scaleEffect(image.scalar + currentAmount)
                         .position(image.totalOffset)
                         .opacity(image.transparency)
-                        .zIndex(Double(image.id))
+                        .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(image.id))
             }
         }
 }

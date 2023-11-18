@@ -18,11 +18,10 @@ struct EditableElement: View {
     @State private var rotationToSend = Angle.zero // This is the rotation to send, cannot convert gesturestate to binding
     @State private var audioPlayer: AVAudioPlayer?
     @State private var timer: Timer?
-    @State var textSelected: Bool = false
     
     var body: some View {
         
-        ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend, textSelected: $textSelected)
+        ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend)
         
             .onTapGesture (count: 2)
         {
@@ -173,9 +172,6 @@ struct EditableElement: View {
                             if timer == nil {
                                 timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
                                     // Your action after 0.5 seconds
-                                    if case .text = element.element {
-                                        textSelected = true
-                                    }
                                     sharedEditNotifier.selectElement(element: element)
                                 }
                             }

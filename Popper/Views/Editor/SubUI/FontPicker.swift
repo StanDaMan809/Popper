@@ -13,33 +13,49 @@ struct FontPicker: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     let fonts: [Font] = [
-        Font.system(size: defaultTextSize),
-        Font.custom("AcademyEngravedLetPlain", size: defaultTextSize),
-        Font.custom("AmericanTypewriter", size: defaultTextSize),
-        Font.custom("ArialRoundedMTBold", size: defaultTextSize),
-        Font.custom("AvenirNextCondensed-HeavyItalic", size: defaultTextSize),
-        Font.custom("Baskerville", size: defaultTextSize),
-        Font.custom("ChalkboardSE-Regular", size: defaultTextSize),
-        Font.custom("Chalkduster", size: defaultTextSize),
-        Font.custom("Copperplate", size: defaultTextSize),
-        Font.custom("Futura-CondensedMedium", size: defaultTextSize),
-        Font.custom("Futura-CondensedExtraBold", size: defaultTextSize),
-        Font.custom("Helvetica", size: defaultTextSize),
-        Font.custom("Papyrus", size: defaultTextSize),
-        Font.custom("SavoyeLetPlain", size: defaultTextSize),
-        Font.custom("SnellRoundhand", size: defaultTextSize),
-        Font.custom("TimesNewRomanPSMT", size: defaultTextSize)
+        Font.custom("Cabin-Bold", size: defaultTextSize),
+        Font.custom("Roboto-Bold", size: defaultTextSize),
+        Font.custom("Louis George Cafe", size: defaultTextSize),
+        Font.custom("Montserrat-ExtraBold", size: defaultTextSize),
+        Font.custom("PlayfairDisplay-Regular", size: defaultTextSize),
+        Font.custom("Nunito-ExtraBold", size: defaultTextSize),
+        Font.custom("Lato-Regular", size: defaultTextSize),
+        Font.custom("Rubik-Regular", size: defaultTextSize),
+        Font.custom("JosefinSans-Regular", size: defaultTextSize),
+        Font.custom("BebasNeue-Regular", size: defaultTextSize),
+        Font.custom("BarlowCondensed-Bold", size: defaultTextSize),
+        Font.custom("SourceCodePro-Regular", size: defaultTextSize),
+        Font.custom("DancingScript-Bold", size: defaultTextSize),
+        Font.custom("Pacifico-Regular", size: defaultTextSize),
+        Font.custom("Caveat-SemiBold", size: defaultTextSize),
+        Font.custom("ShadowsIntoLight-Regular", size: defaultTextSize),
+        Font.custom("ChakraPetch-Bold", size: defaultTextSize),
+        Font.custom("IndieFlower-Regular", size: defaultTextSize),
+        Font.custom("AmaticSC-Bold", size: defaultTextSize),
+        Font.custom("Kalam-Regular", size: defaultTextSize),
+        Font.custom("GreatVibes-Regular", size: defaultTextSize),
+        Font.custom("CaviarDreams_Italic", size: defaultTextSize),
+        Font.custom("PermanentMarker-Regular", size: defaultTextSize),
+        Font.custom("OldLondon", size: defaultTextSize)
     ]
+    
+    
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(alignment: .center) {
                 ForEach(Array(fonts.enumerated()), id: \.offset) { index, font in
-                    Text("Text")
-                        .font(font)
-                        .foregroundStyle(Color.white)
-                        .background(Color.black)
-//                        .frame(height: 25)
+                    ZStack {
+                        Circle()
+                            .foregroundStyle(Color.black)
+                            .frame(width: 50, height: 50)
+                            .opacity(0.8)
+                        
+                        Text("Abc")
+                            .font(font)
+                            .foregroundStyle(Color.white)
+                    }
+                    //                        .frame(height: 25)
                         .onTapGesture {
                             textFont = font
                             print("Font Changed!")

@@ -97,6 +97,28 @@ struct bottomButtons: View {
             
         case .voiceRecorder:
             audioButton(sharedEditNotifier: sharedEditNotifier)
+            
+        case .colorPickerPollTop:
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
+                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.topColor}, set: { currentlySelected.topColor = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
+            }
+        case .colorPickerPollBG:
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
+                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.bottomColor}, set: { currentlySelected.bottomColor = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
+            }
+        case .colorPickerPollButton:
+            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
+                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+                    ColorPicker(elementColor: Binding(get: {currentlySelected.buttonColor}, set: { currentlySelected.buttonColor = $0 }), sharedEditNotifier: sharedEditNotifier)
+                        .vAlign(.bottom)
+                }
+            }
         }
         
     }

@@ -69,7 +69,7 @@ struct EditableShape: View {
                 .scaleEffect(shape.scalar + currentAmount)
                 .position(shape.totalOffset)
                 .opacity(shape.transparency)
-                .zIndex(Double(shape.id)) // Controls layer
+                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(shape.id)) // Controls layer
             
                 .onTapGesture (count: 2)
                 {

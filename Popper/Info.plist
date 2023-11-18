@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>OldLondon.ttf</string>
+		<string>Louis George Cafe.ttf</string>
+		<string>SCRIPTIN.ttf</string>
+		<string>Montserrat-ExtraBold.ttf</string>
+		<string>PlayfairDisplay-Regular.ttf</string>
+		<string>Nunito-ExtraBold.ttf</string>
+		<string>Lato-Regular.ttf</string>
+		<string>Rubik-Regular.ttf</string>
+		<string>JosefinSans-Regular.ttf</string>
+		<string>BebasNeue-Regular.ttf</string>
+		<string>BarlowCondensed-Bold.ttf</string>
+		<string>BarlowCondensed-Regular.ttf</string>
+		<string>BarlowCondensed-Medium.ttf</string>
+		<string>SourceCodePro-Regular.ttf</string>
+		<string>Cabin-Bold.ttf</string>
+		<string>DancingScript-Bold.ttf</string>
+		<string>Pacifico-Regular.ttf</string>
+		<string>Caveat-SemiBold.ttf</string>
+		<string>ShadowsIntoLight-Regular.ttf</string>
+		<string>ChakraPetch-Bold.ttf</string>
+		<string>IndieFlower-Regular.ttf</string>
+		<string>PermanentMarker-Regular.ttf</string>
+		<string>AmaticSC-Bold.ttf</string>
+		<string>Kalam-Regular.ttf</string>
+		<string>GreatVibes-Regular.ttf</string>
+		<string>CaviarDreams_Italic.ttf</string>
+		<string>Robot-Bold.ttf</string>
+	</array>
+</dict>
+</plist>

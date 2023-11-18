@@ -150,6 +150,15 @@ struct SideButtons: View {
                     }
             })
             
+            if !sharedEditNotifier.backgroundEdit {
+                Button(action: {
+                    pollAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                },
+                       label: {
+                    sideButton(systemName: "checkmark.square.fill", grayOpacity: grayOpacityRegular)
+                })
+            }
+            
             
             
         case .textEdit:
@@ -265,6 +274,18 @@ struct SideButtons: View {
                 reusableElementButtons(parent: self)
             }
             
+        case .pollEdit:
+            
+                Button(action: {
+                    sharedEditNotifier.pressedButton = .noButton
+                    sharedEditNotifier.restoreDefaults()
+                },
+                       label: {
+                    sideButton(systemName: "checkmark.square.fill", grayOpacity: grayOpacitySelected)
+                })
+                
+                reusableElementButtons(parent: self)
+            
         case .elementAppear:
             
             ScrollView(.horizontal, showsIndicators: false) {
@@ -311,6 +332,13 @@ struct SideButtons: View {
                     })
                     
                     Button(action: {
+                        pollAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    },
+                           label: {
+                        sideButton(systemName: "checkmark.square.fill", grayOpacity: grayOpacityRegular)
+                    })
+                    
+                    Button(action: {
                         sharedEditNotifier.editorDisplayed = .voiceRecorder
                     },
                            label: {
@@ -319,8 +347,6 @@ struct SideButtons: View {
                 }
                 .padding(.horizontal, 20)
             }
-            
-            
         }
         }
         .tint(.black)
@@ -336,7 +362,7 @@ struct SideButtons: View {
         let parent: SideButtons
         
         var body: some View {
-                if !parent.sharedEditNotifier.backgroundEdit {
+            if !parent.sharedEditNotifier.backgroundEdit, parent.sharedEditNotifier.pressedButton != .pollEdit {
                     Button(action: {
                         //                    self.showImagePicker = true
                         parent.sharedEditNotifier.editorDisplayed = .photoAppear
@@ -346,9 +372,7 @@ struct SideButtons: View {
                         sideButton(systemName: "plus", grayOpacity: parent.grayOpacityRegular, buttonSizeDifference: 5)
                         
                     })
-                }
                 
-                if !parent.sharedEditNotifier.backgroundEdit {
                     Button(action: {
                         parent.sharedEditNotifier.editorDisplayed = .elementDisappear
                     },
@@ -412,7 +436,7 @@ struct SideButtons: View {
     func needsPadding() -> Bool { // Checks and disables padding if a ScrollView is necessary for the current display
         
         
-        if (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .textEdit) || (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .shapeEdit) || sharedEditNotifier.pressedButton == .noButton || sharedEditNotifier.pressedButton == .bgButton || sharedEditNotifier.pressedButton == .extrasButton { // basically if not scrollview
+        if (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .textEdit) || (sharedEditNotifier.backgroundEdit && sharedEditNotifier.pressedButton != .shapeEdit) || sharedEditNotifier.pressedButton == .noButton || sharedEditNotifier.pressedButton == .bgButton || sharedEditNotifier.pressedButton == .extrasButton || sharedEditNotifier.pressedButton == .pollEdit { // basically if not scrollview
             return true
         } else {
             return false

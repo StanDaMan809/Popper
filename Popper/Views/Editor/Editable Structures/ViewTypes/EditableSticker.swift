@@ -66,7 +66,7 @@ struct EditableSticker: View {
                         .scaleEffect(sticker.scalar + currentAmount)
                         .position(sticker.totalOffset)
                         .opacity(sticker.transparency)
-                        .zIndex(Double(sticker.id))
+                        .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(sticker.id))
             }
         }
 }

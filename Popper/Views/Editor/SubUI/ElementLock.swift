@@ -23,7 +23,8 @@ struct elementLock: View {
                             .frame(width: 20, height: 20, alignment: .center)
                             .foregroundStyle(Color.white)
                             .zIndex(Double(id))
-                            .padding()
+                            .padding(.vertical, 10)
+                            .padding(.horizontal, 10)
                             .background(Circle().backgroundStyle(Color.gray).opacity(0.2))
                             
                    } else {

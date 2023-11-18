@@ -64,10 +64,10 @@ struct Editor: View {
                                     .opacity(0.8)
                                     .frame(width: 50, height: 50)
                                 
-                                Image(systemName: "arrow.backward")
+                                Image(systemName: "chevron.backward")
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: 30, height: 30)
+                                    .frame(width: 25, height: 25)
                                     .foregroundStyle(Color.white)
                             }
                         })
@@ -118,7 +118,6 @@ struct Editor: View {
                         
                     }
                 }
-                .zIndex(Double(parent.sharedEditNotifier.objectsCount))
                 
             }
             
@@ -234,19 +233,7 @@ struct EditorTopUIButtons: View {
 }
 
 
-enum UIButtonPress {
-    
-    case noButton
-    case imageEdit
-    case bgButton
-    case extrasButton
-    case disappeared
-    case textEdit
-    case shapeEdit
-    case stickerEdit
-    case elementAppear
-    
-}
+
 
 enum ClippableShape: Int {
     
@@ -324,83 +311,6 @@ func shapeForClippableShape(shape: ClippableShape) -> some View {
     case .star:
         return AnyView(Star())
     }
-}
-
-class SharedEditState: ObservableObject {
-    
-    @Published var currentlyEdited: Bool = false
-    @Published var buttonDim: Double = 1
-    @Published var disabled: Bool = false
-    @Published var selectedElement: editorElement?
-    @Published var editorDisplayed = EditorDisplayed.none
-    @Published var pressedButton: UIButtonPress = .noButton
-    @Published var rewindButtonPresent: Bool = false
-    @Published var objectsCount: Int = 0
-    @Published var backgroundEdit: Bool = false
-    @Published var bgObjectsCount: Int = 0
-    @Published var delete: Bool = false
-    @Published var trashCanFrame = CGRect.zero
-    @Published var toDelete = false
-    
-    func editToggle()
-    {
-        if self.currentlyEdited
-        {
-            self.buttonDim = 0.4
-            self.disabled = true
-        }
-        else
-        {
-            self.buttonDim = 1
-            self.disabled = false
-        }
-    }
-    
-    
-    func selectElement(element: editorElement) {
-        selectedElement = element
-        
-        switch element.element {
-        case .image:
-            pressedButton = .imageEdit
-        case .video:
-            pressedButton = .imageEdit // this will be changed if i decide to implement video-specific changes later... but im not quite sure ab that
-        case .text:
-            pressedButton = .textEdit
-        case .shape:
-            pressedButton = .shapeEdit
-        case .sticker:
-            pressedButton = .stickerEdit
-            
-        }
-    }
-    
-    func restoreDefaults() { // For when you need to make sure that everything is fine
-        deselectAll()
-        editorDisplayed = .none
-        pressedButton = .noButton
-    }
-    
-    func deselectAll() {
-        selectedElement = nil
-    }
-    
-    
-    
-    enum EditorDisplayed: Int {
-        
-        case none
-        case linkEditor
-        case transparencySlider
-        case photoAppear
-        case elementDisappear
-        case colorPickerText
-        case colorPickerTextBG
-        case colorPickerShape
-        case fontPicker
-        case voiceRecorder
-    }
-    
 }
 
 func deleteElement(elementsArray: editorElementsArray, id: Int) {

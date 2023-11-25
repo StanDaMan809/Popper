@@ -326,3 +326,21 @@ extension Color {
     static let taupeBrown = Color(red: 0.282, green: 0.239, blue: 0.545)
     static let espressoBrown = Color(red: 0.233, green: 0.192, blue: 0.173)
 }
+
+extension UIView {
+
+    /// Creates an image from the view's contents, using its layer.
+    ///
+    /// - Returns: An image, or nil if an image couldn't be created.
+    func image() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        context.saveGState()
+        layer.render(in: context)
+        context.restoreGState()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else { return nil }
+        UIGraphicsEndImageContext()
+        return image
+    }
+
+}

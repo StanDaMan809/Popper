@@ -40,7 +40,7 @@ struct ReusableCommentView: View {
             guard comments.isEmpty else{return}
             await fetchComments()
         }
-        .navigationTitle("5 Comments")
+        .navigationTitle(comments.count != 1 ? "\(comments.count) Comments" : "\(comments.count) Comment")
     }
     
     @ViewBuilder

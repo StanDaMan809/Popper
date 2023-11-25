@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61702612B0EF8AE003816F7 /* imsobbing.swift */; };
+		F61702642B1161B7003816F7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61702632B1161B7003816F7 /* Profile.swift */; };
+		F61702712B11BD9D003816F7 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = F61702702B11BD9D003816F7 /* WrappingHStack */; };
 		F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F626855D2AFC3403002A02EA /* EditableVideo.swift */; };
 		F62685622AFC3720002A02EA /* editorElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62685612AFC3720002A02EA /* editorElements.swift */; };
 		F63432572AC7A14B00E756BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F63432562AC7A14B00E756BA /* FirebaseAuth */; };
@@ -100,6 +103,18 @@
 		F6FF24BE2B085768007F61BA /* BarlowCondensed-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F6FF24BD2B085767007F61BA /* BarlowCondensed-Medium.ttf */; };
 		F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24BF2B085C97007F61BA /* EditablePoll.swift */; };
 		F6FF24C32B086045007F61BA /* SharedEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C22B086045007F61BA /* SharedEditState.swift */; };
+		F6FF24C62B089DC3007F61BA /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C52B089DC3007F61BA /* PostImageView.swift */; };
+		F6FF24C82B089E18007F61BA /* PostTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C72B089E18007F61BA /* PostTextsView.swift */; };
+		F6FF24CA2B08A2D4007F61BA /* PostShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */; };
+		F6FF24CC2B08A4CF007F61BA /* PostVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24CB2B08A4CF007F61BA /* PostVideoView.swift */; };
+		F6FF24CE2B08A81C007F61BA /* PostPollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24CD2B08A81C007F61BA /* PostPollView.swift */; };
+		F6FF24D02B08B028007F61BA /* postElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24CF2B08B028007F61BA /* postElements.swift */; };
+		F6FF24D32B08B29C007F61BA /* postElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24D22B08B29C007F61BA /* postElementView.swift */; };
+		F6FF24D52B08B3DB007F61BA /* PostElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24D42B08B3DB007F61BA /* PostElement.swift */; };
+		F6FF24D72B08B4F9007F61BA /* PostRewindButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24D62B08B4F9007F61BA /* PostRewindButton.swift */; };
+		F6FF24DD2B09AE74007F61BA /* please.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24DC2B09AE74007F61BA /* please.swift */; };
+		F6FF24E02B09C179007F61BA /* textToEditableImg.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24DF2B09C179007F61BA /* textToEditableImg.swift */; };
+		F6FF24E22B09D110007F61BA /* PostStickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24E12B09D110007F61BA /* PostStickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +135,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F61702612B0EF8AE003816F7 /* imsobbing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imsobbing.swift; sourceTree = "<group>"; };
+		F61702632B1161B7003816F7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		F626855D2AFC3403002A02EA /* EditableVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableVideo.swift; sourceTree = "<group>"; };
 		F62685612AFC3720002A02EA /* editorElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editorElements.swift; sourceTree = "<group>"; };
 		F634325A2AC7A1B400E756BA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -210,6 +227,18 @@
 		F6FF24BD2B085767007F61BA /* BarlowCondensed-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "BarlowCondensed-Medium.ttf"; path = "../../../Downloads/Barlow_Condensed/BarlowCondensed-Medium.ttf"; sourceTree = "<group>"; };
 		F6FF24BF2B085C97007F61BA /* EditablePoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePoll.swift; sourceTree = "<group>"; };
 		F6FF24C22B086045007F61BA /* SharedEditState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEditState.swift; sourceTree = "<group>"; };
+		F6FF24C52B089DC3007F61BA /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
+		F6FF24C72B089E18007F61BA /* PostTextsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTextsView.swift; sourceTree = "<group>"; };
+		F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostShapeView.swift; sourceTree = "<group>"; };
+		F6FF24CB2B08A4CF007F61BA /* PostVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoView.swift; sourceTree = "<group>"; };
+		F6FF24CD2B08A81C007F61BA /* PostPollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPollView.swift; sourceTree = "<group>"; };
+		F6FF24CF2B08B028007F61BA /* postElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postElements.swift; sourceTree = "<group>"; };
+		F6FF24D22B08B29C007F61BA /* postElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postElementView.swift; sourceTree = "<group>"; };
+		F6FF24D42B08B3DB007F61BA /* PostElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostElement.swift; sourceTree = "<group>"; };
+		F6FF24D62B08B4F9007F61BA /* PostRewindButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRewindButton.swift; sourceTree = "<group>"; };
+		F6FF24DC2B09AE74007F61BA /* please.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = please.swift; sourceTree = "<group>"; };
+		F6FF24DF2B09C179007F61BA /* textToEditableImg.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = textToEditableImg.swift; sourceTree = "<group>"; };
+		F6FF24E12B09D110007F61BA /* PostStickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostStickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +249,7 @@
 				F63432802AC7F26E00E756BA /* SDWebImageSwiftUI in Frameworks */,
 				F63432622AC7C62700E756BA /* FirebaseAnalytics in Frameworks */,
 				F63432572AC7A14B00E756BA /* FirebaseAuth in Frameworks */,
+				F61702712B11BD9D003816F7 /* WrappingHStack in Frameworks */,
 				F63432642AC7CA7200E756BA /* FirebaseFirestore in Frameworks */,
 				F63432682AC7CA7200E756BA /* FirebaseStorage in Frameworks */,
 				F6FF24702B06CCED007F61BA /* GiphyUISDK in Frameworks */,
@@ -244,6 +274,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F61702652B118F35003816F7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				F61702632B1161B7003816F7 /* Profile.swift */,
+			);
+			name = Profile;
+			sourceTree = "<group>";
+		};
 		F63432582AC7A15E00E756BA /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -262,6 +300,7 @@
 			children = (
 				F6FF24782B083F57007F61BA /* fonts */,
 				F63432692AC7CC1500E756BA /* User.swift */,
+				F61702652B118F35003816F7 /* Profile */,
 				F647CDC72AD649CB00D362DB /* Post */,
 			);
 			name = Model;
@@ -287,6 +326,7 @@
 		F63432762AC7E4B800E756BA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				F6FF24DE2B09C164007F61BA /* Functions */,
 				F63432742AC7E44E00E756BA /* Views and Extensions.swift */,
 				F65DCBA52AD89FBC002B878C /* Global Variables.swift */,
 			);
@@ -306,6 +346,7 @@
 			children = (
 				F63432782AC7E66900E756BA /* MainView.swift */,
 				F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */,
+				F6FF24DC2B09AE74007F61BA /* please.swift */,
 				F647CDD22AD6725400D362DB /* PostConfirmation.swift */,
 				F647CDC12AD4C93500D362DB /* ProfileView */,
 				F647CDC02AD4C8FC00D362DB /* PostView */,
@@ -345,8 +386,6 @@
 				F647CDCC2AD64AF400D362DB /* SideButtons.swift */,
 				F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */,
 				F647CDCE2AD64B5200D362DB /* BottomButtons.swift */,
-				F6964AA22AF9F447000E9C94 /* DrawingView.swift */,
-				F6FF24712B06CE19007F61BA /* GifSelector.swift */,
 				F6964A9F2AF9DE4C000E9C94 /* Editable Structures */,
 				F6964A9E2AF9DE2B000E9C94 /* SubUI */,
 				F6964A982AF9C14A000E9C94 /* Trash.swift */,
@@ -358,7 +397,7 @@
 			isa = PBXGroup;
 			children = (
 				F647CDB72AD4A57200D362DB /* Post.swift */,
-				F65DCBA32AD89806002B878C /* imgElements.swift */,
+				F6FF24D82B08B508007F61BA /* Views */,
 				F6C3BD822AF1DAAD00DD4405 /* Comment.swift */,
 			);
 			name = Post;
@@ -372,6 +411,8 @@
 				F6C3BD8E2AF5A9ED00DD4405 /* ColorPicker.swift */,
 				F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */,
 				F6FF246A2B046DB0007F61BA /* audioButton.swift */,
+				F6FF24712B06CE19007F61BA /* GifSelector.swift */,
+				F6964AA22AF9F447000E9C94 /* DrawingView.swift */,
 			);
 			path = SubUI;
 			sourceTree = "<group>";
@@ -390,6 +431,7 @@
 		F6C8DC1329DF7CEF0014849C = {
 			isa = PBXGroup;
 			children = (
+				F61702612B0EF8AE003816F7 /* imsobbing.swift */,
 				F6C8DC1E29DF7CEF0014849C /* Popper */,
 				F6C8DC2F29DF7CF10014849C /* PopperTests */,
 				F6C8DC3929DF7CF10014849C /* PopperUITests */,
@@ -508,6 +550,40 @@
 			path = "Editor Classes";
 			sourceTree = "<group>";
 		};
+		F6FF24C42B089D81007F61BA /* Post Elements */ = {
+			isa = PBXGroup;
+			children = (
+				F6FF24C52B089DC3007F61BA /* PostImageView.swift */,
+				F6FF24C72B089E18007F61BA /* PostTextsView.swift */,
+				F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */,
+				F6FF24CD2B08A81C007F61BA /* PostPollView.swift */,
+				F6FF24E12B09D110007F61BA /* PostStickerView.swift */,
+				F6FF24CB2B08A4CF007F61BA /* PostVideoView.swift */,
+			);
+			name = "Post Elements";
+			sourceTree = "<group>";
+		};
+		F6FF24D82B08B508007F61BA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F65DCBA32AD89806002B878C /* imgElements.swift */,
+				F6FF24CF2B08B028007F61BA /* postElements.swift */,
+				F6FF24D22B08B29C007F61BA /* postElementView.swift */,
+				F6FF24D42B08B3DB007F61BA /* PostElement.swift */,
+				F6FF24C42B089D81007F61BA /* Post Elements */,
+				F6FF24D62B08B4F9007F61BA /* PostRewindButton.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		F6FF24DE2B09C164007F61BA /* Functions */ = {
+			isa = PBXGroup;
+			children = (
+				F6FF24DF2B09C179007F61BA /* textToEditableImg.swift */,
+			);
+			path = Functions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -532,6 +608,7 @@
 				F63432672AC7CA7200E756BA /* FirebaseStorage */,
 				F634327F2AC7F26E00E756BA /* SDWebImageSwiftUI */,
 				F6FF246F2B06CCED007F61BA /* GiphyUISDK */,
+				F61702702B11BD9D003816F7 /* WrappingHStack */,
 			);
 			productName = Popper;
 			productReference = F6C8DC1C29DF7CEF0014849C /* Popper.app */;
@@ -609,6 +686,7 @@
 				F63432552AC7A14B00E756BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				F634327E2AC7F26E00E756BA /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				F6FF246E2B06CCED007F61BA /* XCRemoteSwiftPackageReference "giphy-ios-sdk" */,
+				F617026F2B11BD9D003816F7 /* XCRemoteSwiftPackageReference "WrappingHStack" */,
 			);
 			productRefGroup = F6C8DC1D29DF7CEF0014849C /* Products */;
 			projectDirPath = "";
@@ -686,15 +764,21 @@
 			files = (
 				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
 				F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */,
+				F6FF24D52B08B3DB007F61BA /* PostElement.swift in Sources */,
 				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
+				F6FF24D32B08B29C007F61BA /* postElementView.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F6FF24652B033041007F61BA /* ElementView.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
 				F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */,
+				F6FF24E02B09C179007F61BA /* textToEditableImg.swift in Sources */,
 				F6964AA32AF9F447000E9C94 /* DrawingView.swift in Sources */,
 				F6C8DC2229DF7CEF0014849C /* Editor.swift in Sources */,
+				F6FF24DD2B09AE74007F61BA /* please.swift in Sources */,
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
+				F6FF24CC2B08A4CF007F61BA /* PostVideoView.swift in Sources */,
+				F6FF24C82B089E18007F61BA /* PostTextsView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
 				F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */,
 				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
@@ -706,24 +790,32 @@
 				F6FF24C32B086045007F61BA /* SharedEditState.swift in Sources */,
 				F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */,
 				F647CDBE2AD4BAC900D362DB /* PostCardView.swift in Sources */,
+				F6FF24D02B08B028007F61BA /* postElements.swift in Sources */,
 				F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */,
+				F6FF24CA2B08A2D4007F61BA /* PostShapeView.swift in Sources */,
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F6FF246D2B0486EA007F61BA /* ExitConfirmation.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
 				F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */,
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
+				F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */,
 				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */,
+				F6FF24E22B09D110007F61BA /* PostStickerView.swift in Sources */,
+				F6FF24D72B08B4F9007F61BA /* PostRewindButton.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
 				F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */,
 				F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */,
+				F6FF24CE2B08A81C007F61BA /* PostPollView.swift in Sources */,
 				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
 				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
+				F61702642B1161B7003816F7 /* Profile.swift in Sources */,
+				F6FF24C62B089DC3007F61BA /* PostImageView.swift in Sources */,
 				F63432702AC7DDC700E756BA /* LoadingView.swift in Sources */,
 				F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */,
 				F6C3BD912AF5ABAA00DD4405 /* EditableShape.swift in Sources */,
@@ -902,6 +994,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -934,6 +1027,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1061,6 +1155,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		F617026F2B11BD9D003816F7 /* XCRemoteSwiftPackageReference "WrappingHStack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ksemianov/WrappingHStack";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.0;
+			};
+		};
 		F63432552AC7A14B00E756BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1088,6 +1190,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F61702702B11BD9D003816F7 /* WrappingHStack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F617026F2B11BD9D003816F7 /* XCRemoteSwiftPackageReference "WrappingHStack" */;
+			productName = WrappingHStack;
+		};
 		F63432562AC7A14B00E756BA /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F63432552AC7A14B00E756BA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

@@ -12,7 +12,6 @@ struct ElementView: View {
     @ObservedObject var element: editorElement
     @ObservedObject var elementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @State var textEditPrio: Double = 1.0
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
     
@@ -28,10 +27,7 @@ struct ElementView: View {
             
         case .text(let editableTxt):
             
-            EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation, editPrio: $textEditPrio)
-                .onChange(of: sharedEditNotifier.objectsCount) { _ in
-                    textEditPrio = Double(sharedEditNotifier.objectsCount + 2)
-                }
+            EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
             
         case .shape(let editableShp):
             

@@ -14,29 +14,25 @@ class editableVid: Identifiable, ObservableObject {
     @Published var id: Int
     let videoURL: URL
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
+    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var size: CGSize // Video's true specs, to not be touched
-    @Published var scalar: CGFloat
-    @Published var transparency: Double
+    @Published var scalar: CGFloat = 1.0
+    @Published var transparency: Double = 1.0
     @Published var display: Bool
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
     @Published var rotationDegrees: Angle = Angle.zero
-    @Published var soundOnClick: URL? 
+    @Published var linkOnClick: URL?
+    @Published var soundOnClick: URL?
     @Published var lock: Bool = false
     let defaultDisplaySetting: Bool
-    var startPosition: CGPoint
+    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
 
-    init(id: Int, videoURL: URL, currentShape: ClippableShape, totalOffset: CGPoint, size: CGSize, scalar: CGFloat, display: Bool, transparency: Double, defaultDisplaySetting: Bool) {
+    init(id: Int, videoURL: URL, size: CGSize, defaultDisplaySetting: Bool) {
         self.id = id
         self.videoURL = videoURL
-        self.currentShape = currentShape
-        self.totalOffset = totalOffset
         self.size = size
-        self.scalar = scalar
-        self.startPosition = totalOffset // initialize startPosition by equating it to totalOffset
-        self.display = display
-        self.transparency = transparency
+        self.display = defaultDisplaySetting
         self.defaultDisplaySetting = defaultDisplaySetting
     }
 }
@@ -122,7 +118,7 @@ func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sha
         
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, currentShape: .rectangle, totalOffset: CGPoint(x: 150, y: 500), size: size, scalar: 1.0, display: defaultDisplaySetting, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, size: size, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

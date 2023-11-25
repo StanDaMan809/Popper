@@ -6,17 +6,15 @@
 //
 
 import SwiftUI
+import UIKit
 
 // These are the text instances
 class editableTxt: ObservableObject {
     @Published var id: Int
-    // Include color as a dimension
-    // Include font as a dimension
-    // Include alignment
     @Published var font: Font = Font.custom("BarlowCondensed-Medium", size: defaultTextSize)
-    @Published var message: String
+    @Published var message: String = "Hold to Edit"
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
+    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var color: Color = .black
     @Published var bgColor: Color = .clear
     @Published var rValue: Double = 0.0
@@ -24,27 +22,22 @@ class editableTxt: ObservableObject {
     @Published var bValue: Double = 0.0
     @Published var display: Bool
     @Published var transparency: Double = 1.0
-    @Published var size: CGSize
-    @Published var scalar: Double
+    @Published var size: CGSize = CGSize(width: 80, height: 80)
+    @Published var scalar: Double = 1.0
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
     @Published var soundOnClick: URL? 
     @Published var rotationDegrees: Angle = Angle(degrees: 0.0)
     @Published var lock: Bool = false
     let defaultDisplaySetting: Bool
-    var startPosition: CGPoint
+    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     
     
-    init(id: Int, message: String, totalOffset: CGPoint, display: Bool, size: CGSize, scalar: Double, defaultDisplaySetting: Bool)
+    init(id: Int, defaultDisplaySetting: Bool)
     {
         self.id = id
-        self.message = message
-        self.totalOffset = totalOffset
-        self.display = display
-        self.size = size
-        self.scalar = scalar
+        self.display = defaultDisplaySetting
         self.defaultDisplaySetting = defaultDisplaySetting
-        self.startPosition = totalOffset
     }
 }
 
@@ -55,8 +48,6 @@ struct EditableText: View {
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
-    @Binding var editPrio: Double
-    @State var priority: Double = 0
     
     var body: some View
     { if text.display
@@ -80,8 +71,6 @@ struct EditableText: View {
                             .foregroundColor(text.color)
                             .background(text.bgColor)
                             .offset(x: 0, y: -100)
-        //                        .frame(width: defaultTextFrame)
-        //                        .zIndex(Double(sharedEditNotifier.objectsCount + 1)) // Controls layer
                             .multilineTextAlignment(.center)
                             .onSubmit {
                                 sharedEditNotifier.restoreDefaults()
@@ -95,7 +84,6 @@ struct EditableText: View {
                         // Text characteristics
                         .font(text.font)
                         .fontWeight(.bold)
-//                        .frame(width: defaultTextFrame)
                         .foregroundColor(text.color)
                         .padding()
                         .background(
@@ -136,24 +124,39 @@ struct EditableText: View {
 }
 
 struct EditableTextData: Codable, Equatable, Hashable {
-    var id: Int
-    var message: String
+    let id: Int
+    let message: String
     var totalOffset: [Double]
     var rValue: Double
     var gValue: Double
     var bValue: Double
+    var display: Bool
+    var transparency: Double
     var size: [Double]
     var scalar: Double
     var rotationDegrees: Double
-    // need to add display 
+
     
     init(from editableText: editableTxt) {
         self.id = editableText.id
         self.message = editableText.message
         self.totalOffset = [Double(editableText.totalOffset.x), Double(editableText.totalOffset.y)]
-        self.rValue = editableText.rValue
-        self.gValue = editableText.gValue
-        self.bValue = editableText.bValue
+        let color = UIColor(editableText.color)
+        
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
+        self.rValue = red
+        self.gValue = green
+        self.bValue = blue
+        
+        self.display = editableText.display
+        self.transparency = editableText.transparency
+        
         self.size = [editableText.size.width, editableText.size.height]
         self.scalar = editableText.scalar
         self.rotationDegrees = editableText.rotationDegrees.degrees
@@ -171,7 +174,7 @@ func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditS
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, message: "Hold to Edit", totalOffset: CGPoint(x: 200, y: 400), display: defaultDisplaySetting, size: CGSize(width: 80, height: 80), scalar: 1.0, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

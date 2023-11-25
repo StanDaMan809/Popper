@@ -12,9 +12,9 @@ class editableStick: Identifiable, ObservableObject {
     @Published var id: Int
     let url: URL
     @Published var currentShape: ClippableShape = .rectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
-    @Published var scalar: Double
-    @Published var transparency: Double
+    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var scalar: Double = 1.0
+    @Published var transparency: Double = 1.0
     @Published var display: Bool
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
@@ -23,16 +23,12 @@ class editableStick: Identifiable, ObservableObject {
     @Published var linkOnClink: URL?
     @Published var soundOnClick: URL?
     let defaultDisplaySetting: Bool
-    var startPosition: CGPoint
+    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     
-    init(id: Int, url: URL, totalOffset: CGPoint, scalar: Double, display: Bool, transparency: Double, defaultDisplaySetting: Bool) {
+    init(id: Int, url: URL, defaultDisplaySetting: Bool) {
         self.id = id
         self.url = url
-        self.totalOffset = totalOffset
-        self.scalar = scalar
-        self.startPosition = totalOffset // initialize startPosition by equating it to totalOffset
-        self.display = display
-        self.transparency = transparency
+        self.display = defaultDisplaySetting
         self.defaultDisplaySetting = defaultDisplaySetting
     }
     
@@ -73,28 +69,20 @@ struct EditableSticker: View {
 
 func stickerAdd(url: URL, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
     
-    var display = true
     var defaultDisplaySetting = true
     
     if sharedEditNotifier.editorDisplayed == .photoAppear {
         
         if let currentElement = sharedEditNotifier.selectedElement
         {
-            display = false // Set display to false so it doesn't show up until touched
             defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
             currentElement.element.createDisplays.append(elementsArray.objectsCount)
             print(currentElement.element.createDisplays)
         }
         
     }
-
-    else
-    {
-        display = true
-        
-    }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .sticker(editableStick(id: elementsArray.objectsCount, url: url, totalOffset: CGPoint(x: 150, y: 500), scalar: 1.0, display: display, transparency: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .sticker(editableStick(id: elementsArray.objectsCount, url: url, defaultDisplaySetting: defaultDisplaySetting)))
 
     elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
     sharedEditNotifier.editorDisplayed = .none

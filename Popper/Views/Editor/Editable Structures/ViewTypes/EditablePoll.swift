@@ -9,7 +9,7 @@ import SwiftUI
 
 class editablePoll: Identifiable, ObservableObject {
     @Published var id: Int
-    @Published var totalOffset: CGPoint = CGPoint(x: 0, y: 0)
+    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var question: String = ""
     @Published var responses: [String] = ["", "", "", ""]
     @Published var topColor: Color = Color.gray
@@ -20,15 +20,12 @@ class editablePoll: Identifiable, ObservableObject {
     @Published var display: Bool
     @Published var rotationDegrees: Angle = Angle.zero
     @Published var lock: Bool = false
-    @Published var linkOnClink: URL?
     @Published var soundOnClick: URL?
     let defaultDisplaySetting: Bool
-    var startPosition: CGPoint
+    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     
-    init(id: Int, totalOffset: CGPoint, defaultDisplaySetting: Bool) {
+    init(id: Int, defaultDisplaySetting: Bool) {
         self.id = id
-        self.totalOffset = totalOffset
-        self.startPosition = totalOffset // initialize startPosition by equating it to totalOffset
         self.display = defaultDisplaySetting
         self.defaultDisplaySetting = defaultDisplaySetting
     }
@@ -85,7 +82,7 @@ func pollAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditS
         
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .poll(editablePoll(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 150, y: 500), defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .poll(editablePoll(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
 
     elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
     sharedEditNotifier.editorDisplayed = .none

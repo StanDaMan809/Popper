@@ -34,9 +34,12 @@ struct CreateNewPost: View {
     @State private var photoItem: PhotosPickerItem?
     @FocusState private var showKeyboard: Bool
     
-    @State private var enableComments: Bool = true
+    @State private var visibility: Int = 1
+    @State private var commentsEnabled: Bool = true
     @State private var allowSave: Bool = true
     @State private var saveAsPhoto: Bool = true
+    
+    // For text conversion to image! :D
     
     var body: some View {
         VStack {
@@ -81,10 +84,22 @@ struct CreateNewPost: View {
             
             Divider()
             
-            HStack {
-                Text("Visibility")
-                    .hAlign(.leading)
-                    .padding(15)
+            Button {
+                
+            } label: {
+                HStack {
+                    Text("Visibility")
+                        .hAlign(.leading)
+                        .foregroundStyle(.black)
+                        .padding(15)
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(.gray)
+                        .padding(15)
+                    
+                }
             }
             
             HStack {
@@ -93,7 +108,7 @@ struct CreateNewPost: View {
                     .padding(15)
             }
             
-            Toggle("Enable Comments", isOn: $enableComments)
+            Toggle("Enable Comments", isOn: $commentsEnabled)
                 .hAlign(.leading)
                 .padding(.vertical, 10)
                 .padding(.horizontal, 15)
@@ -128,8 +143,9 @@ struct CreateNewPost: View {
                 guard let profileURL = profileURL else { return }
                 
                 // Photo Upload and Transcription
-                var imagesData: [EditableImageData] = []
                 var textsToUpload = [EditableTextData]()
+                
+                var elementsToUpload = [Int : EditableElementData]()
                 
                 for (key, element) in elementsArray.elements {
                     switch element.element {
@@ -137,34 +153,85 @@ struct CreateNewPost: View {
                     case .image(let image):
                             let imageReferenceID = "\(userUID)\(Date())\(image.id)\(key)" // Create Reference for each photo
                             let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each photo
-                            if let data = image.imgSrc.jpegData(compressionQuality: 1.0) { // Compression of each photo, to be finished soon
+                            if let data = image.imgSrc.pngData() { // Compression of each photo, to be finished soon
                                 let _ = try await storageRef.putDataAsync(data)
                                 let downloadURL = try await storageRef.downloadURL()
                                 let imageNumbers = EditableImageData(from: image, imageURL: downloadURL, imageReferenceID: imageReferenceID)
-                                imagesData.append(imageNumbers)
+                                
+                                elementsToUpload[image.id] = EditableElementData(element: .image(imageNumbers))
+                                
                         }
                         
                     case .video(let video):
-                        print("just give it a little")
+                        let videoReferenceID = "\(userUID)\(Date())\(video.id)\(key)" // Create Reference for each photo
+                        let storageRef = Storage.storage().reference().child("Videos").child(videoReferenceID) // Create storage ref for each video
                         
+                        do {
+                            // Convert video URL to Data
+                            let videoData = try Data(contentsOf: video.videoURL)
+                            
+                            // Upload video to Firebase Storage
+                            let _ = try await storageRef.putDataAsync(videoData)
+                            
+                            let downloadURL = try await storageRef.downloadURL()
+                            
+                            let videoNumbers = EditableVideoData(from: video, videoURL: downloadURL, videoReferenceID: videoReferenceID)
+                            
+                            elementsToUpload[video.id] = EditableElementData(element: .video(videoNumbers))
+                            
+                        } catch {
+                            print("Error uploading video.")
+                        }
+                            
                     case .text(let text):
-                        textsToUpload.append(EditableTextData(from: text))
+                        
+                        let imageReferenceID = "\(userUID)\(Date())\(text.id)\(key)"
+                        let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID)
+                        
+                        if let conversionData = snapshot(text: text), let data = conversionData.pngData() {
+                            let _ = try await storageRef.putDataAsync(data)
+                            let downloadURL = try await storageRef.downloadURL()
+                            let imageNumbers = EditableImageData(from: textToEditableImg(text: text, image: conversionData), imageURL: downloadURL, imageReferenceID: imageReferenceID)
+                            
+                            elementsToUpload[text.id] = EditableElementData(element: .image(imageNumbers))
+                        }
                     
                     case .shape(let shape):
-                        print("just give it a little")
+                        elementsToUpload[shape.id] = EditableElementData(element: .shape(EditableShapeData(from: shape)))
                         
                     case .sticker(let sticker):
-                        print("just give it a little")
+                        elementsToUpload[sticker.id] = EditableElementData(element: .sticker(EditableStickerData(from: sticker)))
+                        
+//                        let imageReferenceID = "\(userUID)\(Date())\(sticker.id)\(key)" // Create Reference for each sticker
+//                            let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID) // Create storage ref for each sticker
+//                        
+//                        do {
+//                               // Download the sticker GIF data from the URL
+//                               let data = try await URLSession.shared.data(from: sticker.url)
+//                               
+//                               // Upload the downloaded data to Firebase Storage
+//                               let _ = try await storageRef.putDataAsync(data)
+//                               
+//                               // Get the download URL after uploading to Firebase Storage
+//                               let downloadURL = try await storageRef.downloadURL()
+//                               
+//                               // Create EditableImageData and add it to elementsToUpload
+//                               let imageNumbers = EditableImageData(from: sticker, imageURL: downloadURL, imageReferenceID: imageReferenceID)
+//                               elementsToUpload[sticker.id] = EditableElementData(element: .image(imageNumbers))
+//                           } catch {
+//                               // Handle the error (e.g., network error, download failure)
+//                               print("Error downloading or uploading sticker: \(error.localizedDescription)")
+//                           }
                         
                     case .poll(let poll):
-                        print("just give it a little")
+                        elementsToUpload[poll.id] = EditableElementData(element: .poll(EditablePollData(from: poll)))
                         
                     }
                 }
 
                 // Create Post object with all information
                 
-                let post = Post(text: postText, txtArray: textsToUpload, imagesArray: imagesData, userName: userName, userUID: userUID, userProfileURL: profileURL)
+                let post = Post(text: postText, elementsArray: elementsToUpload, userName: userName, userUID: userUID, userProfileURL: profileURL, visibility: visibility, commentsEnabled: commentsEnabled, allowSave: allowSave)
                 try await createDocumentAtFirebase(post)
             } catch {
                 await setError(error)
@@ -196,6 +263,27 @@ struct CreateNewPost: View {
             showError.toggle()
         })
         
+    }
+    
+    @MainActor func snapshot(text: editableTxt) -> UIImage? {
+        let imagerenderer = ImageRenderer(
+            
+            content:
+                
+            Text(text.message)
+                .font(text.font)
+                .fontWeight(.bold)
+                .foregroundColor(text.color)
+                .padding()
+                .background(
+                    shapeForClippableShape(shape: text.currentShape)
+                        .foregroundStyle(text.bgColor)
+                )
+                .multilineTextAlignment(.center)
+        )
+        imagerenderer.scale = UIScreen.main.scale
+        
+        return imagerenderer.uiImage
     }
 }
 

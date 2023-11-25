@@ -13,32 +13,27 @@ class editableShp: ObservableObject {
     // Include font as a dimension
     // Include alignment
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x:0, y: 0)
+    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     @Published var color: Color = .black
     @Published var rValue: Double = 0.0
     @Published var gValue: Double = 0.0
     @Published var bValue: Double = 0.0
-    @Published var transparency: Double
+    @Published var transparency: Double = 1.0
     @Published var display: Bool
-    @Published var size: CGSize
+    @Published var size: CGSize = CGSize(width: 100, height: 100)
     @Published var createDisplays: [Int] = []
     @Published var disappearDisplays: [Int] = []
-    @Published var scalar: Double
+    @Published var scalar: Double = 1.0
     @Published var rotationDegrees: Angle = Angle.zero
     @Published var soundOnClick: URL? 
     @Published var lock: Bool = false
-    var startPosition: CGPoint
+    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
     let defaultDisplaySetting: Bool
     
-    init(id: Int, totalOffset: CGPoint, transparency: Double, display: Bool, size: CGSize, scalar: Double, defaultDisplaySetting: Bool)
+    init(id: Int, defaultDisplaySetting: Bool)
     {
         self.id = id
-        self.totalOffset = totalOffset
-        self.transparency = transparency
-        self.display = display
-        self.size = size
-        self.scalar = scalar
-        self.startPosition = totalOffset
+        self.display = defaultDisplaySetting
         self.defaultDisplaySetting = defaultDisplaySetting
     }
 }
@@ -112,7 +107,7 @@ func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEdit
         }
     }
     
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, totalOffset: CGPoint(x: 200, y: 400), transparency: 1, display: defaultDisplaySetting, size: CGSize(width: 100, height: 100), scalar: 1, defaultDisplaySetting: defaultDisplaySetting)))
+    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
     
     elementsArray.objectsCount += 1
 }

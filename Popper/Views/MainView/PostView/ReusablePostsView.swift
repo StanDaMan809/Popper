@@ -24,46 +24,98 @@ struct ReusablePostsView: View {
     var body: some View {
         
 //        ScrollView(.vertical, showsIndicators: false)
-        TabView
-        {
-//            LazyVStack {
-                if isFetching{
-                    ProgressView()
-                        .padding(.top, 30)
-                } else {
-                    if posts.isEmpty {
-                        // No Posts found on Firestore
-                        Text("No Posts Found")
-                            .font(.caption)
-                            .foregroundColor(.gray)
+//        if #available(iOS 17.0, *) {
+//            
+//            ScrollView(.vertical, showsIndicators: false)
+//            {
+//                //            LazyVStack {
+//                if isFetching{
+//                    ProgressView()
+//                        .padding(.top, 30)
+//                } else {
+//                    if posts.isEmpty {
+//                        // No Posts found on Firestore
+//                        Text("No Posts Found")
+//                            .font(.caption)
+//                            .foregroundColor(.gray)
+//                            .padding(.top, 30)
+//                    } else {
+//                        // Displaying posts
+//                        Posts()
+//                            
+//                    }
+//                    
+//                    
+//                }
+//                
+//                //            }
+//            }
+//            
+//            
+//            .refreshable {
+//                guard !basedOnUID else {return}
+//                isFetching = true
+//                posts = []
+//                // Resetting Pagination Doc
+//                paginationDoc = nil
+//                await fetchPosts()
+//            }
+//            .task {
+//                guard posts.isEmpty else{return}
+//                await fetchPosts()
+//            }
+//            
+//            .scrollTargetBehavior(.viewAligned)
+//            
+//        } else {
+            TabView
+            {
+                //            LazyVStack {
+                Group {
+                    if isFetching{
+                        ProgressView()
                             .padding(.top, 30)
                     } else {
-                        // Displaying posts
+                        if posts.isEmpty {
+                            // No Posts found on Firestore
+                            Text("No Posts Found")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                                .padding(.top, 30)
+                        } else {
+                            // Displaying posts
                             Posts()
-
+                                
+                            
+                        }
+                        
                     }
-                    
                 }
+                //            }
+            }
+            .ignoresSafeArea()
+//            .rotationEffect(Angle(degrees: 90))
             
-//            }
-        }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-        
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
+            
+            
+            
+            
+            //        .refreshable {
+            //            guard !basedOnUID else {return}
+            //            isFetching = true
+            //            posts = []
+            //            // Resetting Pagination Doc
+            //            paginationDoc = nil
+            //            await fetchPosts()
+            //        }
+            .task {
+                guard posts.isEmpty else{return}
+                await fetchPosts()
+            }
 
-        
-//        .refreshable {
-//            guard !basedOnUID else {return}
-//            isFetching = true
-//            posts = []
-//            // Resetting Pagination Doc
-//            paginationDoc = nil
-//            await fetchPosts()
 //        }
-        .task {
-            guard posts.isEmpty else{return}
-            await fetchPosts()
-        }
 
     }
     
@@ -71,31 +123,81 @@ struct ReusablePostsView: View {
     @ViewBuilder
     func Posts() -> some View {
         
-                ForEach(posts) { post in
-                    PostCardView(post: post) { updatedPost in
-                        // Updating Post in the array
-                        if let index = posts.firstIndex(where: { post in
-                            post.id == updatedPost.id
-                            
-                        })
-                        {
-                            posts[index].likedIDs = updatedPost.likedIDs
-                            posts[index].dislikedIDs = updatedPost.dislikedIDs
-                        }
-                    } onDelete: {
-                        // Removing post from the array
-                        withAnimation(.easeInOut(duration: 0.25)){
-                            posts.removeAll{post.id == $0.id}
-                        }
+//        if #available(iOS 17.0, *) {
+//                        LazyVStack {
+//                            ForEach(posts) { post in
+//                                PostCardView(post: post) { updatedPost in
+//                                    // Updating Post in the array
+//                                    if let index = posts.firstIndex(where: { post in
+//                                        post.id == updatedPost.id
+//                                        
+//                                    })
+//                                    {
+//                                        posts[index].likedIDs = updatedPost.likedIDs
+//                                        posts[index].dislikedIDs = updatedPost.dislikedIDs
+//                                    }
+//                                    
+//                                    
+//                                    
+//                                } onDelete: {
+//                                    // Removing post from the array
+//                                    withAnimation(.easeInOut(duration: 0.25)){
+//                                        posts.removeAll{post.id == $0.id}
+//                                    }
+//                                }
+//                                
+//                                .onAppear {
+//                                    // When last post appears, fetching new post (if there)
+//                                    if post.id == posts.last?.id && paginationDoc != nil {
+//                                        Task{await fetchPosts()}
+//                                    }
+//                                }
+//                                
+//                                
+//                                
+//                                
+//                        }
+//                        }
+//                        .scrollTargetLayout()
+//                    
+//                    
+//                    
+//                
+//        } else {
+            ForEach(posts) { post in
+                PostCardView(post: post) { updatedPost in
+                    // Updating Post in the array
+                    if let index = posts.firstIndex(where: { post in
+                        post.id == updatedPost.id
+                        
+                    })
+                    {
+                        posts[index].likedIDs = updatedPost.likedIDs
+                        posts[index].dislikedIDs = updatedPost.dislikedIDs
                     }
                     
-                    .onAppear {
-                        // When last post appears, fetching new post (if there)
-                        if post.id == posts.last?.id && paginationDoc != nil {
-                            Task{await fetchPosts()}
-                        }
+                        
+                    
+                } onDelete: {
+                    // Removing post from the array
+                    withAnimation(.easeInOut(duration: 0.25)){
+                        posts.removeAll{post.id == $0.id}
                     }
-            }
+                }
+                
+//                .rotationEffect(Angle(degrees: -90))
+                
+                .onAppear {
+                    // When last post appears, fetching new post (if there)
+                    if post.id == posts.last?.id && paginationDoc != nil {
+                        Task{await fetchPosts()}
+                    }
+                }
+                
+                
+                
+        }
+//        }
                 
     //            Divider()
     //                .padding(.horizontal, -15)

@@ -50,7 +50,7 @@ struct GIFController: UIViewControllerRepresentable {
         func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia)   {
             
             // your user tapped a GIF!
-            let url = media.url(rendition: .fixedWidth, fileType: .gif)
+            let url = media.url(rendition: .fixedWidth, fileType: .webp)
             
             if let urlToUse = url, let urlConverted = URL(string: urlToUse) {
                 stickerAdd(url: urlConverted, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)

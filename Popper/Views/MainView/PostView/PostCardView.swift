@@ -27,6 +27,7 @@ struct PostCardView: View {
             {
                 
                 imgElements(post: post)
+
                 
                 VStack
                     {
@@ -43,6 +44,10 @@ struct PostCardView: View {
                                         .font(.callout)
                                         .fontWeight(.semibold)
                                         .padding(2)
+                                    
+                                    Spacer()
+                                    
+                                    PostInteraction()
                                 }
                                 
                                 Text(post.text)
@@ -60,19 +65,22 @@ struct PostCardView: View {
             
                 //            }
                             
+                            
+                            
                         }
+                        .zIndex(1)
                         .hAlign(.leading)
-                        .padding(.horizontal, 5)
-                        .background(.white)
+                        .padding(.horizontal)
     //                    .vAlign(.top)
                         
                         Divider()
 
                         
-                        PostInteraction()
+                        
                         
                         
                     }
+                    .background(.white)
                     .vAlign(.top)
                     
             }
@@ -138,7 +146,7 @@ struct PostCardView: View {
                         
                             
                     }
-                    .presentationDetents([.medium, .large])
+                    .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
         })
     }
@@ -147,14 +155,14 @@ struct PostCardView: View {
     // Like / Dislike
     @ViewBuilder
     func PostInteraction()-> some View {
-        HStack(spacing: 6){
+        HStack(alignment: .top, spacing: 6) {
             
             // Like button
             VStack(alignment: .center) {
                 Button(action: likePost) {
                     Image(systemName: post.likedIDs.contains(userUID) ? "heart.fill" : "heart")
                 }
-                .foregroundColor(.red)
+                .foregroundColor(post.likedIDs.contains(userUID) ? .red : .gray)
                 
                 
                 Text("\(post.likedIDs.count)")
@@ -170,7 +178,7 @@ struct PostCardView: View {
                     Image(systemName: "bubble.fill")
                 }
                 .padding(.leading, 5)
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
                 
                 Text("\(post.comments.count)")
                     .font(.caption)
@@ -182,7 +190,7 @@ struct PostCardView: View {
                 Image(systemName: "arrowshape.turn.up.left.fill")
             }
             .padding(.leading, 5)
-            .foregroundColor(.white)
+            .foregroundColor(.gray)
             
         }
         .hAlign(.trailing)

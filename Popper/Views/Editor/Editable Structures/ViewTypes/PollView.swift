@@ -59,7 +59,7 @@ struct PollView: View {
             
             textFieldForPoll(parent: self, placeholderText: "No", answer: $poll.responses[1], color: $poll.buttonColor)
             
-            if amISelected() || poll.responses[2] != "" {
+            if amISelected() {
                 TextField("", text: $poll.responses[2], prompt: Text("Add an Answer...").foregroundColor(.white), axis: .vertical)
                     .lineLimit(2)
                     .padding(.horizontal, 30)
@@ -81,7 +81,7 @@ struct PollView: View {
                     .background(nonTracedRectangle(parent: self, color: $poll.buttonColor))
             }
             
-            if poll.responses[2] != "" && amISelected() || poll.responses[2] != "" && poll.responses[3] != "" {
+            if poll.responses[2] != "" && amISelected() {
                 TextField("", text: $poll.responses[3], prompt: Text("Add an Answer...").foregroundColor(.white), axis: .vertical)
                     .lineLimit(2)
                     .padding(.horizontal, 30)
@@ -92,7 +92,7 @@ struct PollView: View {
                         TracedRectangle(parent: self, answer: $poll.responses[3], color: $poll.buttonColor)
                     )
             } else if poll.responses[2] != "" && poll.responses[3] != "" {
-                Text(poll.responses[2])
+                Text(poll.responses[3])
                     .multilineTextAlignment(.leading)
                     .lineLimit(2)
                     .padding(.horizontal, 30)

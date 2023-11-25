@@ -104,9 +104,7 @@ struct EditableElement: View {
                     if !element.element.lock {
                         if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
                             deleteElement(elementsArray: elementsArray, id: element.element.id)
-                        } else {
-                            element.element.startPosition = element.element.totalOffset
-                        }
+                        } 
                         
                         //                                element.element.startPosition = element.element.totalOffset
                         sharedEditNotifier.currentlyEdited = false

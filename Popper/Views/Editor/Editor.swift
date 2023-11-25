@@ -12,6 +12,7 @@ import AVFoundation
 let postHeight = CGFloat(530)
 
 struct Editor: View {
+    
     // Used for identifying objects, even after deletion. This will likely have to move when Drafts are introduced.
     @Binding var isEditorActive: Bool
     @StateObject var sharedEditNotifier = SharedEditState()
@@ -42,10 +43,6 @@ struct Editor: View {
         
         
         var body: some View {
-            @State var UIPrio = Double(parent.sharedEditNotifier.objectsCount + 1)
-            @State var editTextPrio = UIPrio - 1
-            @State var editbarPrio = UIPrio + 2
-            @State var actionButtonPrio = UIPrio + 3
             
             ZStack
             {
@@ -105,7 +102,7 @@ struct Editor: View {
                 
                 
                 if parent.sharedEditNotifier.backgroundEdit != true {
-                    Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray, editTextPrio: editTextPrio)
+                    Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray)
                         .zIndex(-1)
                 }
                 

@@ -16,11 +16,14 @@ struct PostImageView: View {
         if image.display {
             WebImage(url: image.imgSrc)
                 .resizable()
-                .frame(width: image.size[0], height: image.size[1])
+                
+                .frame(width: image.size[0]*image.scalar, height: image.size[1]*image.scalar)
+                
                 .clipShape(image.currentShape)
+                
                 .rotationEffect(Angle(degrees: image.rotationDegrees))
-                .scaleEffect(image.scalar)
-                .position(CGPoint(x: image.totalOffset[0], y: image.totalOffset[1]))
+//                .scaleEffect(image.scalar)
+                .offset(image.position)
                 .opacity(image.transparency)
                 .zIndex(Double(image.id)) // Controls layer
         }
@@ -35,7 +38,7 @@ class postImage: ObservableObject {
     let id: Int
     let imgSrc: URL
     let currentShape: ClippableShape
-    let totalOffset: [Double]
+    let position: CGSize
     let size: [Double]
     let scalar: Double
     let rotationDegrees: Double
@@ -52,7 +55,7 @@ class postImage: ObservableObject {
         self.id = image.id
         self.imgSrc = image.imageURL
         self.currentShape = ClippableShape(rawValue: image.currentShape) ?? .square
-        self.totalOffset = [image.totalOffset[0], image.totalOffset[1]]
+        self.position = CGSize(width: image.position[0], height: image.position[1])
         self.size = image.size
         self.scalar = image.scalar
         self.rotationDegrees = image.rotationDegrees
@@ -70,7 +73,7 @@ class postImage: ObservableObject {
 struct EditableImageData: Codable, Equatable, Hashable {
     let id: Int
     let currentShape: Int
-    let totalOffset: [Double]
+    let position: [Double]
     let size: [Double]
     let scalar: Double
     let transparency: Double
@@ -87,7 +90,7 @@ struct EditableImageData: Codable, Equatable, Hashable {
     init(from editableImage: editableImg, imageURL: URL, imageReferenceID: String) {
         self.id = editableImage.id
         self.currentShape = editableImage.currentShape.rawValue // For encoding
-        self.totalOffset = [Double(editableImage.totalOffset.x), Double(editableImage.totalOffset.y)] // For encoding
+        self.position = [Double(editableImage.position.width), Double(editableImage.position.height)] // For encoding
         self.size = [Double(editableImage.size.width), Double(editableImage.size.height)] // For encoding
         self.scalar = editableImage.scalar
         self.transparency = editableImage.transparency

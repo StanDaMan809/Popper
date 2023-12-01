@@ -77,37 +77,37 @@ class editorElement: ObservableObject {
             }
         }
         
-        var totalOffset: CGPoint {
+        var position: CGSize {
             get {
                 switch self {
                 case .image(let editableImg):
-                    return editableImg.totalOffset
+                    return editableImg.position
                 case .video(let editableVid):
-                    return editableVid.totalOffset
+                    return editableVid.position
                 case .text(let editableTxt):
-                    return editableTxt.totalOffset
+                    return editableTxt.position
                 case .shape(let editableShp):
-                    return editableShp.totalOffset
+                    return editableShp.position
                 case .sticker(let editableStick):
-                    return editableStick.totalOffset
+                    return editableStick.position
                 case .poll(let editablePoll):
-                    return editablePoll.totalOffset
+                    return editablePoll.position
                 }
             }
             set {
                 switch self {
                 case .image(let editableImg):
-                    editableImg.totalOffset = newValue
+                    editableImg.position = newValue
                 case .video(let editableVid):
-                    editableVid.totalOffset = newValue
+                    editableVid.position = newValue
                 case .text(let editableTxt):
-                    editableTxt.totalOffset = newValue
+                    editableTxt.position = newValue
                 case .shape(let editableShp):
-                    editableShp.totalOffset = newValue
+                    editableShp.position = newValue
                 case .sticker(let editableStick):
-                    editableStick.totalOffset = newValue
+                    editableStick.position = newValue
                 case .poll(let editablePoll):
-                    editablePoll.totalOffset = newValue
+                    editablePoll.position = newValue
                 }
             }
         }

@@ -14,7 +14,7 @@ class editableVid: Identifiable, ObservableObject {
     @Published var id: Int
     let videoURL: URL
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var size: CGSize // Video's true specs, to not be touched
     @Published var scalar: CGFloat = 1.0
     @Published var transparency: Double = 1.0
@@ -59,7 +59,7 @@ struct EditableVideo: View {
                 )
                 .rotationEffect(currentRotation + video.rotationDegrees)
                 .scaleEffect(video.scalar + currentAmount)
-                .position(video.totalOffset)
+                .offset(video.position)
                 .opacity(video.transparency)
                 .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(video.id))
         }

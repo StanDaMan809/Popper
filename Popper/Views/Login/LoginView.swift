@@ -111,7 +111,7 @@ struct LoginView: View {
         
         await MainActor.run(body: {
             // Setting UserDefaults data and Changhing App's Auth Status
-            userUID = userUID
+            userUID = user.userUID
             userNameStored = user.username
             profileURL = user.userProfileURL
             logStatus = true

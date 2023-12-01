@@ -18,6 +18,7 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
     var likedIDs: [String] = []
     var dislikedIDs: [String] = []
     var comments: [Comment] = []
+    var thumbnail: URL
 
     // Basic User Info
     var userName: String
@@ -37,6 +38,7 @@ struct Post: Identifiable, Codable, Equatable, Hashable {
         case likedIDs
         case dislikedIDs
         case comments
+        case thumbnail
         case userName
         case userUID
         case userProfileURL

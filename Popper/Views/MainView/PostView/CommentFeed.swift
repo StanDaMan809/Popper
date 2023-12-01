@@ -8,6 +8,7 @@
 import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
+import FirebaseFirestore
 import FirebaseStorage
 
 struct CommentFeed: View {

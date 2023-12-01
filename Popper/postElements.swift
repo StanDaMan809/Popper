@@ -87,6 +87,40 @@ class postElement: ObservableObject {
             }
         }
         
+        var size: CGSize { // Multiplication by scalar is is for making references in the layout
+            get {
+                switch self {
+                case .image(let editableImg):
+                    return CGSize(width: editableImg.size[0] * editableImg.scalar, height: editableImg.size[1] * editableImg.scalar)
+                case .video(let editableVid):
+                    return CGSize(width: editableVid.size.width * editableVid.scalar, height: editableVid.size.height * editableVid.scalar)
+                case .shape(let editableShp):
+                    return CGSize(width: editableShp.size.width * editableShp.scalar, height: editableShp.size.height * editableShp.scalar)
+                case .poll(let poll):
+                    return CGSize(width: 275 * poll.scalar, height: 400 * poll.scalar)
+                case .sticker(let sticker):
+                    return CGSize(width: 100 * sticker.scalar, height: 100 * sticker.scalar)
+                }
+            }
+        }
+        
+        var position: CGSize {
+            get {
+                switch self {
+                case .image(let editableImg):
+                    return editableImg.position
+                case .video(let editableVid):
+                    return editableVid.position
+                case .shape(let editableShp):
+                    return editableShp.position
+                case .sticker(let editableStick):
+                    return editableStick.position
+                case .poll(let editablePoll):
+                    return editablePoll.position
+                }
+            }
+        }
+        
         var disappearDisplays: [Int] {
             get {
                 switch self {
@@ -117,6 +151,23 @@ class postElement: ObservableObject {
                     return nil
                 case .sticker(let sticker):
                     return sticker.soundOnClick
+                }
+            }
+        }
+        
+        var rotationDegrees: Angle {
+            get {
+                switch self {
+                case .image(let editableImg):
+                    return Angle(degrees: editableImg.rotationDegrees)
+                case .video(let editableVid):
+                    return editableVid.rotationDegrees
+                case .shape(let editableShp):
+                    return editableShp.rotationDegrees
+                case .poll(let poll):
+                    return poll.rotationDegrees
+                case .sticker(let sticker):
+                    return Angle(degrees: sticker.rotationDegrees)
                 }
             }
         }

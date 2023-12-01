@@ -22,7 +22,7 @@ struct PostVideoView: View {
                 .clipShape(video.currentShape)
                 .rotationEffect(video.rotationDegrees)
                 .scaleEffect(video.scalar)
-                .position(video.totalOffset)
+                .offset(video.position)
                 .zIndex(Double(video.id)) // Controls layer
                 .opacity(video.transparency)
     
@@ -38,7 +38,7 @@ class postVideo: ObservableObject {
     let id: Int
     let videoURL: URL
     let currentShape: ClippableShape
-    let totalOffset: CGPoint
+    let position: CGSize
     let size: CGSize
     let scalar: Double
     let transparency: Double
@@ -55,8 +55,8 @@ class postVideo: ObservableObject {
         self.id = video.id
         self.videoURL = video.videoURL
         self.currentShape = ClippableShape(rawValue: video.currentShape) ?? .square
-        self.totalOffset = CGPoint(x: video.totalOffset[0], y: video.totalOffset[1])
-        self.size = CGSizeMake(video.size[0], video.size[1])
+        self.position = CGSize(width: video.position[0], height: video.position[1])
+        self.size = CGSize(width: video.size[0], height: video.size[1])
         self.scalar = video.scalar
         self.transparency = video.transparency
         self.display = video.defaultDisplaySetting
@@ -73,7 +73,7 @@ class postVideo: ObservableObject {
 struct EditableVideoData: Codable, Equatable, Hashable {
     let id: Int
     let currentShape: Int
-    let totalOffset: [Double]
+    let position: [Double]
     let size: [Double]
     let scalar: Double
     let transparency: Double
@@ -90,7 +90,7 @@ struct EditableVideoData: Codable, Equatable, Hashable {
     init(from editableVideo: editableVid, videoURL: URL, videoReferenceID: String) {
         self.id = editableVideo.id
         self.currentShape = editableVideo.currentShape.rawValue // For encoding
-        self.totalOffset = [Double(editableVideo.totalOffset.x), Double(editableVideo.totalOffset.y)] // For encoding
+        self.position = [Double(editableVideo.position.width), Double(editableVideo.position.height)] // For encoding
         self.size = [Double(editableVideo.size.width), Double(editableVideo.size.height)] // For encoding
         self.scalar = editableVideo.scalar
         self.transparency = editableVideo.transparency

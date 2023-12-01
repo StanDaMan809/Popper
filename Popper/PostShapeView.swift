@@ -17,9 +17,10 @@ struct PostShapeView: View {
             Rectangle()
                 .frame(width: shape.size.width, height: shape.size.height)
                 .clipShape(shape.currentShape)
+                .foregroundStyle(shape.color)
                 .rotationEffect(shape.rotationDegrees)
                 .scaleEffect(shape.scalar)
-                .position(shape.totalOffset)
+                .offset(shape.position)
                 .zIndex(Double(shape.id)) // Controls layer
                 .opacity(shape.transparency)
             
@@ -35,7 +36,7 @@ class postShape: ObservableObject {
     let id: Int
     let currentShape: ClippableShape
     let color: Color
-    let totalOffset: CGPoint
+    let position: CGSize
     let size: CGSize
     let scalar: Double
     let transparency: Double
@@ -50,7 +51,7 @@ class postShape: ObservableObject {
         self.id = shape.id
         self.currentShape = ClippableShape(rawValue: shape.currentShape) ?? .square
         self.color = Color(red: shape.rValue, green: shape.gValue, blue: shape.bValue)
-        self.totalOffset = CGPoint(x: shape.totalOffset[0], y: shape.totalOffset[1])
+        self.position = CGSize(width: shape.position[0], height: shape.position[1])
         self.size = CGSizeMake(shape.size[0], shape.size[1])
         self.scalar = shape.scalar
         self.transparency = shape.transparency
@@ -66,7 +67,7 @@ class postShape: ObservableObject {
 struct EditableShapeData: Codable, Equatable, Hashable {
     let id: Int
     let currentShape: Int
-    let totalOffset: [Double]
+    let position: [Double]
     let rValue: Double
     let gValue: Double
     let bValue: Double
@@ -83,7 +84,7 @@ struct EditableShapeData: Codable, Equatable, Hashable {
     init(from editableShape: editableShp) {
         self.id = editableShape.id
         self.currentShape = editableShape.currentShape.rawValue // For encoding
-        self.totalOffset = [Double(editableShape.totalOffset.x), Double(editableShape.totalOffset.y)] // For encoding
+        self.position = [Double(editableShape.position.width), Double(editableShape.position.height)] // For encoding
         self.size = [Double(editableShape.size.width), Double(editableShape.size.height)] // For encoding
         
         let color = UIColor(editableShape.color)

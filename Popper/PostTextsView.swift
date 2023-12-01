@@ -11,7 +11,7 @@ import SwiftUI
 struct postTextsView: View {
     let id: Int
     let message: String
-    let totalOffset: [Double]
+    let position: [Double]
     let color: Color
     let size: [Double]
     let scalar: Double
@@ -20,7 +20,7 @@ struct postTextsView: View {
     init(from textsArray: EditableTextData) {
         self.id = textsArray.id
         self.message = textsArray.message
-        self.totalOffset = textsArray.totalOffset
+        self.position = textsArray.position
         self.color = Color(red: textsArray.rValue, green: textsArray.gValue, blue: textsArray.bValue)
         self.size = textsArray.size
         self.scalar = textsArray.scalar
@@ -34,7 +34,7 @@ struct postTextsView: View {
             .frame(width: defaultTextFrame)
             .rotationEffect(Angle(degrees: rotationDegrees))
             .scaleEffect(scalar)
-            .position(CGPoint(x: totalOffset[0], y: totalOffset[1]))
+            .position(CGPoint(x: position[0], y: position[1]))
             .zIndex(Double(id)) // Controls layer
             .multilineTextAlignment(.center)
             .foregroundColor(color)

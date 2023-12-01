@@ -184,12 +184,10 @@ struct bottomButtons: View {
                 Button(action: {
                     parent.sharedEditNotifier.backgroundEdit = false // Just in case they're editing the background, we don't want them to upload the background stuff as their post
                     parent.createNewPost.toggle()
-    //                CreateNewPost(onPost: { post in
-    //                    recentsPosts.insert(post, at: 0)
-    //                }, imgArray: imgArray, txtArray: txtArray)
-    //                { post in
-    //                    recentsPosts.insert(post, at: 0)
-    //                }
+//                    CreateNewPost(onPost: { post in
+//                        recentsPosts.insert(post, at: 0)
+//                    })
+
                 },
                        label: {
                     ZStack {
@@ -224,6 +222,7 @@ struct bottomButtons: View {
             }
             .vAlign(.bottom)
             .padding(.horizontal, 20)
+            .padding(.vertical)
         }
     }
 }

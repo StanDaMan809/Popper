@@ -9,7 +9,15 @@ import SwiftUI
 
 struct SwiftUIView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Rectangle()
+            .frame(width: 100, height: 100)
+            .foregroundStyle(Color.orange)
+            .position(x: 200, y: -100)
+        
+        Rectangle()
+            .frame(width: 100, height: 100)
+            .foregroundStyle(Color.blue)
+            .position(x: 200, y: 100)
     }
 }
 

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import FirebaseFirestore
 import Firebase
 import FirebaseStorage
 
@@ -51,12 +52,12 @@ struct CommentView: View {
                             Button {
                                 
                             } label: {
-                                Image(systemName: "suit.heart.fill")
+                                Image(systemName: "heart")
                                     
                             }
                             
                             .padding(.horizontal)
-                            .foregroundStyle(Color(.black))
+//                            .foregroundStyle(Color(.black))
                         }
                         
                         Text(comment.publishedDate.timeAgoDisplay())

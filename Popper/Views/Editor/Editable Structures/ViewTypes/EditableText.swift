@@ -14,7 +14,7 @@ class editableTxt: ObservableObject {
     @Published var font: Font = Font.custom("BarlowCondensed-Medium", size: defaultTextSize)
     @Published var message: String = "Hold to Edit"
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var color: Color = .black
     @Published var bgColor: Color = .clear
     @Published var rValue: Double = 0.0
@@ -100,7 +100,7 @@ struct EditableText: View {
                         .rotationEffect(currentRotation + text.rotationDegrees)
                         .scaleEffect(text.scalar + currentAmount)
                         .opacity(text.transparency)
-                        .position(text.totalOffset)
+                        .offset(text.position)
                         .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(text.id)) // Controls layer
                         .multilineTextAlignment(.center)
                     
@@ -126,7 +126,7 @@ struct EditableText: View {
 struct EditableTextData: Codable, Equatable, Hashable {
     let id: Int
     let message: String
-    var totalOffset: [Double]
+    var position: [Double]
     var rValue: Double
     var gValue: Double
     var bValue: Double
@@ -140,7 +140,7 @@ struct EditableTextData: Codable, Equatable, Hashable {
     init(from editableText: editableTxt) {
         self.id = editableText.id
         self.message = editableText.message
-        self.totalOffset = [Double(editableText.totalOffset.x), Double(editableText.totalOffset.y)]
+        self.position = [Double(editableText.position.width), Double(editableText.position.height)]
         let color = UIColor(editableText.color)
         
         var red: CGFloat = 0

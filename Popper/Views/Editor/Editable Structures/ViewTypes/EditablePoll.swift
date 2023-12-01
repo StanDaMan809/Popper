@@ -9,7 +9,7 @@ import SwiftUI
 
 class editablePoll: Identifiable, ObservableObject {
     @Published var id: Int
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var question: String = ""
     @Published var responses: [String] = ["", "", "", ""]
     @Published var topColor: Color = Color.gray
@@ -53,7 +53,7 @@ struct EditablePoll: View {
                 )
                 .rotationEffect(currentRotation + poll.rotationDegrees)
                 .scaleEffect(poll.scalar + currentAmount)
-                .position(poll.totalOffset)
+                .offset(poll.position)
                 .opacity(poll.transparency)
                 .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(poll.id))
                 

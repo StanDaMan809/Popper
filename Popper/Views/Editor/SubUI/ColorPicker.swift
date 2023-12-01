@@ -181,8 +181,8 @@ struct ColorPicker: View {
             }
             
         }
-        .backgroundStyle(Color.clear)
-        .padding(.top, 10)
+        .padding(.vertical, 10)
+        .backgroundStyle(Color.black)
         .ignoresSafeArea()
         .onAppear() {
             colorToWatch = elementColor

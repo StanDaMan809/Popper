@@ -40,6 +40,8 @@
 		F647CDCF2AD64B5200D362DB /* BottomButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDCE2AD64B5200D362DB /* BottomButtons.swift */; };
 		F647CDD12AD64BCE00D362DB /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD02AD64BCE00D362DB /* Background.swift */; };
 		F647CDD32AD6725400D362DB /* PostConfirmation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDD22AD6725400D362DB /* PostConfirmation.swift */; };
+		F6494D9F2B198D6200630504 /* ProfileViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6494D9E2B198D6200630504 /* ProfileViews.swift */; };
+		F6494DA12B19CDC900630504 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6494DA02B19CDC900630504 /* Message.swift */; };
 		F65DCBA42AD89806002B878C /* imgElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA32AD89806002B878C /* imgElements.swift */; };
 		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
 		F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A982AF9C14A000E9C94 /* Trash.swift */; };
@@ -61,6 +63,8 @@
 		F6C8DC3B29DF7CF10014849C /* PopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */; };
 		F6C8DC3D29DF7CF10014849C /* PopperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */; };
 		F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6DD3229DF8198003727B2 /* Feed.swift */; };
+		F6E21E432B15912B00B1D4CF /* PostLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E21E422B15912B00B1D4CF /* PostLayout.swift */; };
+		F6E21E472B15A02900B1D4CF /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */; };
 		F6FF24632B032066007F61BA /* EditableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24622B032066007F61BA /* EditableElement.swift */; };
 		F6FF24652B033041007F61BA /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24642B033041007F61BA /* ElementView.swift */; };
 		F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24662B045D47007F61BA /* ElementLock.swift */; };
@@ -161,6 +165,8 @@
 		F647CDCE2AD64B5200D362DB /* BottomButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButtons.swift; sourceTree = "<group>"; };
 		F647CDD02AD64BCE00D362DB /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		F647CDD22AD6725400D362DB /* PostConfirmation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConfirmation.swift; sourceTree = "<group>"; };
+		F6494D9E2B198D6200630504 /* ProfileViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViews.swift; sourceTree = "<group>"; };
+		F6494DA02B19CDC900630504 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		F65DCBA32AD89806002B878C /* imgElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imgElements.swift; sourceTree = "<group>"; };
 		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
 		F6964A982AF9C14A000E9C94 /* Trash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
@@ -185,6 +191,8 @@
 		F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITests.swift; sourceTree = "<group>"; };
 		F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F6D6DD3229DF8198003727B2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		F6E21E422B15912B00B1D4CF /* PostLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLayout.swift; sourceTree = "<group>"; };
+		F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		F6FF24622B032066007F61BA /* EditableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableElement.swift; sourceTree = "<group>"; };
 		F6FF24642B033041007F61BA /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
 		F6FF24662B045D47007F61BA /* ElementLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementLock.swift; sourceTree = "<group>"; };
@@ -278,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				F61702632B1161B7003816F7 /* Profile.swift */,
+				F6494D9E2B198D6200630504 /* ProfileViews.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 				F63432762AC7E4B800E756BA /* Misc */,
 				F63432712AC7E30900E756BA /* Login */,
 				F634325E2AC7BDAF00E756BA /* ContentView.swift */,
+				F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -300,6 +310,7 @@
 			children = (
 				F6FF24782B083F57007F61BA /* fonts */,
 				F63432692AC7CC1500E756BA /* User.swift */,
+				F6494DA02B19CDC900630504 /* Message.swift */,
 				F61702652B118F35003816F7 /* Profile */,
 				F647CDC72AD649CB00D362DB /* Post */,
 			);
@@ -360,6 +371,7 @@
 				F647CDBB2AD4B71B00D362DB /* ReusablePostsView.swift */,
 				F647CDB92AD4B47500D362DB /* PostsView.swift */,
 				F647CDBD2AD4BAC900D362DB /* PostCardView.swift */,
+				F6E21E422B15912B00B1D4CF /* PostLayout.swift */,
 				F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */,
 				F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */,
 				F6C3BD882AF1F0A600DD4405 /* CommentView.swift */,
@@ -768,6 +780,7 @@
 				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
 				F6FF24D32B08B29C007F61BA /* postElementView.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
+				F6494D9F2B198D6200630504 /* ProfileViews.swift in Sources */,
 				F6FF24652B033041007F61BA /* ElementView.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
 				F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */,
@@ -777,6 +790,7 @@
 				F6FF24DD2B09AE74007F61BA /* please.swift in Sources */,
 				F647CDC32AD4CC1F00D362DB /* SearchUserView.swift in Sources */,
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
+				F6E21E432B15912B00B1D4CF /* PostLayout.swift in Sources */,
 				F6FF24CC2B08A4CF007F61BA /* PostVideoView.swift in Sources */,
 				F6FF24C82B089E18007F61BA /* PostTextsView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
@@ -800,6 +814,7 @@
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */,
 				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
+				F6E21E472B15A02900B1D4CF /* SwiftUIView.swift in Sources */,
 				F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */,
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */,
@@ -813,6 +828,7 @@
 				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
 				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,
+				F6494DA12B19CDC900630504 /* Message.swift in Sources */,
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
 				F61702642B1161B7003816F7 /* Profile.swift in Sources */,
 				F6FF24C62B089DC3007F61BA /* PostImageView.swift in Sources */,
@@ -911,7 +927,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -965,7 +981,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

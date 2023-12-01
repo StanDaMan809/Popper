@@ -12,7 +12,7 @@ class editableImg: Identifiable, ObservableObject {
     @Published var id: Int
     let imgSrc: UIImage
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var size: CGSize // Image's true specs, to not be touched
     @Published var scalar: Double = 1.0
     @Published var transparency: Double = 1.0
@@ -62,7 +62,7 @@ struct EditableImage: View {
                         )
                         .rotationEffect(currentRotation + image.rotationDegrees)
                         .scaleEffect(image.scalar + currentAmount)
-                        .position(image.totalOffset)
+                        .offset(image.position)
                         .opacity(image.transparency)
                         .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(image.id))
             }
@@ -92,7 +92,7 @@ func imageAdd(imgSource: UIImage, elementsArray: editorElementsArray, sharedEdit
     elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .image(editableImg(id: elementsArray.objectsCount, imgSrc: imgSource, size: CGSizeMake(imgSource.size.width, imgSource.size.height), defaultDisplaySetting: defaultDisplaySetting)))
 
     elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
-    sharedEditNotifier.editorDisplayed = .none
+//    sharedEditNotifier.editorDisplayed = .none
     
 }
 

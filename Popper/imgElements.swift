@@ -20,15 +20,19 @@ struct imgElements: View {
     }
     
     var body: some View {
-        ZStack {
-            // Call each element's data and create its view
-            ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                if let itemToDisplay = elementsArray.elements[key] {
-                    PostElement(element: itemToDisplay, elementsArray: elementsArray)
-                    
+        PostLayout(elementsArray: elementsArray) {
+            ZStack {
+                // Call each element's data and create its view
+                ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                    if let itemToDisplay = elementsArray.elements[key] {
+                        PostElement(element: itemToDisplay, elementsArray: elementsArray)
+                        
+                    }
                 }
             }
+            
         }
+        
         .onAppear(perform: {
             for (key, value) in post.elementsArray {
                 

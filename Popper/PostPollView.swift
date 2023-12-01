@@ -17,7 +17,7 @@ struct PostPollView: View {
             onlinePollView(poll: poll)
                 .rotationEffect(poll.rotationDegrees)
                 .scaleEffect(poll.scalar)
-                .position(poll.totalOffset)
+                .offset(poll.position)
                 .opacity(poll.transparency)
                 .zIndex(Double(poll.id)) // Controls layer
 //            
@@ -103,7 +103,7 @@ struct onlinePollView: View {
 // Handle the pollsArray data from post
 class postPoll: ObservableObject {
     let id: Int
-    let totalOffset: CGPoint
+    let position: CGSize
     let question: String
     var responses: [String]
     var topColor: Color
@@ -117,7 +117,7 @@ class postPoll: ObservableObject {
     
     init(poll: EditablePollData) {
         self.id = poll.id
-        self.totalOffset = CGPoint(x: poll.totalOffset[0], y: poll.totalOffset[1])
+        self.position = CGSize(width: poll.position[0], height: poll.position[1])
         self.question = poll.question
         self.responses = poll.responses
         self.topColor = Color(red: poll.topColor[0], green: poll.topColor[1], blue: poll.topColor[2])
@@ -133,7 +133,7 @@ class postPoll: ObservableObject {
 
 struct EditablePollData: Codable, Equatable, Hashable {
     let id: Int
-    let totalOffset: [Double]
+    let position: [Double]
     let question: String
     var responses: [String]
     var topColor: [Double]
@@ -148,7 +148,7 @@ struct EditablePollData: Codable, Equatable, Hashable {
     init(from editablePoll: editablePoll) {
         self.id = editablePoll.id
         
-        self.totalOffset = [Double(editablePoll.totalOffset.x), Double(editablePoll.totalOffset.y)]
+        self.position = [Double(editablePoll.position.width), Double(editablePoll.position.height)]
         // For encoding
         
         self.question = editablePoll.question

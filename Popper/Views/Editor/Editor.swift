@@ -46,6 +46,13 @@ struct Editor: View {
             
             ZStack
             {
+                Color.white
+                    .ignoresSafeArea()
+                
+                if !elementsArray.elements.isEmpty {
+                    feedPredictor(elementsArray: elementsArray)
+                }
+                
                 VStack
                 {
                     
@@ -119,6 +126,31 @@ struct Editor: View {
             }
             
         }
+    }
+    
+}
+
+func feedPredictor(elementsArray: editorElementsArray) -> some View {
+    
+    var peak = CGFloat.zero
+    
+    for (_, element) in elementsArray.elements {
+        let element = element.element
+        
+        peak = max(peak, ((element.size.height * element.scalar) / 2) + abs(element.position.height))
+    }
+    
+    return ZStack {
+        
+        Rectangle()
+            .frame(height: 2)
+            .foregroundStyle(Color.gray)
+            .offset(y: -peak)
+        
+        Rectangle()
+            .frame(height: 2)
+            .foregroundStyle(Color.gray)
+            .offset(y: peak)
     }
 }
 

@@ -9,6 +9,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 import Firebase
 import FirebaseStorage
+import FirebaseFirestore
 
 struct PostCardView: View {
     var post: Post
@@ -23,17 +24,21 @@ struct PostCardView: View {
     var body: some View {
         
             // User information (profile photo, username)
-            ZStack
-            {
-                
-                imgElements(post: post)
+//            ZStack
+//            {
+//                
+//                
 
                 
-                VStack
+            VStack(spacing: 0)
                     {
+    //                    .vAlign(.top)
+                        
+                        Divider()
+                        
                         HStack(alignment: .top, spacing: 2) {
                             VStack(alignment: .leading){
-                                HStack(alignment: .center){
+                                HStack(alignment: .top){
                                     WebImage(url: post.userProfileURL)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
@@ -47,43 +52,41 @@ struct PostCardView: View {
                                     
                                     Spacer()
                                     
-                                    PostInteraction()
+                                   
+                                    
                                 }
                                 
                                 Text(post.text)
                                     .font(.callout)
                                     .textSelection(.enabled)
-                                    .padding(.bottom, 5)
+                                    
                             }
                             
-                //            VStack(alignment: .leading, spacing: 6) {
-
-                //                Text(post.publishedDate.formatted(date: .numeric, time: .shortened))
-                //                    .font(.caption2)
-                //                    .foregroundColor(.gray)
-                                
-            
-                //            }
-                            
-                            
-                            
                         }
-                        .zIndex(1)
-                        .hAlign(.leading)
-                        .padding(.horizontal)
-    //                    .vAlign(.top)
+                        .padding()
+                        
+                        
                         
                         Divider()
-
                         
-                        
-                        
+                        imgElements(post: post)
+                            .clipped()
+                            .overlay(
+                                HStack {
+                                    Spacer()
+                                    VStack {
+                                        Spacer()
+                                        PostInteraction()
+                                    }
+                                }
+                            )
                         
                     }
-                    .background(.white)
-                    .vAlign(.top)
                     
-            }
+                    
+                
+    
+//            }
         
                 
                 .overlay(alignment: .topTrailing, content: {
@@ -160,14 +163,18 @@ struct PostCardView: View {
             // Like button
             VStack(alignment: .center) {
                 Button(action: likePost) {
-                    Image(systemName: post.likedIDs.contains(userUID) ? "heart.fill" : "heart")
+                    Image(systemName: "heart.fill")
+                        .resizable()
+                        .scaledToFit()
+                        
                 }
-                .foregroundColor(post.likedIDs.contains(userUID) ? .red : .gray)
+                .frame(width: 30, height: 30)
+                .foregroundStyle(post.likedIDs.contains(userUID) ? .red : .white)
                 
                 
                 Text("\(post.likedIDs.count)")
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.white)
             }
             
             // Comment button
@@ -175,27 +182,35 @@ struct PostCardView: View {
                 Button {
                     displayComments.toggle()
                 } label: {
-                    Image(systemName: "bubble.fill")
+                    Image(systemName: "bubble.right.fill")
+                        .resizable()
+                        .scaledToFit()
+                        
                 }
+                .frame(width: 30, height: 30)
                 .padding(.leading, 5)
-                .foregroundColor(.gray)
+                .foregroundStyle(.white)
                 
                 Text("\(post.comments.count)")
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundStyle(.white)
             }
             
             // Share Button
             Button(action: dislikePost) {
                 Image(systemName: "arrowshape.turn.up.left.fill")
+                    
+                    .resizable()
+                    .scaledToFit()
+                    
             }
+            .frame(width: 30, height: 30)
             .padding(.leading, 5)
-            .foregroundColor(.gray)
+            .foregroundStyle(.white)
             
         }
-        .hAlign(.trailing)
         .foregroundColor(.black)
-        .padding(8)
+        .padding()
     }
     
     // Like Post

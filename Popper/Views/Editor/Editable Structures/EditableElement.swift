@@ -17,6 +17,7 @@ struct EditableElement: View {
     @GestureState var currentRotation = Angle.zero
     @State private var rotationToSend = Angle.zero // This is the rotation to send, cannot convert gesturestate to binding
     @State private var audioPlayer: AVAudioPlayer?
+    @State private var originalOffset: CGSize = CGSize.zero
     @State private var timer: Timer?
     
     var body: some View {
@@ -82,6 +83,41 @@ struct EditableElement: View {
             //                    }
         }
         
+//        .gesture(
+//            DragGesture() // Have to add UI disappearing but not yet
+//                .onChanged { gesture in
+//                    
+//                    if !element.element.lock {
+//                        //                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
+//                        //                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
+//                        
+//                        let differenceX = gesture.startLocation.x - (element.element.size.width * element.element.scalar)
+//                        let differenceY = gesture.startLocation.y - (element.element.size.height * element.element.scalar)
+//                        
+//                        let newX = gesture.location.x
+//                        let newY = gesture.location.y
+//                        let newerX = gesture.startLocation.x - newX // location of where the thing is ... element's size * scalar, its center is its offset. Add to it the difference between the element's size * scalar
+//                        let newerY = gesture.startLocation.y - newY
+//                        element.element.position = CGPoint(x: newX, y: newY) // less the difference of where the thing was initially touched
+//                        sharedEditNotifier.currentlyEdited = true
+//                        sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
+//                        sharedEditNotifier.editToggle()
+//                    }
+//                }
+//            
+//                .onEnded { gesture in
+//                    
+//                    if !element.element.lock {
+//                        if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
+//                            deleteElement(elementsArray: elementsArray, id: element.element.id)
+//                        } 
+//                        
+//                        //                                element.element.startPosition = element.element.position
+//                        sharedEditNotifier.currentlyEdited = false
+//                        sharedEditNotifier.editToggle()
+//                    }
+//                })
+        
         .gesture(
             DragGesture() // Have to add UI disappearing but not yet
                 .onChanged { gesture in
@@ -90,9 +126,17 @@ struct EditableElement: View {
                         //                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
                         //                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
                         
-                        let newX = gesture.location.x
-                        let newY = gesture.location.y
-                        element.element.totalOffset = CGPoint(x: newX, y: newY)
+                        if !sharedEditNotifier.currentlyEdited {
+                            originalOffset = element.element.position
+                        }
+                        
+//                        let differenceX = originalOffset.x - gesture.startLocation.x
+//                        let differenceY = originalOffset.y - gesture.startLocation.y
+//                        
+//                        let newX = gesture.location.x
+//                        let newY = gesture.location.y
+//                        element.element.position = CGPoint(x: newX + differenceX, y: newY + differenceY) // less the difference of where the thing was initially touched
+                        element.element.position = CGSize(width: gesture.translation.width + originalOffset.width, height: gesture.translation.height + originalOffset.height)
                         sharedEditNotifier.currentlyEdited = true
                         sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                         sharedEditNotifier.editToggle()
@@ -104,9 +148,9 @@ struct EditableElement: View {
                     if !element.element.lock {
                         if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
                             deleteElement(elementsArray: elementsArray, id: element.element.id)
-                        } 
+                        }
                         
-                        //                                element.element.startPosition = element.element.totalOffset
+                        //                                element.element.startPosition = element.element.position
                         sharedEditNotifier.currentlyEdited = false
                         sharedEditNotifier.editToggle()
                     }
@@ -116,17 +160,6 @@ struct EditableElement: View {
             SimultaneousGesture( // Rotating and Size change
                 RotationGesture()
                     .updating($currentRotation) { value, state, _ in
-                        
-                        //                        var canSendRotation = true
-                        //
-                        //                        if rotationToSend + element.element.rotationDegrees == Angle(degrees: 0.0) {
-                        //                            // Disable rotation sending temporarily
-                        //                            canSendRotation = false
-                        //
-                        //                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                        //                                            canSendRotation = true
-                        //                                        }
-                        //                        }
                         
                         if !element.element.lock {
                             state = value

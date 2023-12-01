@@ -20,7 +20,7 @@ struct PostStickerView: View {
                 .clipShape(sticker.currentShape)
                 .rotationEffect(Angle(degrees: sticker.rotationDegrees))
                 .scaleEffect(sticker.scalar)
-                .position(CGPoint(x: sticker.totalOffset[0], y: sticker.totalOffset[1]))
+                .offset(sticker.position)
                 .opacity(sticker.transparency)
                 .zIndex(Double(sticker.id)) // Controls layer
         }
@@ -35,7 +35,7 @@ class postSticker: ObservableObject {
     let id: Int
     let url: URL
     let currentShape: ClippableShape
-    let totalOffset: [Double]
+    let position: CGSize
     let scalar: Double
     let rotationDegrees: Double
     let transparency: Double
@@ -49,7 +49,7 @@ class postSticker: ObservableObject {
         self.id = sticker.id
         self.url = sticker.url
         self.currentShape = ClippableShape(rawValue: sticker.currentShape) ?? .square
-        self.totalOffset = [sticker.totalOffset[0], sticker.totalOffset[1]]
+        self.position = CGSize(width: sticker.position[0], height: sticker.position[1])
         self.scalar = sticker.scalar
         self.rotationDegrees = sticker.rotationDegrees
         self.transparency = sticker.transparency
@@ -64,7 +64,7 @@ class postSticker: ObservableObject {
 struct EditableStickerData: Codable, Equatable, Hashable {
     let id: Int
     let currentShape: Int
-    let totalOffset: [Double]
+    let position: [Double]
     let scalar: Double
     let transparency: Double
     let display: Bool
@@ -78,7 +78,7 @@ struct EditableStickerData: Codable, Equatable, Hashable {
     init(from editableSticker: editableStick) {
         self.id = editableSticker.id
         self.currentShape = editableSticker.currentShape.rawValue // For encoding
-        self.totalOffset = [Double(editableSticker.totalOffset.x), Double(editableSticker.totalOffset.y)] // For encoding
+        self.position = [Double(editableSticker.position.width), Double(editableSticker.position.height)] // For encoding
         self.scalar = editableSticker.scalar
         self.transparency = editableSticker.transparency
         self.display = editableSticker.defaultDisplaySetting // If user uploads a post that's already interacted with, it'll upload just fine

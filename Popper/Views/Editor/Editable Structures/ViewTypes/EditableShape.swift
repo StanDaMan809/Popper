@@ -13,7 +13,7 @@ class editableShp: ObservableObject {
     // Include font as a dimension
     // Include alignment
     @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var color: Color = .black
     @Published var rValue: Double = 0.0
     @Published var gValue: Double = 0.0
@@ -62,7 +62,7 @@ struct EditableShape: View {
                 )
                 .rotationEffect(currentRotation + shape.rotationDegrees)
                 .scaleEffect(shape.scalar + currentAmount)
-                .position(shape.totalOffset)
+                .offset(shape.position)
                 .opacity(shape.transparency)
                 .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(shape.id)) // Controls layer
             

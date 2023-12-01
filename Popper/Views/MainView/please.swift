@@ -10,27 +10,23 @@ import SwiftUI
 
 struct please: View {
     
-    var viewToBeSnapshotted: some View {
-        Text("fuck off")
-    }
-    
     var body: some View {
         
-        VStack {
-            snapshot()
+        ZStack {
+            Rectangle()
+                .foregroundStyle(Color.red)
+                .frame(width: 100, height: 100)
+                .position(x: 200, y: 0)
+                
+                
             
-            Text("Hello!")
-                .background(Circle().foregroundStyle(.blue))
+            Rectangle()
+                .foregroundStyle(Color.blue)
+                .frame(width: 100, height: 100)
+                .position(x: 200, y: UIScreen.main.bounds.height)
+                .ignoresSafeArea()
         }
-    }
-    
-    @MainActor func snapshot() -> Image {
-        let imagerenderer = ImageRenderer(
-            content: viewToBeSnapshotted
-        )
-        imagerenderer.scale = UIScreen.main.scale
         
-        return Image(uiImage: imagerenderer.uiImage!)
     }
 }
 

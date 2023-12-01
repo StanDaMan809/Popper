@@ -12,7 +12,7 @@ class editableStick: Identifiable, ObservableObject {
     @Published var id: Int
     let url: URL
     @Published var currentShape: ClippableShape = .rectangle
-    @Published var totalOffset: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
+    @Published var position: CGSize = CGSize.zero
     @Published var scalar: Double = 1.0
     @Published var transparency: Double = 1.0
     @Published var display: Bool
@@ -60,7 +60,7 @@ struct EditableSticker: View {
                         )
                         .rotationEffect(currentRotation + sticker.rotationDegrees)
                         .scaleEffect(sticker.scalar + currentAmount)
-                        .position(sticker.totalOffset)
+                        .offset(sticker.position)
                         .opacity(sticker.transparency)
                         .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(sticker.id))
             }

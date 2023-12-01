@@ -15,6 +15,7 @@ struct User: Identifiable, Codable {
     var userBio: String
     var userBioLink: String
     var userUID: String
+    var profile: Profile = Profile()
     var userEmail: String
     var userProfileURL: URL
     var followingIDs: [String]
@@ -25,6 +26,7 @@ struct User: Identifiable, Codable {
         case userBio
         case userBioLink
         case userUID
+        case profile
         case userEmail
         case userProfileURL
         case followingIDs

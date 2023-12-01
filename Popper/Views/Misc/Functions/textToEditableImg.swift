@@ -13,7 +13,7 @@ func textToEditableImg(text: editableTxt, image: UIImage) -> editableImg {
     
     imageData.id = text.id
     imageData.currentShape = .rectangle
-    imageData.totalOffset = text.totalOffset
+    imageData.position = text.position
     imageData.scalar = text.scalar
     imageData.transparency = text.transparency
     imageData.display = text.defaultDisplaySetting

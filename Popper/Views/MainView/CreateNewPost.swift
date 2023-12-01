@@ -8,6 +8,7 @@
 import SwiftUI
 import PhotosUI
 import Firebase
+import FirebaseFirestore
 import FirebaseStorage
 
 struct CreateNewPost: View {
@@ -142,6 +143,7 @@ struct CreateNewPost: View {
             do {
                 guard let profileURL = profileURL else { return }
                 
+                
                 // Photo Upload and Transcription
                 var textsToUpload = [EditableTextData]()
                 
@@ -188,7 +190,7 @@ struct CreateNewPost: View {
                         let imageReferenceID = "\(userUID)\(Date())\(text.id)\(key)"
                         let storageRef = Storage.storage().reference().child("Post_Images").child(imageReferenceID)
                         
-                        if let conversionData = snapshot(text: text), let data = conversionData.pngData() {
+                        if let conversionData = snapshot(text: text), let data = conversionData.jpegData(compressionQuality: 0.8) {
                             let _ = try await storageRef.putDataAsync(data)
                             let downloadURL = try await storageRef.downloadURL()
                             let imageNumbers = EditableImageData(from: textToEditableImg(text: text, image: conversionData), imageURL: downloadURL, imageReferenceID: imageReferenceID)
@@ -228,11 +230,30 @@ struct CreateNewPost: View {
                         
                     }
                 }
+                
+                // Creating the thumbnail
+                
+                guard let conversionData = thumbnail(elementsArray: elementsArray) else {return}
+                
+                guard let data = conversionData.pngData() else {return}
+                
+                let thumbnailReferenceID = "\(userUID)\(Date())"
+                
+                let storageRef = Storage.storage().reference().child("Thumbnails").child(thumbnailReferenceID)
+                    
+                let _ = try await storageRef.putDataAsync(data)
+                    
+                let downloadURL = try await storageRef.downloadURL()
+
 
                 // Create Post object with all information
                 
-                let post = Post(text: postText, elementsArray: elementsToUpload, userName: userName, userUID: userUID, userProfileURL: profileURL, visibility: visibility, commentsEnabled: commentsEnabled, allowSave: allowSave)
+                let post = Post(text: postText, elementsArray: elementsToUpload, thumbnail: downloadURL, userName: userName, userUID: userUID, userProfileURL: profileURL, visibility: visibility, commentsEnabled: commentsEnabled, allowSave: allowSave)
+                
                 try await createDocumentAtFirebase(post)
+                
+                
+                
             } catch {
                 await setError(error)
             }
@@ -250,12 +271,157 @@ struct CreateNewPost: View {
                 updatedPost.id = doc.documentID
                 onPost(updatedPost)
                 
+//                elementToProfile(post: updatedPost)
+                
                 // Dismiss View
                 dismiss()
+                
             }
             
         })
     }
+    
+    
+//    func elementToProfile(post: Post) {
+//        
+//        let userDocRef = Firestore.firestore().collection("Users").document(userUID)
+//
+//        userDocRef.getDocument { (document, error) in
+//            if let error = error {
+//                print("Error getting user document: \(error)")
+//                return
+//            }
+//
+//            guard let document = document, document.exists else {
+//                print("User document does not exist.")
+//                return
+//            }
+//
+//            // Access the profile field from the document
+//            if var profileDoc = document.data()?["profile"] as? [String: Any] {
+//                // Access the elements field from the profile dictionary
+//                var elementsArray = profileDoc["elements"] as? [[String: Any]] ?? []
+//
+//                // Create a new profileElement
+//                let newProfileElement: [String: Any] = [
+//                    "id": elementsArray.count, // Use the count of elements as the new ID
+//                    "element": [
+//                        "type": "image", // Change the type and properties based on your actual structure
+//                        "data": ["thumbnail": try String(contentsOf: post.thumbnail)]
+//                    ],
+//                    "width": 4,
+//                    "height": 2,
+//                    "redirect": [
+//                        "type": "post", // Change the type and properties based on your actual structure
+//                        "data": ["id": post.id]
+//                    ],
+//                    "pinned": false
+//                ]
+//
+//                // Add the new profileElement to the elements array
+//                elementsArray.append(newProfileElement)
+//
+//                // Update the profile dictionary with the modified elements array
+//                profileDoc["elements"] = elementsArray
+//
+//                // Update the user document with the modified profile dictionary
+//                userDocRef.setData(["profile": profileDoc], merge: true) { error in
+//                    if let error = error {
+//                        print("Error updating user document: \(error)")
+//                    } else {
+//                        print("User document updated successfully.")
+//                    }
+//                }
+//            }
+//        }
+        
+//        Firestore.firestore().collection("Users").document(userUID).getDocument() { (document, error) in
+//            if let document = document, document.exists {
+//                    // Access the "profile" map
+//                if let profile = document.data()?["profile"] as? [String: Any] {
+//                        // Access the "elements" array
+//                        if let elements = profile["elements"] as? [profileElement] {
+//                            // Do something with the elements array
+//                            let newElement = profileElement(
+//                                id: elements.count,
+//                                element: .image(profileImage(image: post.thumbnail)),
+//                                width: 4,
+//                                height: 2,
+//                                redirect: .post(post.id ?? ""),
+//                                pinned: false
+//                            )
+//                            
+//                                profile.updateData([
+//                                    "elements": FieldValue.arrayUnion([newElement])
+//                                ]) { error in
+//                                    if let error = error {
+//                                        print("Error updating document: \(error)")
+//                                    } else {
+//                                        print("Document updated successfully")
+//                                    }
+//                                }
+//                        }
+//                    }
+//                } else {
+//                    print("Document does not exist")
+//                }
+        
+//    }
+    
+//    func elementToProfile(post: Post) async {
+//        
+//        guard let userDocRef = await Firestore.firestore().collection("Users").document(userUID).getDocument() else {return}
+//
+//        userDocRef.getDocument { (document, error) in
+//            if let error = error {
+//                print("Error getting user document: \(error)")
+//                return
+//            }
+//
+//            guard let document = document, document.exists else {
+//                print("User document does not exist.")
+//                return
+//            }
+//
+//            // Access the profile field from the document
+//            if var profileDoc = document.data()?["profile"] as? [String: Any] {
+//                // Access the elements field from the profile dictionary
+//                var elementsArray = profileDoc["elements"] as? [[String: Any]] ?? []
+//
+//                // Create a new profileElement
+//                let newProfileElement: [String: Any] = [
+//                    "id": elementsArray.count, // Use the count of elements as the new ID
+//                    "element": [
+//                        "type": "image", // Change the type and properties based on your actual structure
+//                        "data": ["thumbnail": post.thumbnail]
+//                    ],
+//                    "width": 4,
+//                    "height": 2,
+//                    "redirect": [
+//                        "type": "post", // Change the type and properties based on your actual structure
+//                        "data": ["id": post.id]
+//                    ],
+//                    "pinned": false
+//                ]
+//
+//                // Add the new profileElement to the elements array
+//                elementsArray.append(newProfileElement)
+//
+//                // Update the profile dictionary with the modified elements array
+//                profileDoc["elements"] = elementsArray
+//
+//                // Update the user document with the modified profile dictionary
+//                userDocRef.setData(["profile": profileDoc], merge: true) { error in
+//                    if let error = error {
+//                        print("Error updating user document: \(error)")
+//                    } else {
+//                        print("User document updated successfully.")
+//                    }
+//                }
+//            }
+//        }
+//        
+//    }
     
     func setError(_ error: Error )async {
         await MainActor.run(body: {
@@ -285,7 +451,94 @@ struct CreateNewPost: View {
         
         return imagerenderer.uiImage
     }
+    
+    @MainActor func thumbnail(elementsArray: editorElementsArray) -> UIImage? {
+        
+        var peak = CGFloat.zero
+        
+        for (_, element) in elementsArray.elements {
+            let element = element.element
+            
+            peak = max(peak, ((element.size.height * element.scalar) / 2) + abs(element.position.height))
+        }
+        
+        let imagerenderer = ImageRenderer(
+            
+            content:
+                
+                ZStack {
+                    
+                    Color.white
+                        .frame(width: UIScreen.main.bounds.width, height: peak * 2)
+                    
+                    ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                        if let itemToDisplay = elementsArray.elements[key] {
+                            EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: SharedEditState())
+                            
+                        }
+                        
+                    }
+                }
+        )
+        imagerenderer.scale = UIScreen.main.scale
+        
+        return imagerenderer.uiImage
+    }
+    
 }
+
+// idk how the fuck to do this
+
+//guard let userDocRef = Firestore.firestore().collection("Users").document(userUID).getDocument() else {return}
+//
+//userDocRef.getDocument { (document, error) in
+//    if let error = error {
+//        print("Error getting user document: \(error)")
+//        return
+//    }
+//
+//    guard let document = document, document.exists else {
+//        print("User document does not exist.")
+//        return
+//    }
+//
+//    // Access the profile field from the document
+//    if var profileDoc = document.data()?["profile"] as? [String: Any] {
+//        // Access the elements field from the profile dictionary
+//        var elementsArray = profileDoc["elements"] as? [[String: Any]] ?? []
+//
+//        // Create a new profileElement
+//        let newProfileElement: [String: Any] = [
+//            "id": elementsArray.count, // Use the count of elements as the new ID
+//            "element": [
+//                "type": "image", // Change the type and properties based on your actual structure
+//                "data": ["thumbnail": post.thumbnail]
+//            ],
+//            "width": 4,
+//            "height": 2,
+//            "redirect": [
+//                "type": "post", // Change the type and properties based on your actual structure
+//                "data": ["id": doc.documentID]
+//            ],
+//            "pinned": false
+//        ]
+//
+//        // Add the new profileElement to the elements array
+//        elementsArray.append(newProfileElement)
+//
+//        // Update the profile dictionary with the modified elements array
+//        profileDoc["elements"] = elementsArray
+//
+//        // Update the user document with the modified profile dictionary
+//        userDocRef.setData(["profile": profileDoc], merge: true) { error in
+//            if let error = error {
+//                print("Error updating user document: \(error)")
+//            } else {
+//                print("User document updated successfully.")
+//            }
+//        }
+//    }
+//}
 
 struct CreateNewPost_Previews: PreviewProvider {
     static var previews: some View {

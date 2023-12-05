@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
 
 struct Star: Shape {
     // store how many corners the star has, and how smooth/pointed it is
@@ -344,3 +345,27 @@ extension UIView {
     }
 
 }
+
+//extension profileElement {
+//    init?(document: DocumentSnapshot) {
+//        guard
+//            let id = document["id"] as? Int,
+//            let elementRawValue = document["element"] as? String,
+//            let element = profileElementEnum(from: elementRawValue),
+//            let width = document["width"] as? Int,
+//            let height = document["height"] as? Int,
+//            let redirectRawValue = document["redirect"] as? String,
+//            let redirect = redirectEnum(from: redirectRawValue),
+//            let pinned = document["pinned"] as? Bool
+//        else {
+//            return nil
+//        }
+//        
+//        self.id = id
+//        self.element = element
+//        self.width = width
+//        self.height = height
+//        self.redirect = redirect
+//        self.pinned = pinned
+//    }
+//}

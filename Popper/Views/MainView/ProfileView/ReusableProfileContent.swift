@@ -109,12 +109,16 @@ struct ReusableProfileContent: View {
                         .background(Color.pink.opacity(0.95).cornerRadius(10))
                     }
                 }
+                .padding(.horizontal, 15)
+                .padding(.top, 15)
                 
                 Divider()
                 
-                ReusablePostsView(basedOnUID: true, uid: user.userUID, posts: $fetchedPosts)
+//                ReusablePostsView(basedOnUID: true, uid: user.userUID, posts: $fetchedPosts)
+                
+                customProfileView(profile: user.profile, userUID: user.userUID)
             }
-            .padding(15)
+            
         }
         .onAppear {
             checkForFollowing()

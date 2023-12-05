@@ -172,7 +172,7 @@ struct RegisterView: View {
                 
                 // Step 4: Creating a User Firestore Object
                 
-                let user = User(username: username, userBio: userBio, userBioLink: userBioLink, userUID: userUID, userEmail: emailID, userProfileURL: downloadURL, followingIDs: [])
+                let user = User(username: username, userBio: userBio, userBioLink: userBioLink, userUID: userUID, profile: Profile(), userEmail: emailID, userProfileURL: downloadURL, followingIDs: [], conversations: [])
                 
                 // Step 5: Saving User Doc into Firestore Database
                 
@@ -184,7 +184,6 @@ struct RegisterView: View {
                         self.userUID = userUID
                         profileURL = downloadURL
                         logStatus = true
-                        
                     }
                 })
                 

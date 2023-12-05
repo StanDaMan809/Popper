@@ -18,6 +18,7 @@ struct ProfileElementView: View {
             WebImage(url: image.image)
                 .resizable()
                 .frame(width: sizeify(element: element).width, height: sizeify(element: element).height)
+                .scaledToFit()
         case .billboard(let billboard):
             Text(billboard.text)
                 .foregroundStyle(Color(red: billboard.textColor[0], green: billboard.textColor[1], blue: billboard.textColor[2]))

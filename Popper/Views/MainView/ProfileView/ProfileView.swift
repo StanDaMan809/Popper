@@ -23,6 +23,7 @@ struct ProfileView: View {
         VStack {
             if let myProfile {
                 ReusableProfileContent(user: myProfile)
+//                customProfileView(profile: myProfile.profile, userUID: myProfile.userUID)
                     .refreshable {
                         self.myProfile = nil
                         await fetchUserData()
@@ -58,6 +59,7 @@ struct ProfileView: View {
             .task {
                 // Modifier like onAppear -> fetches for the first time only
                 if myProfile != nil {return}
+                
                 // initial fetch
                 await fetchUserData()
             }
@@ -70,6 +72,7 @@ struct ProfileView: View {
             myProfile = user
         })
     }
+    
     
     // Logging User Out
     

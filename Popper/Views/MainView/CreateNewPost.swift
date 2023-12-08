@@ -318,12 +318,13 @@ struct CreateNewPost: View {
             print("Error retrieving profile.head")
         }
         
+        let elementID = "\(userUID)\(NSDate().timeIntervalSince1970)"
         
-        let userDocRef = Firestore.firestore().collection("Users").document(userUID).collection("elements").document()
+        let userDocRef = Firestore.firestore().collection("Users").document(userUID).collection("elements").document(elementID)
 
         // Create the element
         let newElement = profileElement(
-            id: "\(userUID)/\(NSDate().timeIntervalSince1970)",
+            id: elementID,
             element: .image(profileImage(image: post.thumbnail)),
             width: 3,
             height: 3,
@@ -430,59 +431,6 @@ struct CreateNewPost: View {
     }
     
 }
-
-// idk how the fuck to do this
-
-//guard let userDocRef = Firestore.firestore().collection("Users").document(userUID).getDocument() else {return}
-//
-//userDocRef.getDocument { (document, error) in
-//    if let error = error {
-//        print("Error getting user document: \(error)")
-//        return
-//    }
-//
-//    guard let document = document, document.exists else {
-//        print("User document does not exist.")
-//        return
-//    }
-//
-//    // Access the profile field from the document
-//    if var profileDoc = document.data()?["profile"] as? [String: Any] {
-//        // Access the elements field from the profile dictionary
-//        var elementsArray = profileDoc["elements"] as? [[String: Any]] ?? []
-//
-//        // Create a new profileElement
-//        let newProfileElement: [String: Any] = [
-//            "id": elementsArray.count, // Use the count of elements as the new ID
-//            "element": [
-//                "type": "image", // Change the type and properties based on your actual structure
-//                "data": ["thumbnail": post.thumbnail]
-//            ],
-//            "width": 4,
-//            "height": 2,
-//            "redirect": [
-//                "type": "post", // Change the type and properties based on your actual structure
-//                "data": ["id": doc.documentID]
-//            ],
-//            "pinned": false
-//        ]
-//
-//        // Add the new profileElement to the elements array
-//        elementsArray.append(newProfileElement)
-//
-//        // Update the profile dictionary with the modified elements array
-//        profileDoc["elements"] = elementsArray
-//
-//        // Update the user document with the modified profile dictionary
-//        userDocRef.setData(["profile": profileDoc], merge: true) { error in
-//            if let error = error {
-//                print("Error updating user document: \(error)")
-//            } else {
-//                print("User document updated successfully.")
-//            }
-//        }
-//    }
-//}
 
 struct CreateNewPost_Previews: PreviewProvider {
     static var previews: some View {

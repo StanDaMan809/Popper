@@ -46,45 +46,50 @@ struct EditablePoll: View {
             // Image characteristics
                 .overlay(
                     Group {
-                        if poll.lock {
-                            elementLock(id: poll.id, small: true)
+                        
+                        if sharedEditNotifier.selectedElement?.element.id == poll.id { Rectangle()
+                                .stroke(Color.black, lineWidth: 5)
                         }
+                            
+                            if poll.lock {
+                                elementLock(id: poll.id, small: true)
+                            }
+                        }
+                        )
+                            .rotationEffect(currentRotation + poll.rotationDegrees)
+                            .scaleEffect(poll.scalar + currentAmount)
+                            .offset(poll.position)
+                            .opacity(poll.transparency)
+                            .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(poll.id))
+                        
                     }
-                )
-                .rotationEffect(currentRotation + poll.rotationDegrees)
-                .scaleEffect(poll.scalar + currentAmount)
-                .offset(poll.position)
-                .opacity(poll.transparency)
-                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(poll.id))
-                
-        }
-    }
-}
-
-func pollAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        
-        if let currentElement = sharedEditNotifier.selectedElement
-        {
-            defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            print(currentElement.element.createDisplays)
-        }
-        
-    }
-
-    else
-    {
-        defaultDisplaySetting = true
-        
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .poll(editablePoll(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
-
-    elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
-    sharedEditNotifier.editorDisplayed = .none
-    
-}
+                    }
+                    }
+                    
+                    func pollAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
+                        
+                        var defaultDisplaySetting = true
+                        
+                        if sharedEditNotifier.editorDisplayed == .photoAppear {
+                            
+                            if let currentElement = sharedEditNotifier.selectedElement
+                            {
+                                defaultDisplaySetting = false // set defaultDisplaySetting to false so the post will upload with display = false
+                                currentElement.element.createDisplays.append(elementsArray.objectsCount)
+                                print(currentElement.element.createDisplays)
+                            }
+                            
+                        }
+                        
+                        else
+                        {
+                            defaultDisplaySetting = true
+                            
+                        }
+                        
+                        elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .poll(editablePoll(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
+                        
+                        elementsArray.objectsCount += 1 // Increasing the number of objects counted for id purposes
+                        sharedEditNotifier.editorDisplayed = .none
+                        
+                    }

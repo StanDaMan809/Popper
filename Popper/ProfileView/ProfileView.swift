@@ -20,10 +20,9 @@ struct ProfileView: View {
     @State var isLoading: Bool = false
     
     var body: some View {
-        VStack {
+        Group {
             if let myProfile {
                 ReusableProfileContent(user: myProfile)
-//                customProfileView(profile: myProfile.profile, userUID: myProfile.userUID)
                     .refreshable {
                         self.myProfile = nil
                         await fetchUserData()
@@ -121,8 +120,8 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
-}
+//struct ProfileView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProfileView(profileEdit:)
+//    }
+//}

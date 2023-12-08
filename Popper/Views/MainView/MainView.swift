@@ -11,6 +11,7 @@ struct MainView: View {
     @State private var isEditorActive = false
     @State private var selectedTab: Tab = .posts
     
+    
     var body: some View {
         TabView(selection: $selectedTab){
             PostsView()

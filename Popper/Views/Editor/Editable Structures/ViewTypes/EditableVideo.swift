@@ -52,6 +52,10 @@ struct EditableVideo: View {
                 .clipShape(video.currentShape)
                 .overlay(
                     Group {
+                        if sharedEditNotifier.selectedElement?.element.id == video.id { Rectangle()
+                                .stroke(Color.black, lineWidth: 5)
+                        }
+                        
                         if video.lock {
                             elementLock(id: video.id)
                         }

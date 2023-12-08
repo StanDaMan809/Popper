@@ -44,6 +44,9 @@
 		F6494DA12B19CDC900630504 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6494DA02B19CDC900630504 /* Message.swift */; };
 		F65DCBA42AD89806002B878C /* imgElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA32AD89806002B878C /* imgElements.swift */; };
 		F65DCBA62AD89FBC002B878C /* Global Variables.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65DCBA52AD89FBC002B878C /* Global Variables.swift */; };
+		F67CBE452B225FD10019E7DF /* ProfileBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBE442B225FD10019E7DF /* ProfileBar.swift */; };
+		F67CBE472B228C580019E7DF /* profileElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBE462B228C580019E7DF /* profileElement.swift */; };
+		F67CBE4B2B22A6630019E7DF /* ProfileQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67CBE4A2B22A6630019E7DF /* ProfileQuestionView.swift */; };
 		F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A982AF9C14A000E9C94 /* Trash.swift */; };
 		F6964A9B2AF9CD29000E9C94 /* RewindButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */; };
 		F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */; };
@@ -169,6 +172,9 @@
 		F6494DA02B19CDC900630504 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		F65DCBA32AD89806002B878C /* imgElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imgElements.swift; sourceTree = "<group>"; };
 		F65DCBA52AD89FBC002B878C /* Global Variables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Global Variables.swift"; sourceTree = "<group>"; };
+		F67CBE442B225FD10019E7DF /* ProfileBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBar.swift; sourceTree = "<group>"; };
+		F67CBE462B228C580019E7DF /* profileElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileElement.swift; sourceTree = "<group>"; };
+		F67CBE4A2B22A6630019E7DF /* ProfileQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileQuestionView.swift; sourceTree = "<group>"; };
 		F6964A982AF9C14A000E9C94 /* Trash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trash.swift; sourceTree = "<group>"; };
 		F6964A9A2AF9CD29000E9C94 /* RewindButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewindButton.swift; sourceTree = "<group>"; };
 		F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
@@ -285,8 +291,9 @@
 		F61702652B118F35003816F7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				F61702632B1161B7003816F7 /* Profile.swift */,
-				F6494D9E2B198D6200630504 /* ProfileViews.swift */,
+				F67CBE462B228C580019E7DF /* profileElement.swift */,
+				F67CBE432B225F9B0019E7DF /* Editor */,
+				F647CDC12AD4C93500D362DB /* ProfileView */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -359,7 +366,6 @@
 				F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */,
 				F6FF24DC2B09AE74007F61BA /* please.swift */,
 				F647CDD22AD6725400D362DB /* PostConfirmation.swift */,
-				F647CDC12AD4C93500D362DB /* ProfileView */,
 				F647CDC02AD4C8FC00D362DB /* PostView */,
 			);
 			path = MainView;
@@ -382,8 +388,11 @@
 		F647CDC12AD4C93500D362DB /* ProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				F61702632B1161B7003816F7 /* Profile.swift */,
 				F634327A2AC7E72E00E756BA /* ProfileView.swift */,
 				F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */,
+				F6494D9E2B198D6200630504 /* ProfileViews.swift */,
+				F67CBE4A2B22A6630019E7DF /* ProfileQuestionView.swift */,
 			);
 			path = ProfileView;
 			sourceTree = "<group>";
@@ -413,6 +422,14 @@
 				F6C3BD822AF1DAAD00DD4405 /* Comment.swift */,
 			);
 			name = Post;
+			sourceTree = "<group>";
+		};
+		F67CBE432B225F9B0019E7DF /* Editor */ = {
+			isa = PBXGroup;
+			children = (
+				F67CBE442B225FD10019E7DF /* ProfileBar.swift */,
+			);
+			name = Editor;
 			sourceTree = "<group>";
 		};
 		F6964A9E2AF9DE2B000E9C94 /* SubUI */ = {
@@ -819,6 +836,7 @@
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */,
 				F6FF24E22B09D110007F61BA /* PostStickerView.swift in Sources */,
+				F67CBE452B225FD10019E7DF /* ProfileBar.swift in Sources */,
 				F6FF24D72B08B4F9007F61BA /* PostRewindButton.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
 				F647CDBC2AD4B71B00D362DB /* ReusablePostsView.swift in Sources */,
@@ -827,6 +845,7 @@
 				F6FF24CE2B08A81C007F61BA /* PostPollView.swift in Sources */,
 				F6C3BD892AF1F0A600DD4405 /* CommentView.swift in Sources */,
 				F6C8DC2029DF7CEF0014849C /* PopperApp.swift in Sources */,
+				F67CBE472B228C580019E7DF /* profileElement.swift in Sources */,
 				F647CDD12AD64BCE00D362DB /* Background.swift in Sources */,
 				F6494DA12B19CDC900630504 /* Message.swift in Sources */,
 				F63432732AC7E32B00E756BA /* RegisterView.swift in Sources */,
@@ -839,6 +858,7 @@
 				F647CDC92AD649F200D362DB /* EditableImage.swift in Sources */,
 				F647CDCD2AD64AF400D362DB /* SideButtons.swift in Sources */,
 				F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */,
+				F67CBE4B2B22A6630019E7DF /* ProfileQuestionView.swift in Sources */,
 				F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */,
 				F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */,
 			);

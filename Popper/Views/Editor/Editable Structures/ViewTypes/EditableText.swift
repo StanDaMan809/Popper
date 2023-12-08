@@ -92,6 +92,9 @@ struct EditableText: View {
                         )
                         .overlay(
                             Group {
+                                
+                                
+                                
                                 if text.lock {
                                     elementLock(id: text.id, small: true)
                                 }

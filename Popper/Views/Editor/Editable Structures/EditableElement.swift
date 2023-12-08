@@ -23,6 +23,7 @@ struct EditableElement: View {
     var body: some View {
         
         ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend)
+            
         
             .onTapGesture (count: 2)
         {

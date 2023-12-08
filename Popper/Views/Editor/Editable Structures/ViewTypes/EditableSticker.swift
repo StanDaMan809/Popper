@@ -53,6 +53,9 @@ struct EditableSticker: View {
                         .clipShape(sticker.currentShape)
                         .overlay(
                             Group {
+                                if sharedEditNotifier.selectedElement?.element.id == sticker.id { Rectangle()
+                                        .stroke(Color.black, lineWidth: 5)}
+                                
                                 if sticker.lock {
                                     elementLock(id: sticker.id)
                                 }

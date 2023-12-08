@@ -55,10 +55,16 @@ struct EditableImage: View {
                         .frame(width: image.size.width, height: image.size.height)
                         .overlay(
                             Group {
+                                if sharedEditNotifier.selectedElement?.element.id == image.id { Rectangle()
+                                        .stroke(Color.black, lineWidth: 5)
+                                }
+                                
+                                
                                 if image.lock {
                                     elementLock(id: image.id)
                                 }
                             }
+                                
                         )
                         .rotationEffect(currentRotation + image.rotationDegrees)
                         .scaleEffect(image.scalar + currentAmount)

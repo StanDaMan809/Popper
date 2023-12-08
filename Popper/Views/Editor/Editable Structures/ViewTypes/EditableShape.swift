@@ -55,6 +55,11 @@ struct EditableShape: View {
                 .frame(width: shape.size.width, height: shape.size.height)
                 .overlay(
                     Group {
+                        
+                        if sharedEditNotifier.selectedElement?.element.id == shape.id { Rectangle()
+                                .stroke(Color.black, lineWidth: 5)
+                        }
+                        
                         if shape.lock {
                             elementLock(id: shape.id, small: true)
                         }

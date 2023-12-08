@@ -220,14 +220,14 @@ struct ImagePickerView: UIViewControllerRepresentable {
                     // Correct the size if it's negative due to the transform
                     let correctedSize = CGSize(width: abs(videoSize.width), height: abs(videoSize.height))
                     
-                    // Use screenWidth and maxHeight to calculate aspect ratio and targetSize if needed
+                    // Use screenWidth and maxHeight to calculate aspect ratio and targetSize
                     let screenWidth = UIScreen.main.bounds.width
                     let maxHeight: CGFloat = UIScreen.main.bounds.height
                     let aspectRatio = correctedSize.width / correctedSize.height
                     let targetHeight = min(maxHeight, screenWidth / aspectRatio)
                     let targetSize = CGSize(width: screenWidth, height: targetHeight)
                     
-                    // You can now use this size information as you need, for instance:
+                    
                     videoAdd(vidURL: videoUrl, size: targetSize, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                 }
             }

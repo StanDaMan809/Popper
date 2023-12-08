@@ -7,7 +7,11 @@
 
 import SwiftUI
 
-class editorElement: ObservableObject {
+class editorElement: ObservableObject, Equatable {
+    static func == (lhs: editorElement, rhs: editorElement) -> Bool {
+        lhs.element.id == rhs.element.id
+    }
+    
     @Published var element: ElementType
     
     // The structs will be able to call from this...
@@ -123,8 +127,8 @@ class editorElement: ObservableObject {
                     return editableTxt.size
                 case .shape(let editableShp):
                     return editableShp.size
-                case .sticker:
-                    return CGSize(width: 0, height: 0)
+                case .sticker(let sticker):
+                    return CGSize(width: 100 * sticker.scalar, height: 100 * sticker.scalar)
                 case .poll:
                     return CGSize(width: 0, height: 0)
                 }

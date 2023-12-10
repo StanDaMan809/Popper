@@ -51,8 +51,8 @@ struct EditableImage: View {
                     Image(uiImage: image.imgSrc)
                     // Image characteristics
                         .resizable()
-                        .clipShape(image.currentShape)
                         .frame(width: image.size.width, height: image.size.height)
+                        .clipShape(image.currentShape)
                         .overlay(
                             Group {
                                 if sharedEditNotifier.selectedElement?.element.id == image.id { Rectangle()
@@ -64,7 +64,6 @@ struct EditableImage: View {
                                     elementLock(id: image.id)
                                 }
                             }
-                                
                         )
                         .rotationEffect(currentRotation + image.rotationDegrees)
                         .scaleEffect(image.scalar + currentAmount)

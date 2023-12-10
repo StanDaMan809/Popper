@@ -161,8 +161,14 @@ struct ProfileBar: View {
             classElementsArray.insert(element, at: 0)
         }
         
+        classElementsArray[0].changed = true
+        
         classElementsArray[0].next = classElementsArray[1].id
-        classElementsArray[1].previous = classElementsArray[0].id
+        
+        if classElementsArray.indices.contains(1) {
+            classElementsArray[1].changed = true
+            classElementsArray[1].previous = classElementsArray[0].id
+        }
     }
     
     struct ProfilePhotoPicker: View {

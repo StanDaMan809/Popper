@@ -342,7 +342,7 @@ struct CreateNewPost: View {
             let postedElement = userDocRef.documentID
 
             // Check if the collection is empty
-            let collectionSnapshot = try await Firestore.firestore().collection("Users").document(userUID).collection("elements").getDocuments()
+            _ = try await Firestore.firestore().collection("Users").document(userUID).collection("elements").getDocuments()
                 
             try await Firestore.firestore().collection("Users").document(userUID).setData(["profile" : ["head" : postedElement]], merge: true)
                 
@@ -351,20 +351,6 @@ struct CreateNewPost: View {
         } catch {
             print("Error updating document: \(error)")
         }
-    
-        
-        // Update the elements array within the profile map
-//        userDocRef.updateData([
-//            "profile.elements": FieldValue.arrayUnion([newElement])
-//        ]) { error in
-//            if let error = error {
-//                print("Error updating document: \(error)")
-//            } else {
-//                print("Document updated successfully.")
-//            }
-//        }
-        
-        print("hello sob")
         
     }
     

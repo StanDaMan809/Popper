@@ -56,8 +56,9 @@ class profileElementClass: Identifiable, Equatable, ObservableObject {
     @Published var pinned: Bool
     @Published var previous: String?
     @Published var next: String?
+    var changed: Bool
     
-    init(id: String, element: profileElementEnum, width: Int, height: Int, redirect: redirectEnum, pinned: Bool, previous: String? = nil, next: String? = nil) {
+    init(id: String, element: profileElementEnum, width: Int, height: Int, redirect: redirectEnum, pinned: Bool, previous: String? = nil, next: String? = nil, changed: Bool = false) {
         self.id = id
         self.element = element
         self.width = width
@@ -66,6 +67,7 @@ class profileElementClass: Identifiable, Equatable, ObservableObject {
         self.pinned = pinned
         self.previous = previous
         self.next = next
+        self.changed = changed
     }
     
     init(from element: profileElement) {
@@ -77,6 +79,7 @@ class profileElementClass: Identifiable, Equatable, ObservableObject {
         self.pinned = element.pinned
         self.previous = element.previous
         self.next = element.next
+        self.changed = false
     }
 }
 

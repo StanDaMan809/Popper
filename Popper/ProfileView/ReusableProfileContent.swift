@@ -20,6 +20,9 @@ struct ReusableProfileContent: View {
     @State private var profileElementsClassArray: [profileElementClass] = []
     @AppStorage("user_UID") private var userUID: String = ""
     @State var profileEdit: Bool = false
+    @State var followersCount: Int = 0
+    @State var followingCount: Int = 0
+    @State var loading: Bool = true
     @State var selectedElement: profileElementClass?
     
     var body: some View {
@@ -42,22 +45,28 @@ struct ReusableProfileContent: View {
                             
                             HStack(spacing: 15) {
                                 VStack(alignment: .center) {
-                                    Text("5") // Placeholder Number
-                                        .bold()
+                                    if !loading {
+                                        Text("\(followingCount)")
+                                            .bold()
+                                    }
                                     Text("Following")
                                         .font(.system(size: 15))
                                 }
                                 
                                 VStack(alignment: .center) {
-                                    Text("1000") // Placeholder Number
-                                        .bold()
+                                    if !loading {
+                                        Text("\(followersCount)")
+                                            .bold()
+                                    }
                                     Text("Followers")
                                         .font(.system(size: 15))
                                 }
                                 
                                 VStack(alignment: .center) {
-                                    Text("1400") // Placeholder Number
-                                        .bold()
+                                    if !loading {
+                                        Text("1400") // Placeholder Number
+                                            .bold()
+                                    }
                                     Text("Pops")
                                         .font(.system(size: 15))
                                 }
@@ -73,14 +82,11 @@ struct ReusableProfileContent: View {
                                 .font(.system(size: 15))
                                 .fontWeight(.semibold)
                                 .font(.callout)
-                            //                            .font(.system(size: 20))
                             
                             Text(user.userBio)
                                 .font(.system(size: 15))
-                                .foregroundColor(.gray)
                                 .font(.callout)
                                 .lineLimit(3)
-                            //                            .font(.system(size: 20))
                             
                             // Displaying Bio Link, if given while signing up
                             if let bioLink = URL(string: user.userBioLink) {
@@ -130,15 +136,24 @@ struct ReusableProfileContent: View {
             
             if profileEdit {
                 
-                
                 ProfileBar(userUID: userUID, profileElementsArray: $profileElementsArray, classElementsArray: $profileElementsClassArray, selectedElement: $selectedElement)
-                    
+                
                 
             }
             
         }
-        .onAppear {
+        .task {
+            
             checkForFollowing()
+            do {
+                followingCount = try await getFollowingCount()
+                followersCount = try await getFollowerCount()
+            } catch {
+                print("Error: \(error)")
+            }
+            
+            
+            loading = false
         }
         .toolbar(profileEdit ? .hidden : .visible, for: .tabBar)
         //        .toolbar(profileEdit ? .hidden : .visible, for: .bottomBar)
@@ -148,27 +163,40 @@ struct ReusableProfileContent: View {
     
     func checkForFollowing() {
         
-        Firestore.firestore().collection("Users").document(userUID).getDocument { document, error in
+        //        Firestore.firestore().collection("Users").document(userUID).getDocument { document, error in
+        //            if let error = error {
+        //                print("Error getting document: \(error)")
+        //                // Handle the error here if needed
+        //            } else if let document = document, document.exists {
+        //                // The document exists, and you can access its data
+        //                if let followingIDs = document["followingIDs"] as? [String], followingIDs.contains(user.userUID) {
+        //                    // The userUIDToCheck is present in the followingIDs array
+        //                    following = true
+        //                    print("User is following")
+        //                    // Handle the case where the user is following
+        //                } else {
+        //                    // The userUIDToCheck is not present in the followingIDs array
+        //                    following = false
+        //                    print("User is not following")
+        //                    // Handle the case where the user is not following
+        //                }
+        //            } else {
+        //                print("Document does not exist")
+        //                // Handle the case where the document doesn't exist
+        //            }
+        //        }
+        
+        Firestore.firestore().collection("Users").document(user.userUID).collection("Followers").document(userUID).getDocument { document, error in
+            
             if let error = error {
-                print("Error getting document: \(error)")
-                // Handle the error here if needed
-            } else if let document = document, document.exists {
-                // The document exists, and you can access its data
-                if let followingIDs = document["followingIDs"] as? [String], followingIDs.contains(user.userUID) {
-                    // The userUIDToCheck is present in the followingIDs array
-                    following = true
-                    print("User is following")
-                    // Handle the case where the user is following
-                } else {
-                    // The userUIDToCheck is not present in the followingIDs array
-                    following = false
-                    print("User is not following")
-                    // Handle the case where the user is not following
-                }
-            } else {
-                print("Document does not exist")
-                // Handle the case where the document doesn't exist
+                print("Error retrieving following status")
+                
             }
+            
+            if let document = document, document.exists {
+                following = true
+            }
+            
         }
     }
     
@@ -181,20 +209,62 @@ struct ReusableProfileContent: View {
             // if the viewed user's UID is in the user's viewer tab
             // Make them follow them
             
+            
+            
             if following {
                 // Removing the seen user's ID from following array
-                try await Firestore.firestore().collection("Users").document(userUID).updateData([
-                    "followingIDs": FieldValue.arrayRemove([user.userUID])
-                ])
-                following = false
+                //                try await Firestore.firestore().collection("Users").document(userUID).updateData([
+                //                    "followingIDs": FieldValue.arrayRemove([user.userUID])
+                //                ])
+                //                following = false
+                
+                let followersCollectionRef = Firestore.firestore().collection("Users").document(user.userUID).collection("Followers")
+                
+                // Add a document with the followerUID as the document ID
+                followersCollectionRef.document(userUID).delete() { error in
+                    if let error = error {
+                        print("Error adding follower: \(error)")
+                    } else {
+                        print("Follower added successfully!")
+                        following = false
+                        
+                        Firestore.firestore().collection("Users").document(userUID).collection("Following").document(user.userUID).delete()
+                    }
+                }
             } else {
-                // Adding the seen user's ID to the following array
-                try await Firestore.firestore().collection("Users").document(userUID).updateData([
-                    "followingIDs": FieldValue.arrayUnion([user.userUID])
-                ])
-                following = true
+                //                // Adding the seen user's ID to the following array
+                //                try await Firestore.firestore().collection("Users").document(userUID).updateData([
+                //                    "followingIDs": FieldValue.arrayUnion([user.userUID])
+                //                ])
+                //                following = true
+                
+                let followersCollectionRef = Firestore.firestore().collection("Users").document(user.userUID).collection("Followers")
+                
+                // Add a document with the followerUID as the document ID
+                followersCollectionRef.document(userUID).setData(["timestamp": FieldValue.serverTimestamp()]) { error in
+                    if let error = error {
+                        print("Error adding follower: \(error)")
+                    } else {
+                        print("Follower added successfully!")
+                        following = true
+                        
+                        Firestore.firestore().collection("Users").document(userUID).collection("Following").document(user.userUID).setData(["timestamp": FieldValue.serverTimestamp()])
+                    }
+                }
             }
         }
+    }
+    
+    func getFollowerCount() async throws -> Int {
+        let snapshot = try await Firestore.firestore().collection("Users").document(user.userUID).collection("Followers").getDocuments()
+        
+        return snapshot.documents.count
+    }
+    
+    func getFollowingCount() async throws -> Int {
+        let snapshot = try await Firestore.firestore().collection("Users").document(user.userUID).collection("Following").getDocuments()
+        
+        return snapshot.documents.count
     }
     
     struct EditPencil: View {
@@ -205,12 +275,12 @@ struct ReusableProfileContent: View {
                 HStack {
                     Spacer()
                     
-//                    Button {
-//                        
-//                    } label: {
-//                        Image(systemName: "gear")
-//                            .foregroundStyle(Color.black)
-//                    }
+                    //                    Button {
+                    //
+                    //                    } label: {
+                    //                        Image(systemName: "gear")
+                    //                            .foregroundStyle(Color.black)
+                    //                    }
                     
                     Button {
                         profileEdit.toggle()

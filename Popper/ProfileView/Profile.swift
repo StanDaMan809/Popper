@@ -23,28 +23,30 @@ struct customProfileView: View {
     
     var body: some View {
         
-            WrappingHStack(alignment: .center, horizontalSpacing: 5, verticalSpacing: 5, fitContentWidth: true) {
-//                ForEach(profile.elements) { element in
-//                    if element.pinned {
-//                        ProfileElementView(element: element)
-//                    }
-//                }
-                
-                
-                
-                ForEach(classElementsArray) { element in
-                    if !element.pinned {
-                        ProfileElementView(parent: self, element: element)
-                            .onDrag {
+        WrappingHStack(alignment: .center, horizontalSpacing: 5, verticalSpacing: 5, fitContentWidth: true) {
+            //                ForEach(profile.elements) { element in
+            //                    if element.pinned {
+            //                        ProfileElementView(element: element)
+            //                    }
+            //                }
+            
+            
+            
+            ForEach(classElementsArray) { element in
+                if !element.pinned {
+                    ProfileElementView(parent: self, element: element)
+                        .onDrag {
+                            if profileEdit {
                                 self.draggedItem = element
-                                return NSItemProvider()
                             }
-                            .onDrop(of: [.text],
-                                    delegate: DropViewDelegate(destinationItem: element, elements: $classElementsArray, draggedItem: $draggedItem)
-                            )
-                    }
+                            return NSItemProvider()
+                        }
+                        .onDrop(of: [.text],
+                                delegate: DropViewDelegate(destinationItem: element, elements: $classElementsArray, draggedItem: $draggedItem)
+                        )
                 }
             }
+        }
         
         
         .task {
@@ -65,86 +67,111 @@ struct customProfileView: View {
             if profileEdit == false {
                 selectedElement = nil
             }
+
+            for element in classElementsArray {
+                if element.changed {
+                    
+                }
+            }
         }
     }
     
-    struct DropViewDelegate: DropDelegate {
-        
-        let destinationItem: profileElementClass
-        @Binding var elements: [profileElementClass]
-        @Binding var draggedItem: profileElementClass?
-        
-        func dropUpdated(info: DropInfo) -> DropProposal? {
-            return DropProposal(operation: .move)
-        }
-        
-        func performDrop(info: DropInfo) -> Bool {
+    
+        struct DropViewDelegate: DropDelegate {
             
+            let destinationItem: profileElementClass
+            @Binding var elements: [profileElementClass]
+            @Binding var draggedItem: profileElementClass?
             
+            func dropUpdated(info: DropInfo) -> DropProposal? {
+                return DropProposal(operation: .move)
+            }
             
-            draggedItem = nil
-            return true
-        }
-        
-        func dropEntered(info: DropInfo) {
-            // Swap Items
-            if let draggedItem {
-                let fromIndex = elements.firstIndex(of: draggedItem)
-                if let fromIndex {
-                    let toIndex = elements.firstIndex(of: destinationItem)
-                    if let toIndex, fromIndex != toIndex {
-                        withAnimation {
-                            
-                            // Updating the elements that were at the initial location of the drop
-                            
-                            if elements.indices.contains(fromIndex + 1) && elements.indices.contains(fromIndex - 1) {
-                                // make previous item.next = current next item
-                                // make next item.previous = current previous item
+            func performDrop(info: DropInfo) -> Bool {
+                
+                
+                
+                draggedItem = nil
+                return true
+            }
+            
+            func dropEntered(info: DropInfo) {
+                // Swap Items
+                if let draggedItem {
+                    let fromIndex = elements.firstIndex(of: draggedItem)
+                    if let fromIndex {
+                        let toIndex = elements.firstIndex(of: destinationItem)
+                        if let toIndex, fromIndex != toIndex {
+                            withAnimation {
                                 
-                                elements[fromIndex - 1].next = draggedItem.next
+                                // Updating the elements that were at the initial location of the drop
                                 
-                                elements[fromIndex + 1].previous = draggedItem.previous
-                            } else if elements.indices.contains(fromIndex + 1) {
-                                // make next item previous = nil
-                                // designate as head
+                                if elements.indices.contains(fromIndex + 1) && elements.indices.contains(fromIndex - 1) {
+                                    // make previous item.next = current next item
+                                    // make next item.previous = current previous item
+                                    
+                                    elements[fromIndex - 1].next = draggedItem.next
+                                    
+                                    elements[fromIndex + 1].previous = draggedItem.previous
+                                    
+                                    elements[fromIndex - 1].changed = true
+                                    elements[fromIndex + 1].changed = true
+                                    
+                                    
+                                } else if elements.indices.contains(fromIndex + 1) {
+                                    // make next item previous = nil
+                                    // designate as head
+                                    
+                                    elements[fromIndex + 1].previous = nil
+                                    elements[fromIndex + 1].changed = true
+                                    
+                                    // Needs designation as head
+                                    
+                                } else if elements.indices.contains(fromIndex - 1) {
+                                    // make previous item next = nil
+                                    
+                                    elements[fromIndex - 1].next = nil
+                                    elements[fromIndex - 1].changed = true
+                                }
                                 
-                                elements[fromIndex + 1].previous = nil
+                                self.elements.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
                                 
-                                // Needs designation as head
+                                draggedItem.changed = true
                                 
-                            } else if elements.indices.contains(fromIndex - 1) {
-                                // make previous item next = nil
+                                // Changing the elements currently at the drop location
                                 
-                                elements[fromIndex - 1].next = nil
+                                // Previous one gets updated on the right side
+                                
+                                // This one gets updated on both sides
+                                
+                                // Next one gets updated on the left side
+                                
+                                if elements.indices.contains(toIndex + 1) {
+                                    
+                                    elements[toIndex].next = elements[toIndex + 1].id
+                                    elements[toIndex + 1].previous = elements[toIndex].id
+                                    
+                                    elements[toIndex + 1].changed = true
+                                    elements[toIndex].changed = true
+                                    
+                                }
+                                
+                                if elements.indices.contains(toIndex - 1) {
+                                    elements[toIndex - 1].next = elements[toIndex].id
+                                    elements[toIndex].previous = elements[toIndex - 1].id
+                                    
+                                    
+                                    elements[toIndex - 1].changed = true
+                                    elements[toIndex].changed = true
+                                }
+                                
                             }
-                            
-                            self.elements.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
-                            
-                            // Changing the elements currently at the drop location
-                            
-                            // Previous one gets updated on the right side
-                            
-                            // This one gets updated on both sides
-                            
-                            // Next one gets updated on the left side
-                            
-                            if elements.indices.contains(toIndex + 1) {
-                                
-                                elements[toIndex].next = elements[toIndex + 1].id
-                                elements[toIndex + 1].previous = elements[toIndex].id
-                            }
-                            
-                            if elements.indices.contains(toIndex - 1) {
-                                elements[toIndex - 1].next = elements[toIndex].id
-                                elements[toIndex].previous = elements[toIndex - 1].id
-                            }
-                            
                         }
                     }
                 }
             }
         }
-    }
+    
     
     func downloadElements(userUID: String, sortedElementArray: inout [profileElement])async {
         
@@ -239,42 +266,52 @@ func sizeify(element: profileElementClass) -> CGSize {
     
     // THESE FORMULAS WERE GEOMETRICALLY CALCULATED, OKAY! IM A WIZ!!
     
-    switch element.width {
-    case 1:
-        width = UIScreen.main.bounds.width - (spacingWidth * 2) // Whole row
-    case 2:
-        width = (UIScreen.main.bounds.width - (spacingWidth * 3)) / 2 // Takes up 1/2 of the row
-    case 3:
-        width = (UIScreen.main.bounds.width - (spacingWidth * 4)) / 3 // Takes up 1/3rd of the row
-    case 4:
-        width = (UIScreen.main.bounds.width - (spacingWidth * 5)) / 4 // Takes up 1/4rd of the row
-    case 5:
-        width = (UIScreen.main.bounds.width - (spacingWidth * 6)) / 5 // Takes up 1/5 of the row
-    case 6:
-        width = UIScreen.main.bounds.width - (spacingWidth * 3) - (UIScreen.main.bounds.width - (spacingWidth * 5) / 4) // Takes up three-quarters of the row, meant to fit with a size four
-    case 7:
-        width = UIScreen.main.bounds.width - (spacingWidth * 4) - 2 * ((UIScreen.main.bounds.width - (spacingWidth * 6)) / 5) // Takes up 4/5 of the row, meant to fit with a size five
-    default:
-        width = UIScreen.main.bounds.width - (spacingWidth * 2)
+    if 1 <= element.width, element.width <= 8 {
+        switch element.width {
+        case 1:
+            width = UIScreen.main.bounds.width - (spacingWidth * 2) // Whole row
+        case 2:
+            width = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 6)) / 5) // Takes up 4/5 of the row, meant to fit with a size 8
+        case 3:
+            width = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 5)) / 4) // Takes up 3/4 of the row, meant to fit with a size 7
+        case 4:
+            width = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 4)) / 3) // Takes up 1/3 of the row, meant to fit with a size 6
+        case 5:
+            width = (UIScreen.main.bounds.width - (spacingWidth * 3)) / 2 // Takes up 1/2 of the row
+        case 6:
+            width = (UIScreen.main.bounds.width - (spacingWidth * 4)) / 3 // Takes up 1/3rd of the row
+        case 7:
+            width = (UIScreen.main.bounds.width - (spacingWidth * 5)) / 4 // Takes up 1/4 of the row
+        case 8:
+            width = (UIScreen.main.bounds.width - (spacingWidth * 6)) / 5 // Takes up 1/5 of the row
+        default:
+            width = UIScreen.main.bounds.width - (spacingWidth * 2)
+        }
+    } else {
+        width = (UIScreen.main.bounds.width - (spacingWidth * 4)) / 3
     }
     
-    switch element.height {
-    case 1:
-        height = UIScreen.main.bounds.width - (spacingWidth * 2)
-    case 2:
-        height = (UIScreen.main.bounds.width - (spacingWidth * 3)) / 2
-    case 3:
-        height = (UIScreen.main.bounds.width - (spacingWidth * 4)) / 3
-    case 4:
-        height = (UIScreen.main.bounds.width - (spacingWidth * 5)) / 4
-    case 5:
-        height = (UIScreen.main.bounds.width - (spacingWidth * 6)) / 5
-    case 6:
-        height = UIScreen.main.bounds.width - (spacingWidth * 3) - (UIScreen.main.bounds.width - (spacingWidth * 5) / 4)
-    case 7:
-        height = UIScreen.main.bounds.width - (spacingWidth * 4) - 2 * ((UIScreen.main.bounds.width - (spacingWidth * 6)) / 5)
-    default:
-        height = UIScreen.main.bounds.width - (spacingWidth * 2)
+    if 1 <= element.height, element.height <= 8 {
+        switch element.height {
+        case 1:
+            height = UIScreen.main.bounds.width - (spacingWidth * 2) // Whole row
+        case 2:
+            height = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 6)) / 5) // Takes up 4/5 of the row, meant to fit with a size 8
+        case 3:
+            height = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 5)) / 4) // Takes up 3/4 of the row, meant to fit with a size 7
+        case 4:
+            height = UIScreen.main.bounds.width - (spacingWidth * 3) - ((UIScreen.main.bounds.width - (spacingWidth * 4)) / 3) // Takes up 1/3 of the row, meant to fit with a size 6
+        case 5:
+            height = (UIScreen.main.bounds.width - (spacingWidth * 3)) / 2 // Takes up 1/2 of the row
+        case 6:
+            height = (UIScreen.main.bounds.width - (spacingWidth * 4)) / 3 // Takes up 1/3rd of the row
+        case 7:
+            height = (UIScreen.main.bounds.width - (spacingWidth * 5)) / 4 // Takes up 1/4 of the row
+        case 8:
+            height = (UIScreen.main.bounds.width - (spacingWidth * 6)) / 5 // Takes up 1/5 of the row
+        default:
+            width = UIScreen.main.bounds.width - (spacingWidth * 2)
+        }
     }
     
     return CGSize(width: width, height: height)

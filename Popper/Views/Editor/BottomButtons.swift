@@ -32,6 +32,7 @@ struct bottomButtons: View {
                     .opacity(sharedEditNotifier.buttonDim)
             } else {
                Trash(sharedEditNotifier: sharedEditNotifier)
+                
             }
             
         case .linkEditor:

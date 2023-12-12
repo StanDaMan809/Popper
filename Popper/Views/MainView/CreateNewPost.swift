@@ -326,8 +326,8 @@ struct CreateNewPost: View {
         let newElement = profileElement(
             id: elementID,
             element: .image(profileImage(image: post.thumbnail)),
-            width: 3,
-            height: 3,
+            width: 6,
+            height: 6,
             redirect: .post(post.id ?? ""),
             pinned: false,
             next: next

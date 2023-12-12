@@ -11,10 +11,7 @@ struct TransparencySlider: View {
     @Binding var transparency: Double
     
     var body: some View {
-        HStack
-        {
-                Slider(value: $transparency, in: 0.01...1)
-        }
+        Slider(value: $transparency, in: 0.00001...1)
         .scaleEffect(0.90)
         .padding()
     }

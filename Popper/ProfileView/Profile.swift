@@ -15,6 +15,8 @@ import SDWebImageSwiftUI
 struct customProfileView: View {
     var profile: Profile
     @State var draggedItem: profileElementClass?
+    @Binding var displayPost: Bool
+    @Binding var postToDisplay: Post?
     @Binding var profileElementsArray: [profileElement]
     @Binding var classElementsArray: [profileElementClass]
     @Binding var profileEdit: Bool
@@ -24,11 +26,12 @@ struct customProfileView: View {
     var body: some View {
         
         WrappingHStack(alignment: .center, horizontalSpacing: 5, verticalSpacing: 5, fitContentWidth: true) {
-            //                ForEach(profile.elements) { element in
-            //                    if element.pinned {
-            //                        ProfileElementView(element: element)
-            //                    }
-            //                }
+                            ForEach(classElementsArray) { element in
+                                if element.pinned {
+                                    ProfileElementView(parent: self, element: element)
+                                    
+                                }
+                            }
             
             
             
@@ -48,142 +51,177 @@ struct customProfileView: View {
             }
         }
         
+        //        .fullScreenCover(isPresented: $displayPost, content: {
+        //                wrappedPostDisplay(postToDisplay: $postToDisplay, displayPost: $displayPost)
+        //        })
         
         .task {
-            
-            profileElementsArray = []
-            classElementsArray = []
-            
-            await downloadElements(userUID: userUID, sortedElementArray: &profileElementsArray)
-            
-            for i in profileElementsArray {
-                classElementsArray.append(profileElementClass(from: i))
+            if classElementsArray == [] {
+                await downloadElements(userUID: userUID, sortedElementArray: &classElementsArray)
             }
-            
-            profileElementsArray = []
         }
         
         .onChange(of: profileEdit) { _ in
             if profileEdit == false {
                 selectedElement = nil
             }
-
+            
             for element in classElementsArray {
-                if element.changed {
+                
+                if element.changed, let elementID = element.id {
+                    let userDocRef = Firestore.firestore().collection("Users").document(userUID).collection("elements").document(elementID)
+                    let elementForUpload = profileElement(from: element)
                     
+                    do {
+                        try userDocRef.setData(from: elementForUpload)
+                        element.changed = false
+                    } catch {
+                        print("Error uploading data")
+                    }
+                    
+                    
+                }
+            }
+            
+            let userDocRef = Firestore.firestore().collection("Users").document(userUID)
+            
+            do {
+                userDocRef.getDocument { (document, error) in
+                    if let error = error {
+                        print("Error getting user document: \(error)")
+                        return
+                    }
+                    
+                    guard let document = document, document.exists else {
+                        print("User document does not exist")
+                        return
+                    }
+                    
+                    if let data = document.data(), let profileHead = data["profile"] as? [String : Any], let head = profileHead["head"] as? String, classElementsArray.indices.contains(0), head != classElementsArray[0].id {
+                        
+                        // Setting head to the first value if it's not the same as the regular one
+                        
+                        Firestore.firestore().collection("Users").document(userUID).setData(["profile" : ["head" : classElementsArray[0].id]], merge: true)
+                        
+                        print(classElementsArray[0].id ?? "")
+                        
+                        
+                    } else {
+                        print("Error retrieving profile.head")
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    
+    struct DropViewDelegate: DropDelegate {
+        
+        let destinationItem: profileElementClass
+        @Binding var elements: [profileElementClass]
+        @Binding var draggedItem: profileElementClass?
+        
+        func dropUpdated(info: DropInfo) -> DropProposal? {
+            return DropProposal(operation: .move)
+        }
+        
+        func performDrop(info: DropInfo) -> Bool {
+            
+            
+            
+            draggedItem = nil
+            return true
+        }
+        
+        func dropEntered(info: DropInfo) {
+            // Swap Items
+            if let draggedItem {
+                let fromIndex = elements.firstIndex(of: draggedItem)
+                if let fromIndex {
+                    let toIndex = elements.firstIndex(of: destinationItem)
+                    if let toIndex, fromIndex != toIndex {
+                        withAnimation {
+                            
+                            // Updating the elements that were at the initial location of the drop
+                            
+                            if elements.indices.contains(fromIndex + 1) && elements.indices.contains(fromIndex - 1) {
+                                // make previous item.next = current next item
+                                // make next item.previous = current previous item
+                                
+                                elements[fromIndex - 1].next = draggedItem.next
+                                
+                                elements[fromIndex + 1].previous = draggedItem.previous
+                                
+                                elements[fromIndex - 1].changed = true
+                                elements[fromIndex + 1].changed = true
+                                
+                                
+                            } else if elements.indices.contains(fromIndex + 1) {
+                                // make next item previous = nil
+                                // designate as head
+                                
+                                elements[fromIndex + 1].previous = nil
+                                elements[fromIndex + 1].changed = true
+                                
+                                // Needs designation as head
+                                
+                            } else if elements.indices.contains(fromIndex - 1) {
+                                // make previous item next = nil
+                                
+                                elements[fromIndex - 1].next = nil
+                                elements[fromIndex - 1].changed = true
+                            }
+                            
+                            self.elements.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
+                            
+                            draggedItem.changed = true
+                            
+                            // Changing the elements currently at the drop location
+                            
+                            // Previous one gets updated on the right side
+                            
+                            // This one gets updated on both sides
+                            
+                            // Next one gets updated on the left side
+                            
+                            if elements.indices.contains(toIndex + 1) {
+                                
+                                elements[toIndex].next = elements[toIndex + 1].id
+                                elements[toIndex + 1].previous = elements[toIndex].id
+                                
+                                elements[toIndex + 1].changed = true
+                                elements[toIndex].changed = true
+                                
+                            }
+                            
+                            if elements.indices.contains(toIndex - 1) {
+                                elements[toIndex - 1].next = elements[toIndex].id
+                                elements[toIndex].previous = elements[toIndex - 1].id
+                                
+                                
+                                elements[toIndex - 1].changed = true
+                                elements[toIndex].changed = true
+                            }
+                            
+                        }
+                    }
                 }
             }
         }
     }
     
     
-        struct DropViewDelegate: DropDelegate {
-            
-            let destinationItem: profileElementClass
-            @Binding var elements: [profileElementClass]
-            @Binding var draggedItem: profileElementClass?
-            
-            func dropUpdated(info: DropInfo) -> DropProposal? {
-                return DropProposal(operation: .move)
-            }
-            
-            func performDrop(info: DropInfo) -> Bool {
-                
-                
-                
-                draggedItem = nil
-                return true
-            }
-            
-            func dropEntered(info: DropInfo) {
-                // Swap Items
-                if let draggedItem {
-                    let fromIndex = elements.firstIndex(of: draggedItem)
-                    if let fromIndex {
-                        let toIndex = elements.firstIndex(of: destinationItem)
-                        if let toIndex, fromIndex != toIndex {
-                            withAnimation {
-                                
-                                // Updating the elements that were at the initial location of the drop
-                                
-                                if elements.indices.contains(fromIndex + 1) && elements.indices.contains(fromIndex - 1) {
-                                    // make previous item.next = current next item
-                                    // make next item.previous = current previous item
-                                    
-                                    elements[fromIndex - 1].next = draggedItem.next
-                                    
-                                    elements[fromIndex + 1].previous = draggedItem.previous
-                                    
-                                    elements[fromIndex - 1].changed = true
-                                    elements[fromIndex + 1].changed = true
-                                    
-                                    
-                                } else if elements.indices.contains(fromIndex + 1) {
-                                    // make next item previous = nil
-                                    // designate as head
-                                    
-                                    elements[fromIndex + 1].previous = nil
-                                    elements[fromIndex + 1].changed = true
-                                    
-                                    // Needs designation as head
-                                    
-                                } else if elements.indices.contains(fromIndex - 1) {
-                                    // make previous item next = nil
-                                    
-                                    elements[fromIndex - 1].next = nil
-                                    elements[fromIndex - 1].changed = true
-                                }
-                                
-                                self.elements.move(fromOffsets: IndexSet(integer: fromIndex), toOffset: (toIndex > fromIndex ? (toIndex + 1) : toIndex))
-                                
-                                draggedItem.changed = true
-                                
-                                // Changing the elements currently at the drop location
-                                
-                                // Previous one gets updated on the right side
-                                
-                                // This one gets updated on both sides
-                                
-                                // Next one gets updated on the left side
-                                
-                                if elements.indices.contains(toIndex + 1) {
-                                    
-                                    elements[toIndex].next = elements[toIndex + 1].id
-                                    elements[toIndex + 1].previous = elements[toIndex].id
-                                    
-                                    elements[toIndex + 1].changed = true
-                                    elements[toIndex].changed = true
-                                    
-                                }
-                                
-                                if elements.indices.contains(toIndex - 1) {
-                                    elements[toIndex - 1].next = elements[toIndex].id
-                                    elements[toIndex].previous = elements[toIndex - 1].id
-                                    
-                                    
-                                    elements[toIndex - 1].changed = true
-                                    elements[toIndex].changed = true
-                                }
-                                
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    
-    
-    func downloadElements(userUID: String, sortedElementArray: inout [profileElement])async {
+    func downloadElements(userUID: String, sortedElementArray: inout [profileElementClass])async {
         
         
         
         let userDocRef = Firestore.firestore().collection("Users").document(userUID)
-        let elementsCollectionRef = userDocRef.collection("elements")
         var node: String?
         var presortedElementArray: [profileElement] = []
         
         
-
+        
         do {
             userDocRef.getDocument { (document, error) in
                 if let error = error {
@@ -210,10 +248,10 @@ struct customProfileView: View {
             print(node ?? "")
             
             let elementsRef = try await userDocRef.collection("elements").getDocuments()
-//
-//            while node != nil {
-//                elementsRef.document(node!).compactMap { doc -> profileElement }
-//            }
+            //
+            //            while node != nil {
+            //                elementsRef.document(node!).compactMap { doc -> profileElement }
+            //            }
             
             let fetchedElements = elementsRef.documents.compactMap { doc -> profileElement? in
                 try? doc.data(as: profileElement.self)
@@ -225,14 +263,12 @@ struct customProfileView: View {
             print(presortedElementArray.count)
             
             
-            // Linked list algorithm to generate elements in their proper order 
+            // Linked list algorithm to generate elements in their proper order
             
             while node != nil {
-                print("get in there,,,, yeahh yeahhh get in there!!!")
                 for element in presortedElementArray {
                     if node == element.id {
-                        print("hey thereeeee hey there you hey thereeee")
-                        sortedElementArray.append(element)
+                        sortedElementArray.append(profileElementClass(from: element))
                         node = element.next
                     }
                 }
@@ -250,11 +286,11 @@ struct customProfileView: View {
             
             
         }
-         catch {
+        catch {
             print("Error")
         }
     }
-        
+    
 }
 
 
@@ -321,7 +357,7 @@ func sizeify(element: profileElementClass) -> CGSize {
 
 struct Profile: Codable, Equatable, Hashable {
     
-    var head: String? 
+    var head: String?
     var elements: [profileElement] = []
     var background: URL?
     var song: URL?
@@ -334,3 +370,68 @@ struct Profile: Codable, Equatable, Hashable {
     
 }
 
+func downloadPost(postID: String)async -> Post? {
+    do {
+        let doc = try await Firestore.firestore().collection("Posts").document(postID).getDocument()
+        
+        let fetchedPost = try doc.data(as: Post.self)
+        
+        return fetchedPost
+        
+        
+    } catch {
+        print(error.localizedDescription)
+        
+        return nil
+    }
+}
+
+struct wrappedPostDisplay: View {
+    @Binding var postToDisplay: Post?
+    @Binding var displayPost: Bool
+    
+    var body: some View {
+        if let post = postToDisplay {
+            ZStack {
+                VStack {
+                    
+                    HStack {
+                        Button {
+                            displayPost = false
+                        } label: {
+                            Image(systemName: "xmark")
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding()
+                    
+                    PostCardView(post: post, onUpdate: {updatedPost in }, onDelete: { })
+                    
+                    Spacer()
+                    
+                }
+            }
+            .transition(.move(edge: .trailing))
+            .contentShape(Rectangle())
+            .gesture(
+                DragGesture()
+                    .onChanged { value in
+                        // Detect rightward swipe
+                        if value.translation.width >= 50 {
+                            displayPost = false
+                        }
+                    }
+                    .onEnded { value in
+                        // Reset the offset after the drag ends
+                        //                                    offset = .zero
+                        
+                        // Execute code when rightward swipe is detected
+                        if value.translation.width > 50 {
+                            print("Rightward swipe detected! Execute your code here.")
+                        }
+                    }
+            )
+        }
+    }
+}

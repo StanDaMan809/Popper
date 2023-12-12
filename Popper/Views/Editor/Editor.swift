@@ -123,6 +123,11 @@ struct Editor: View {
                     }
                 }
                 
+                if parent.sharedEditNotifier.currentlyEdited {
+                    Trash(sharedEditNotifier: parent.sharedEditNotifier)
+                        
+                }
+                
             }
             
         }

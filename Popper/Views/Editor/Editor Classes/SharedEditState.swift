@@ -22,6 +22,24 @@ class SharedEditState: ObservableObject {
     @Published var delete: Bool = false
     @Published var trashCanFrame = CGRect.zero
     @Published var toDelete = false
+    @Published var profileEdit = false
+    
+    init(currentlyEdited: Bool = false, buttonDim: Double = 1, disabled: Bool = false, selectedElement: editorElement? = nil, editorDisplayed: EditorDisplayed = EditorDisplayed.none, pressedButton: UIButtonPress = .noButton, rewindButtonPresent: Bool = false, objectsCount: Int = 0, backgroundEdit: Bool = false, bgObjectsCount: Int = 0, delete: Bool = false, trashCanFrame: CoreFoundation.CGRect = CGRect.zero, toDelete: Bool = false, profileEdit: Bool = false) {
+        self.currentlyEdited = currentlyEdited
+        self.buttonDim = buttonDim
+        self.disabled = disabled
+        self.selectedElement = selectedElement
+        self.editorDisplayed = editorDisplayed
+        self.pressedButton = pressedButton
+        self.rewindButtonPresent = rewindButtonPresent
+        self.objectsCount = objectsCount
+        self.backgroundEdit = backgroundEdit
+        self.bgObjectsCount = bgObjectsCount
+        self.delete = delete
+        self.trashCanFrame = trashCanFrame
+        self.toDelete = toDelete
+        self.profileEdit = profileEdit
+    }
     
     func editToggle()
     {

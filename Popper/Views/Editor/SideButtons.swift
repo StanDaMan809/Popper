@@ -50,13 +50,15 @@ struct SideButtons: View {
                     
             })
             
-            Button(action: {
-                //                    sharedEditNotifier.pressedButton = .bgButton
-                sharedEditNotifier.backgroundEdit.toggle()
-            },
-                   label: {
-                sideButton(systemName: "rectangle.on.rectangle.fill", grayOpacity: sharedEditNotifier.backgroundEdit ? grayOpacitySelected : grayOpacityRegular)
-            })
+            if !sharedEditNotifier.profileEdit {
+                Button(action: {
+                    //                    sharedEditNotifier.pressedButton = .bgButton
+                    sharedEditNotifier.backgroundEdit.toggle()
+                },
+                       label: {
+                    sideButton(systemName: "rectangle.on.rectangle.fill", grayOpacity: sharedEditNotifier.backgroundEdit ? grayOpacitySelected : grayOpacityRegular)
+                })
+            }
             
             
             

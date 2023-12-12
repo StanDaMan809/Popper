@@ -14,12 +14,11 @@ struct ColorPicker: View {
     @Binding var elementColor: Color
     @State var colorToWatch: Color = Color.clear
     @ObservedObject var sharedEditNotifier: SharedEditState
+    @State var showClear: Bool = false
     
     @State var colorsArray: [Color] = [.red, .green, .blue, .orange, .purple, .pink, .yellow, .brown]
     
     @State var colorSelected: Bool = false
-    
-    
     
     let standardColors: [Color] = [.red, .green, .blue, .orange, .purple, .pink, .yellow, .brown]
     
@@ -123,7 +122,7 @@ struct ColorPicker: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 
-                if sharedEditNotifier.editorDisplayed == .colorPickerTextBG {
+                if sharedEditNotifier.editorDisplayed == .colorPickerTextBG || showClear == true {
                     Image(systemName: "circle")
                         .resizable()
                         .scaledToFit()

@@ -31,7 +31,8 @@ struct bottomButtons: View {
                 controlButtons(parent: self)
                     .opacity(sharedEditNotifier.buttonDim)
             } else {
-               Trash(sharedEditNotifier: sharedEditNotifier)
+               
+                    
                 
             }
             

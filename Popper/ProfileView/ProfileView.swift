@@ -20,13 +20,14 @@ struct ProfileView: View {
     @State var isLoading: Bool = false
     
     var body: some View {
-        Group {
+        NavigationStack {
             if let myProfile {
                 ReusableProfileContent(user: myProfile)
                     .refreshable {
                         self.myProfile = nil
                         await fetchUserData()
                     }
+                
             } else {
                 ProgressView()
             }

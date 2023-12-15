@@ -14,7 +14,6 @@ import FirebaseFirestore
 struct ReusableProfileContent: View {
     
     var user: User
-    @State private var fetchedPosts: [Post] = []
     @State private var following: Bool = false
     @State private var profileElementsArray: [profileElement] = []
     @State private var profileElementsClassArray: [profileElementClass] = []
@@ -29,137 +28,143 @@ struct ReusableProfileContent: View {
     
     var body: some View {
         
-        ZStack {
-            if let bgURL = user.profile.background {
-                WebImage(url: bgURL)
-            }
-            
-            VStack(spacing: 0) {
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack {
-                        VStack {
-                            HStack(spacing: 12) {
-                                WebImage(url: user.userProfileURL).placeholder {
-                                    Image("NullProfile")
-                                        .resizable()
-                                }
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 75, height: 75)
-                                .clipShape(Circle())
-                                
-                                Spacer()
-                                
-                                HStack(spacing: 15) {
-                                    VStack(alignment: .center) {
-                                        if !loading {
-                                            Text("\(followingCount)")
-                                                .bold()
+        NavigationStack {
+            ZStack {
+                if let bgURL = user.profile.background {
+                    WebImage(url: bgURL)
+                        .resizable()
+                }
+                
+                VStack(spacing: 0) {
+                    
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack {
+                            VStack {
+                                HStack(spacing: 12) {
+                                    WebImage(url: user.userProfileURL).placeholder {
+                                        Image("NullProfile")
+                                            .resizable()
+                                    }
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 75, height: 75)
+                                    .clipShape(Circle())
+                                    
+                                    Spacer()
+                                    
+                                    HStack(spacing: 15) {
+                                        VStack(alignment: .center) {
+                                            if !loading {
+                                                Text("\(followingCount)")
+                                                    .bold()
+                                            }
+                                            Text("Following")
+                                                .font(.system(size: 15))
                                         }
-                                        Text("Following")
-                                            .font(.system(size: 15))
+                                        
+                                        VStack(alignment: .center) {
+                                            if !loading {
+                                                Text("\(followersCount)")
+                                                    .bold()
+                                            }
+                                            Text("Followers")
+                                                .font(.system(size: 15))
+                                        }
+                                        
+                                        VStack(alignment: .center) {
+                                            if !loading {
+                                                Text("1400") // Placeholder Number
+                                                    .bold()
+                                            }
+                                            Text("Pops")
+                                                .font(.system(size: 15))
+                                        }
+                                        
                                     }
                                     
-                                    VStack(alignment: .center) {
-                                        if !loading {
-                                            Text("\(followersCount)")
-                                                .bold()
-                                        }
-                                        Text("Followers")
-                                            .font(.system(size: 15))
-                                    }
+                                    Spacer()
+                                }
+                                
+                                
+                                VStack(alignment: .leading, spacing: 3) {
+                                    Text(user.nickname)
+                                        .font(.system(size: 15))
+                                        .fontWeight(.semibold)
+                                        .font(.callout)
                                     
-                                    VStack(alignment: .center) {
-                                        if !loading {
-                                            Text("1400") // Placeholder Number
-                                                .bold()
-                                        }
-                                        Text("Pops")
-                                            .font(.system(size: 15))
-                                    }
+                                    Text(user.userBio)
+                                        .font(.system(size: 15))
+                                        .font(.callout)
+                                        .lineLimit(3)
                                     
+                                    // Displaying Bio Link, if given while signing up
+                                    if let bioLink = URL(string: user.userBioLink) {
+                                        Link(user.userBioLink, destination: bioLink)
+                                            .font(.callout)
+                                            .tint(.blue)
+                                            .lineLimit(1)
+                                    }
                                 }
+                                .hAlign(.leading)
                                 
-                                Spacer()
+                                HStack {
+                                    
+                                    Button {
+                                        followUser()
+                                    } label: {
+                                        Text(following ? "Unfollow" : "Follow")
+                                            .font(.callout)
+                                            .foregroundColor(.white)
+                                            .padding(.vertical, 8)
+                                            .frame(maxWidth: .infinity)
+                                    }
+                                    .background(Color.pink.opacity(0.95).cornerRadius(10))
+                                    
+                                    Button {
+                                        // follow
+                                    } label: {
+                                        Text("Message")
+                                            .font(.callout)
+                                            .foregroundColor(.white)
+                                            .padding(.vertical, 8)
+                                            .frame(maxWidth: .infinity)
+                                    }
+                                    .background(Color.pink.opacity(0.95).cornerRadius(10))
+                                }
                             }
+                            .padding()
+                            .background(Color.white)
                             
-                            
-                            VStack(alignment: .leading, spacing: 3) {
-                                Text(user.username)
-                                    .font(.system(size: 15))
-                                    .fontWeight(.semibold)
-                                    .font(.callout)
-                                
-                                Text(user.userBio)
-                                    .font(.system(size: 15))
-                                    .font(.callout)
-                                    .lineLimit(3)
-                                
-                                // Displaying Bio Link, if given while signing up
-                                if let bioLink = URL(string: user.userBioLink) {
-                                    Link(user.userBioLink, destination: bioLink)
-                                        .font(.callout)
-                                        .tint(.blue)
-                                        .lineLimit(1)
-                                }
+                            if user.profile.background == nil {
+                                Divider()
                             }
-                            .hAlign(.leading)
-                            
-                            HStack {
                                 
-                                Button {
-                                    followUser()
-                                } label: {
-                                    Text(following ? "Unfollow" : "Follow")
-                                        .font(.callout)
-                                        .foregroundColor(.white)
-                                        .padding(.vertical, 8)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .background(Color.pink.opacity(0.95).cornerRadius(10))
-                                
-                                Button {
-                                    // follow
-                                } label: {
-                                    Text("Message")
-                                        .font(.callout)
-                                        .foregroundColor(.white)
-                                        .padding(.vertical, 8)
-                                        .frame(maxWidth: .infinity)
-                                }
-                                .background(Color.pink.opacity(0.95).cornerRadius(10))
-                            }
+                            customProfileView(profile: user.profile, displayPost: $displayPost, postToDisplay: $postToDisplay, profileElementsArray: $profileElementsArray, classElementsArray: $profileElementsClassArray, profileEdit: $profileEdit, selectedElement: $selectedElement, userUID: user.userUID)
                         }
-                        .padding(.horizontal, 15)
-                        .padding(.top, 15)
                         
-                        Divider()
                         
-                        customProfileView(profile: user.profile, displayPost: $displayPost, postToDisplay: $postToDisplay, profileElementsArray: $profileElementsArray, classElementsArray: $profileElementsClassArray, profileEdit: $profileEdit, selectedElement: $selectedElement, userUID: user.userUID)
                     }
                     
-                    
-                }
-                
-                if profileEdit {
-                    
-                    ProfileBar(userUID: userUID, profileElementsArray: $profileElementsArray, classElementsArray: $profileElementsClassArray, selectedElement: $selectedElement)
-                    
-                    
-                }
-                
-            }
-            
-            if displayPost {
-                VStack {
-                    wrappedPostDisplay(postToDisplay: $postToDisplay, displayPost: $displayPost)
+                    if profileEdit {
                         
+                        ProfileBar(userUID: userUID, profileElementsArray: $profileElementsArray, classElementsArray: $profileElementsClassArray, selectedElement: $selectedElement)
+                        
+                        
+                    }
                     
-                    Spacer()
                 }
-                .background(Color.white)
-                .transition(.slide)
-            }
+                
+                if displayPost {
+                    VStack {
+                        wrappedPostDisplay(postToDisplay: $postToDisplay, displayPost: $displayPost)
+                            
+                        
+                        Spacer()
+                    }
+                    .background(Color.white)
+                    .transition(.slide)
+                }
+        }
         }
         .task {
             
@@ -174,9 +179,32 @@ struct ReusableProfileContent: View {
             
             loading = false
         }
+        .toolbar(content: {
+            
+            if userUID == user.userUID {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        // User settings
+                    } label: {
+                        Image(systemName: "gear")
+                            .foregroundStyle(Color.black)
+                    }
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        profileEdit.toggle()
+                    } label: {
+                        Image(systemName: "pencil")
+                            .foregroundStyle(profileEdit ? Color.red : Color.black)
+                    }
+                }
+            }
+        } )
+        
         .toolbar(profileEdit ? .hidden : .visible, for: .tabBar)
-        //        .toolbar(profileEdit ? .hidden : .visible, for: .bottomBar)
-        .overlay(user.userUID == userUID ? EditPencil(profileEdit: $profileEdit) : nil)
+        .navigationTitle(user.username)
+        .navigationBarTitleDisplayMode(.inline)
         
     }
     
@@ -262,34 +290,5 @@ struct ReusableProfileContent: View {
         
         return snapshot.documents.count
     }
-    
-    struct EditPencil: View {
-        @Binding var profileEdit: Bool
-        
-        var body: some View {
-            VStack {
-                HStack {
-                    Spacer()
-                    
-                    //                    Button {
-                    //
-                    //                    } label: {
-                    //                        Image(systemName: "gear")
-                    //                            .foregroundStyle(Color.black)
-                    //                    }
-                    
-                    Button {
-                        profileEdit.toggle()
-                    } label: {
-                        Image(systemName: "pencil")
-                            .foregroundStyle(Color.black)
-                        
-                    }
-                    .padding()
-                }
-                Spacer()
-            }
-            
-        }
-    }
+
 }

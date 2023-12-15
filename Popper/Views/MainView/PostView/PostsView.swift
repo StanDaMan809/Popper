@@ -15,21 +15,6 @@ struct PostsView: View {
         NavigationStack
         {
                 ReusablePostsView(posts: $recentsPosts)
-                
-//                .hAlign(.center).vAlign(.top)
-//                .overlay(alignment: .bottomTrailing) {
-//                    Button {
-//                        createNewPost.toggle()
-//                    } label: {
-//                        Image(systemName: "plus")
-//                            .font(.title3)
-//                            .fontWeight(.semibold)
-//                            .foregroundColor(.white)
-//                            .padding(13)
-//                            .background(.black, in: Circle())
-//                    }
-//                    .padding(15)
-//                }
             
             // Search Bar
                 .toolbar(content: {
@@ -38,6 +23,16 @@ struct PostsView: View {
                             SearchUserView()
                         } label: {
                             Image(systemName: "magnifyingglass")
+                                .tint(.black)
+                                .scaleEffect(0.9)
+                        }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink {
+                            ConvoList()
+                        } label: {
+                            Image(systemName: "message.fill")
                                 .tint(.black)
                                 .scaleEffect(0.9)
                         }

@@ -20,6 +20,7 @@ struct RegisterView: View {
     @State var userBioLink: String = ""
     @State var userProfilePicData: Data?
     @State var isLoading: Bool = false
+    @State var nickname: String = ""
     
     @Environment(\.dismiss) var dismiss
     @State var showImagePicker: Bool = false
@@ -126,6 +127,10 @@ struct RegisterView: View {
                 .textContentType(.emailAddress)
                 .border(1, .gray.opacity(0.5))
             
+            TextField("Nickname", text: $nickname)
+                .textContentType(.emailAddress)
+                .border(1, .gray.opacity(0.5))
+            
             TextField("About You", text: $userBio, axis: .vertical)
                 .frame(minHeight:100, alignment: .top)
                 .textContentType(.emailAddress)
@@ -172,7 +177,7 @@ struct RegisterView: View {
                 
                 // Step 4: Creating a User Firestore Object
                 
-                let user = User(username: username, userBio: userBio, userBioLink: userBioLink, userUID: userUID, profile: Profile(), userEmail: emailID, userProfileURL: downloadURL, followingIDs: [], conversations: [])
+                let user = User(username: username, nickname: nickname, userBio: userBio, userBioLink: userBioLink, userUID: userUID, profile: Profile(), userEmail: emailID, userProfileURL: downloadURL, followingIDs: [], conversations: [])
                 
                 // Step 5: Saving User Doc into Firestore Database
                 

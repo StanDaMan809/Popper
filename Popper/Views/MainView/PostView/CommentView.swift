@@ -17,6 +17,7 @@ struct CommentView: View {
     let postID: String
     @State private var isLoading = true
     @State private var profilePhotoURL: URL?
+    @State private var username: String?
     
     var onUpdate: (Comment)->()
     var onDelete: ()->()
@@ -39,7 +40,7 @@ struct CommentView: View {
                         .clipShape(Circle())
                     
                     VStack (alignment: .leading) {
-                        Text("Username")
+                        Text(username ?? "User")
                             .fontWeight(.bold)
                             .font(.caption)
                         
@@ -118,8 +119,9 @@ struct CommentView: View {
                 // Handle the error here if needed
             } else if let document = document, document.exists {
                 // The document exists, and you can access its data
-                if let pfpURL = document["userProfileURL"] as? String {
+                if let pfpURL = document["userProfileURL"] as? String, let name = document["username"] as? String {
                     profilePhotoURL = URL(string: pfpURL)
+                    username = name
 //                    isLoading = false
                     print("PFP Obtained Successfully")
                     isLoading = false
@@ -139,31 +141,4 @@ struct CommentView: View {
             }
         }
     }
-    
-//    func retrieveProfilePhoto(comment: Comment, completion: @escaping (URL?) -> Void) {
-//        Firestore.firestore().collection("Users").document(comment.userUID).getDocument { document, error in
-//            if let error = error {
-//                print("Error getting document: \(error)")
-//                completion(nil)
-//                // Handle the error here if needed
-//            } else if let document = document, document.exists {
-//                // The document exists, and you can access its data
-//                if let profilePhotoURLString = document["userProfileURL"] as? String,
-//                   let profilePhotoURL = URL(string: profilePhotoURLString) {
-//                    print("PFP Obtained Successfully")
-//                    completion(profilePhotoURL)
-//                    // Handle the case where the user is following
-//                } else {
-//                    // The userUIDToCheck is not present in the followingIDs array
-//                    print("PFP Not obtained successfully")
-//                    completion(nil)
-//                    // Handle the case where the user is not following
-//                }
-//            } else {
-//                print("Document does not exist")
-//                completion(nil)
-//                // Handle the case where the document doesn't exist
-//            }
-//        }
-//    }
 }

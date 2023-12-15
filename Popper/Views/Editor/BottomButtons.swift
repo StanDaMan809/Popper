@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseStorage
 
 struct bottomButtons: View {
 
@@ -18,7 +20,9 @@ struct bottomButtons: View {
     @State private var createNewPost: Bool = false
     @State private var recentsPosts: [Post] = []
     @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var bgElementsArray: editorElementsArray
     @ObservedObject var sharedEditNotifier: SharedEditState
+    @AppStorage("user_UID") private var userUID: String = ""
     
     var body: some View
     {
@@ -32,7 +36,6 @@ struct bottomButtons: View {
                     .opacity(sharedEditNotifier.buttonDim)
             } else {
                
-                    
                 
             }
             
@@ -184,11 +187,19 @@ struct bottomButtons: View {
                 Spacer()
                 
                 Button(action: {
-                    parent.sharedEditNotifier.backgroundEdit = false // Just in case they're editing the background, we don't want them to upload the background stuff as their post
-                    parent.createNewPost.toggle()
-//                    CreateNewPost(onPost: { post in
-//                        recentsPosts.insert(post, at: 0)
-//                    })
+                    
+                    if !parent.sharedEditNotifier.profileEdit {
+                        parent.sharedEditNotifier.backgroundEdit = false // Just in case they're editing the background, we don't want them to upload the background stuff as their post
+                        parent.createNewPost.toggle()
+                    } else {
+                        
+                        // Save to profile background
+                        
+                        parent.updateBackground(elementsArray: parent.bgElementsArray)
+                        parent.isEditorActive = false
+                        
+                        
+                    }
 
                 },
                        label: {
@@ -225,6 +236,32 @@ struct bottomButtons: View {
             .vAlign(.bottom)
             .padding(.horizontal, 20)
             .padding(.vertical)
+        }
+    }
+    
+    func updateBackground(elementsArray: editorElementsArray) {
+        Task {
+            do {
+                
+                guard let conversionData = thumbnail(elementsArray: elementsArray) else {return}
+                
+                guard let data = conversionData.pngData() else {return}
+                
+                let thumbnailReferenceID = "\(userUID)\(Date())"
+                
+                let storageRef = Storage.storage().reference().child("Thumbnails").child(thumbnailReferenceID)
+                
+                let _ = try await storageRef.putDataAsync(data)
+                
+                let downloadURL = try await storageRef.downloadURL()
+                
+                let profileReference = Firestore.firestore().collection("Users").document(userUID)
+                
+                let _ = try await profileReference.setData(["profile" : ["background" : downloadURL.absoluteString]], merge: true)
+                
+            } catch {
+                print(error)
+            }
         }
     }
 }

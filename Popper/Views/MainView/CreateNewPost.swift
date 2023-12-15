@@ -383,39 +383,39 @@ struct CreateNewPost: View {
         return imagerenderer.uiImage
     }
     
-    @MainActor func thumbnail(elementsArray: editorElementsArray) -> UIImage? {
+}
+
+@MainActor func thumbnail(elementsArray: editorElementsArray) -> UIImage? {
+    
+    var peak = CGFloat.zero
+    
+    for (_, element) in elementsArray.elements {
+        let element = element.element
         
-        var peak = CGFloat.zero
-        
-        for (_, element) in elementsArray.elements {
-            let element = element.element
-            
-            peak = max(peak, ((element.size.height * element.scalar) / 2) + abs(element.position.height))
-        }
-        
-        let imagerenderer = ImageRenderer(
-            
-            content:
-                
-                ZStack {
-                    
-                    Color.white
-                        .frame(width: UIScreen.main.bounds.width, height: peak * 2)
-                    
-                    ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                        if let itemToDisplay = elementsArray.elements[key] {
-                            EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: SharedEditState())
-                            
-                        }
-                        
-                    }
-                }
-        )
-        imagerenderer.scale = UIScreen.main.scale
-        
-        return imagerenderer.uiImage
+        peak = max(peak, ((element.size.height * element.scalar) / 2) + abs(element.position.height))
     }
     
+    let imagerenderer = ImageRenderer(
+        
+        content:
+            
+            ZStack {
+                
+                Color.white
+                    .frame(width: UIScreen.main.bounds.width, height: peak * 2)
+                
+                ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                    if let itemToDisplay = elementsArray.elements[key] {
+                        EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: SharedEditState())
+                        
+                    }
+                    
+                }
+            }
+    )
+    imagerenderer.scale = UIScreen.main.scale
+    
+    return imagerenderer.uiImage
 }
 
 struct CreateNewPost_Previews: PreviewProvider {

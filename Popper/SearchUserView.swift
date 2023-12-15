@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Firebase
 import FirebaseFirestore
 
 struct SearchUserView: View {
@@ -15,7 +16,7 @@ struct SearchUserView: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-            List {
+            ScrollView { // If I keep it as a list, it crashes regardless
                 ForEach(fetchedUsers) { user in
                     NavigationLink {
                         ReusableProfileContent(user: user)
@@ -50,6 +51,7 @@ struct SearchUserView: View {
             
             let users = try documents.documents.compactMap { doc -> User? in
                 try doc.data(as: User.self)
+                
             }
             // UI Must be updated on main thread
             await MainActor.run(body: {
@@ -59,11 +61,5 @@ struct SearchUserView: View {
         } catch {
             print(error.localizedDescription)
         }
-    }
-}
-
-struct SearchUserView_Previews: PreviewProvider {
-    static var previews: some View {
-        SearchUserView()
     }
 }

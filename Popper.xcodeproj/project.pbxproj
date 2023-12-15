@@ -52,6 +52,8 @@
 		F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */; };
 		F6964AA12AF9F0A8000E9C94 /* TransparencySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */; };
 		F6964AA32AF9F447000E9C94 /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6964AA22AF9F447000E9C94 /* DrawingView.swift */; };
+		F69C5BA12B2BEEA5009977E4 /* ConvoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69C5BA02B2BEEA5009977E4 /* ConvoList.swift */; };
+		F69C5BA32B2BF2B9009977E4 /* ReusableConvoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69C5BA22B2BF2B9009977E4 /* ReusableConvoView.swift */; };
 		F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD822AF1DAAD00DD4405 /* Comment.swift */; };
 		F6C3BD852AF1ED2300DD4405 /* CommentFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */; };
 		F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */; };
@@ -180,6 +182,8 @@
 		F6964A9C2AF9DDD5000E9C94 /* FontPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontPicker.swift; sourceTree = "<group>"; };
 		F6964AA02AF9F0A8000E9C94 /* TransparencySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransparencySlider.swift; sourceTree = "<group>"; };
 		F6964AA22AF9F447000E9C94 /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		F69C5BA02B2BEEA5009977E4 /* ConvoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConvoList.swift; sourceTree = "<group>"; };
+		F69C5BA22B2BF2B9009977E4 /* ReusableConvoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableConvoView.swift; sourceTree = "<group>"; };
 		F6C3BD822AF1DAAD00DD4405 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		F6C3BD842AF1ED2300DD4405 /* CommentFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentFeed.swift; sourceTree = "<group>"; };
 		F6C3BD862AF1EDE100DD4405 /* ReusableCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableCommentView.swift; sourceTree = "<group>"; };
@@ -304,6 +308,7 @@
 				F647CDC62AD6498900D362DB /* Editor */,
 				F647CDBF2AD4C8F200D362DB /* MainView */,
 				F63432772AC7E65500E756BA /* Feed */,
+				F69C5B9F2B2BEE51009977E4 /* Messages */,
 				F63432762AC7E4B800E756BA /* Misc */,
 				F63432712AC7E30900E756BA /* Login */,
 				F634325E2AC7BDAF00E756BA /* ContentView.swift */,
@@ -455,6 +460,15 @@
 				F6FF24692B046D5E007F61BA /* ViewTypes */,
 			);
 			path = "Editable Structures";
+			sourceTree = "<group>";
+		};
+		F69C5B9F2B2BEE51009977E4 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				F69C5BA02B2BEEA5009977E4 /* ConvoList.swift */,
+				F69C5BA22B2BF2B9009977E4 /* ReusableConvoView.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 		F6C8DC1329DF7CEF0014849C = {
@@ -794,6 +808,7 @@
 				F647CDCB2AD64A0600D362DB /* EditableText.swift in Sources */,
 				F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */,
 				F6FF24D52B08B3DB007F61BA /* PostElement.swift in Sources */,
+				F69C5BA12B2BEEA5009977E4 /* ConvoList.swift in Sources */,
 				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
 				F6FF24D32B08B29C007F61BA /* postElementView.swift in Sources */,
 				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
@@ -827,6 +842,7 @@
 				F647CDB82AD4A57200D362DB /* Post.swift in Sources */,
 				F6FF246D2B0486EA007F61BA /* ExitConfirmation.swift in Sources */,
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
+				F69C5BA32B2BF2B9009977E4 /* ReusableConvoView.swift in Sources */,
 				F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */,
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */,

@@ -100,7 +100,7 @@ struct Editor: View {
                     
                     Spacer()
                     
-                    bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, bgElementsArray: parent.bgElementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         .zIndex(Double(parent.sharedEditNotifier.objectsCount + 1))
                     
                     

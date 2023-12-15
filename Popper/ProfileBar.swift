@@ -22,7 +22,6 @@ struct ProfileBar: View {
     
     var body: some View {
         VStack {
-            
             switch editorDisplayed {
             case .none:
                 EmptyView()
@@ -181,7 +180,6 @@ struct ProfileBar: View {
         .fullScreenCover(isPresented: $backgroundEdit) {
             Editor(isEditorActive: $backgroundEdit, sharedEditNotifier: SharedEditState(backgroundEdit: true, profileEdit: true))
         }
-        
     }
     
     func profileAdd(image: UIImage? = nil, shape: Bool = false, text: Bool = false, question: Bool = false) {

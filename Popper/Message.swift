@@ -10,8 +10,9 @@ import FirebaseFirestoreSwift
 
 struct Conversation: Identifiable, Codable {
     @DocumentID var id: String?
-    var messages: [Message] // This array needs to be in reverse order for easier fetching.
     var convoUIDs: [String] // Allows for easy group chat implementation
+    var lastUpdate: Date
+    var lastMessage: String?
 }
 
 struct Message: Identifiable, Codable {

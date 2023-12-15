@@ -57,8 +57,6 @@ struct ProfileElementView: View {
                 
                 ProfileQuestionView(edited: (parent.selectedElement == element), question: question, element: element)
                     
-
-                
             case .video(let video):
                 Text("Shart")
             }
@@ -78,7 +76,7 @@ struct ProfileElementView: View {
                 switch element.redirect {
                 case .post(let postID):
                     Task {
-                        if let postToRedirect = await downloadPost(postID: postID) {
+                        if postID != "", let postToRedirect = await downloadPost(postID: postID) {
                             parent.postToDisplay = postToRedirect
                             withAnimation {
                                 parent.displayPost = true

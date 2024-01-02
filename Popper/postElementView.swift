@@ -9,29 +9,34 @@ import SwiftUI
 
 struct postElementView: View {
     @ObservedObject var element: postElement
-    @ObservedObject var elementsArray: postElementsArray
     
     var body: some View {
-        switch element.element {
-        case .image(let image):
+        
+        if let image = element as? postImage
+        {
+            PostImageView(image: image)
+        }
+    
+        else if let video = element as? postVideo
+        {
             
-            PostImageView(image: image, elementsArray: elementsArray)
+            PostVideoView(video: video)
+        }
+        
+        else if let shape = element as? postShape
+        {
             
-        case .video(let video):
-            
-            PostVideoView(video: video, elementsArray: elementsArray)
-            
-        case .shape(let shape):
-            
-            PostShapeView(shape: shape, elementsArray: elementsArray)
-            
-        case .poll(let poll):
-            
-            PostPollView(poll: poll, elementsArray: elementsArray)
-            
-        case .sticker(let sticker):
-            PostStickerView(sticker: sticker, elementsArray: elementsArray)
-            
+            PostShapeView(shape: shape)
+        }
+        
+        else if let poll = element as? postPoll
+        {
+            PostPollView(poll: poll)
+        }
+        
+        else if let sticker = element as? postSticker
+        {
+            PostStickerView(sticker: sticker)
         }
     }
 }

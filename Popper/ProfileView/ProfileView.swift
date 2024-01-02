@@ -33,23 +33,23 @@ struct ProfileView: View {
             }
         }
             .navigationTitle("My Profile")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        // Two actions
-                        // 1. Log out
-                        // 2. Delete Account
-                        Button("Logout", action: logOutUser)
-                        
-                        Button("Delete Account", role: .destructive, action: deleteAccount)
-                    } label: {
-                        Image(systemName: "ellipsis")
-                            .rotationEffect(.init(degrees: 90))
-                            .tint(.black)
-                            .scaleEffect(0.8)
-                    }
-                }
-            }
+//            .toolbar {
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Menu {
+//                        // Two actions
+//                        // 1. Log out
+//                        // 2. Delete Account
+//                        Button("Logout", action: logOutUser)
+//                        
+//                        Button("Delete Account", role: .destructive, action: deleteAccount)
+//                    } label: {
+//                        Image(systemName: "ellipsis")
+//                            .rotationEffect(.init(degrees: 90))
+//                            .tint(.black)
+//                            .scaleEffect(0.8)
+//                    }
+//                }
+//            }
             .overlay {
                 LoadingView(show: $isLoading)
             }
@@ -74,12 +74,7 @@ struct ProfileView: View {
     }
     
     
-    // Logging User Out
     
-    func logOutUser() {
-        try? Auth.auth().signOut()
-        logStatus = false
-    }
     
     // Deleting User Account
     

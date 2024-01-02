@@ -20,39 +20,27 @@ struct ConvoList: View {
     
     var body: some View {
         VStack {
-//            HStack {
-//                Button {
-//                    
-//                } label: {
-//                    Image(systemName: "chevron.backward")
-//                }
-//                
-//                Spacer()
-//                
-//                Button {
-//                    
-//                } label: {
-//                    Image(systemName: "square.and.pencil")
-//                }
-//            }
-//            .padding()
             
             ScrollView(.vertical) {
                 ForEach(conversations) { conversation in
-                    convoDisplay(conversation: conversation, otherUserUID: conversation.convoUIDs.filter( {$0 != userUID })[0]) // Filter out the other person's UID instead of having to do it on appear
-                        .onTapGesture {
-                            convoToDisplay = conversation
-                        }
+                    NavigationLink {
+                        ReusableConvoView(conversation: conversation, otherUserUID: conversation.convoUIDs.filter( {$0 != userUID })[0])
+                    } label: {
+                        convoDisplay(conversation: conversation, otherUserUID: conversation.convoUIDs.filter( {$0 != userUID })[0])
+                    }
                 }
                 
             }
             
             Spacer()
         }
+        .task {
+            await fetchConvos()
+        }
         .toolbar(content: {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink {
-                    
+                    SearchUserView(displayProfileOnClick: false)
                 } label: {
                     Image(systemName: "square.and.pencil")
                 }

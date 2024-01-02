@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F60226ED2B2E30E3003433FA /* editableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60226EC2B2E30E3003433FA /* editableElement.swift */; };
+		F60226EF2B378EDE003433FA /* sigh.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60226EE2B378EDD003433FA /* sigh.swift */; };
 		F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61702612B0EF8AE003816F7 /* imsobbing.swift */; };
 		F61702642B1161B7003816F7 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61702632B1161B7003816F7 /* Profile.swift */; };
 		F61702712B11BD9D003816F7 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = F61702702B11BD9D003816F7 /* WrappingHStack */; };
 		F626855E2AFC3403002A02EA /* EditableVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F626855D2AFC3403002A02EA /* EditableVideo.swift */; };
-		F62685622AFC3720002A02EA /* editorElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F62685612AFC3720002A02EA /* editorElements.swift */; };
 		F63432572AC7A14B00E756BA /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F63432562AC7A14B00E756BA /* FirebaseAuth */; };
 		F634325B2AC7A1B400E756BA /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634325A2AC7A1B400E756BA /* LoginView.swift */; };
 		F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634325E2AC7BDAF00E756BA /* ContentView.swift */; };
@@ -28,6 +29,7 @@
 		F634327B2AC7E72E00E756BA /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634327A2AC7E72E00E756BA /* ProfileView.swift */; };
 		F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */; };
 		F63432802AC7F26E00E756BA /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = F634327F2AC7F26E00E756BA /* SDWebImageSwiftUI */; };
+		F64210982B43BA3600B6F381 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64210972B43BA3600B6F381 /* UserSettings.swift */; };
 		F647CDB62AD4A53D00D362DB /* CreateNewPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */; };
 		F647CDB82AD4A57200D362DB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB72AD4A57200D362DB /* Post.swift */; };
 		F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F647CDB92AD4B47500D362DB /* PostsView.swift */; };
@@ -67,7 +69,6 @@
 		F6C8DC3129DF7CF10014849C /* PopperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3029DF7CF10014849C /* PopperTests.swift */; };
 		F6C8DC3B29DF7CF10014849C /* PopperUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */; };
 		F6C8DC3D29DF7CF10014849C /* PopperUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */; };
-		F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D6DD3229DF8198003727B2 /* Feed.swift */; };
 		F6E21E432B15912B00B1D4CF /* PostLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E21E422B15912B00B1D4CF /* PostLayout.swift */; };
 		F6E21E472B15A02900B1D4CF /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */; };
 		F6FF24632B032066007F61BA /* EditableElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24622B032066007F61BA /* EditableElement.swift */; };
@@ -113,7 +114,6 @@
 		F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24BF2B085C97007F61BA /* EditablePoll.swift */; };
 		F6FF24C32B086045007F61BA /* SharedEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C22B086045007F61BA /* SharedEditState.swift */; };
 		F6FF24C62B089DC3007F61BA /* PostImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C52B089DC3007F61BA /* PostImageView.swift */; };
-		F6FF24C82B089E18007F61BA /* PostTextsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C72B089E18007F61BA /* PostTextsView.swift */; };
 		F6FF24CA2B08A2D4007F61BA /* PostShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */; };
 		F6FF24CC2B08A4CF007F61BA /* PostVideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24CB2B08A4CF007F61BA /* PostVideoView.swift */; };
 		F6FF24CE2B08A81C007F61BA /* PostPollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FF24CD2B08A81C007F61BA /* PostPollView.swift */; };
@@ -144,10 +144,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F60226EC2B2E30E3003433FA /* editableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editableElement.swift; sourceTree = "<group>"; };
+		F60226EE2B378EDD003433FA /* sigh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sigh.swift; sourceTree = "<group>"; };
 		F61702612B0EF8AE003816F7 /* imsobbing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imsobbing.swift; sourceTree = "<group>"; };
 		F61702632B1161B7003816F7 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		F626855D2AFC3403002A02EA /* EditableVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableVideo.swift; sourceTree = "<group>"; };
-		F62685612AFC3720002A02EA /* editorElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editorElements.swift; sourceTree = "<group>"; };
 		F634325A2AC7A1B400E756BA /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F634325E2AC7BDAF00E756BA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F63432692AC7CC1500E756BA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -158,6 +159,7 @@
 		F63432782AC7E66900E756BA /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		F634327A2AC7E72E00E756BA /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		F634327C2AC7EF1800E756BA /* ReusableProfileContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableProfileContent.swift; sourceTree = "<group>"; };
+		F64210972B43BA3600B6F381 /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		F647CDB52AD4A53C00D362DB /* CreateNewPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewPost.swift; sourceTree = "<group>"; };
 		F647CDB72AD4A57200D362DB /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F647CDB92AD4B47500D362DB /* PostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsView.swift; sourceTree = "<group>"; };
@@ -200,7 +202,6 @@
 		F6C8DC3629DF7CF10014849C /* PopperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PopperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6C8DC3A29DF7CF10014849C /* PopperUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITests.swift; sourceTree = "<group>"; };
 		F6C8DC3C29DF7CF10014849C /* PopperUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopperUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		F6D6DD3229DF8198003727B2 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		F6E21E422B15912B00B1D4CF /* PostLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLayout.swift; sourceTree = "<group>"; };
 		F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		F6FF24622B032066007F61BA /* EditableElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableElement.swift; sourceTree = "<group>"; };
@@ -246,7 +247,6 @@
 		F6FF24BF2B085C97007F61BA /* EditablePoll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditablePoll.swift; sourceTree = "<group>"; };
 		F6FF24C22B086045007F61BA /* SharedEditState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedEditState.swift; sourceTree = "<group>"; };
 		F6FF24C52B089DC3007F61BA /* PostImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageView.swift; sourceTree = "<group>"; };
-		F6FF24C72B089E18007F61BA /* PostTextsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTextsView.swift; sourceTree = "<group>"; };
 		F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostShapeView.swift; sourceTree = "<group>"; };
 		F6FF24CB2B08A4CF007F61BA /* PostVideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostVideoView.swift; sourceTree = "<group>"; };
 		F6FF24CD2B08A81C007F61BA /* PostPollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPollView.swift; sourceTree = "<group>"; };
@@ -307,11 +307,11 @@
 			children = (
 				F647CDC62AD6498900D362DB /* Editor */,
 				F647CDBF2AD4C8F200D362DB /* MainView */,
-				F63432772AC7E65500E756BA /* Feed */,
 				F69C5B9F2B2BEE51009977E4 /* Messages */,
 				F63432762AC7E4B800E756BA /* Misc */,
 				F63432712AC7E30900E756BA /* Login */,
 				F634325E2AC7BDAF00E756BA /* ContentView.swift */,
+				F64210972B43BA3600B6F381 /* UserSettings.swift */,
 				F6E21E462B15A02900B1D4CF /* SwiftUIView.swift */,
 			);
 			path = Views;
@@ -354,14 +354,6 @@
 				F65DCBA52AD89FBC002B878C /* Global Variables.swift */,
 			);
 			path = Misc;
-			sourceTree = "<group>";
-		};
-		F63432772AC7E65500E756BA /* Feed */ = {
-			isa = PBXGroup;
-			children = (
-				F6D6DD3229DF8198003727B2 /* Feed.swift */,
-			);
-			path = Feed;
 			sourceTree = "<group>";
 		};
 		F647CDBF2AD4C8F200D362DB /* MainView */ = {
@@ -456,7 +448,6 @@
 			children = (
 				F6FF24622B032066007F61BA /* EditableElement.swift */,
 				F6FF24642B033041007F61BA /* ElementView.swift */,
-				F62685612AFC3720002A02EA /* editorElements.swift */,
 				F6FF24692B046D5E007F61BA /* ViewTypes */,
 			);
 			path = "Editable Structures";
@@ -467,6 +458,7 @@
 			children = (
 				F69C5BA02B2BEEA5009977E4 /* ConvoList.swift */,
 				F69C5BA22B2BF2B9009977E4 /* ReusableConvoView.swift */,
+				F60226EE2B378EDD003433FA /* sigh.swift */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -542,6 +534,7 @@
 				F6C3BD902AF5ABAA00DD4405 /* EditableShape.swift */,
 				F626855D2AFC3403002A02EA /* EditableVideo.swift */,
 				F6FF24BF2B085C97007F61BA /* EditablePoll.swift */,
+				F60226EC2B2E30E3003433FA /* editableElement.swift */,
 				F6FF24762B07545D007F61BA /* PollView.swift */,
 			);
 			path = ViewTypes;
@@ -597,7 +590,6 @@
 			isa = PBXGroup;
 			children = (
 				F6FF24C52B089DC3007F61BA /* PostImageView.swift */,
-				F6FF24C72B089E18007F61BA /* PostTextsView.swift */,
 				F6FF24C92B08A2D4007F61BA /* PostShapeView.swift */,
 				F6FF24CD2B08A81C007F61BA /* PostPollView.swift */,
 				F6FF24E12B09D110007F61BA /* PostStickerView.swift */,
@@ -809,9 +801,7 @@
 				F6FF24752B06E19E007F61BA /* EditableSticker.swift in Sources */,
 				F6FF24D52B08B3DB007F61BA /* PostElement.swift in Sources */,
 				F69C5BA12B2BEEA5009977E4 /* ConvoList.swift in Sources */,
-				F62685622AFC3720002A02EA /* editorElements.swift in Sources */,
 				F6FF24D32B08B29C007F61BA /* postElementView.swift in Sources */,
-				F6D6DD3329DF8198003727B2 /* Feed.swift in Sources */,
 				F6494D9F2B198D6200630504 /* ProfileViews.swift in Sources */,
 				F6FF24652B033041007F61BA /* ElementView.swift in Sources */,
 				F63432752AC7E44E00E756BA /* Views and Extensions.swift in Sources */,
@@ -824,7 +814,6 @@
 				F63432792AC7E66900E756BA /* MainView.swift in Sources */,
 				F6E21E432B15912B00B1D4CF /* PostLayout.swift in Sources */,
 				F6FF24CC2B08A4CF007F61BA /* PostVideoView.swift in Sources */,
-				F6FF24C82B089E18007F61BA /* PostTextsView.swift in Sources */,
 				F65DCBA42AD89806002B878C /* imgElements.swift in Sources */,
 				F6FF24722B06CE1A007F61BA /* GifSelector.swift in Sources */,
 				F6FF24672B045D47007F61BA /* ElementLock.swift in Sources */,
@@ -844,6 +833,7 @@
 				F634326A2AC7CC1500E756BA /* User.swift in Sources */,
 				F69C5BA32B2BF2B9009977E4 /* ReusableConvoView.swift in Sources */,
 				F6FF246B2B046DB0007F61BA /* audioButton.swift in Sources */,
+				F60226ED2B2E30E3003433FA /* editableElement.swift in Sources */,
 				F6C3BD872AF1EDE100DD4405 /* ReusableCommentView.swift in Sources */,
 				F61702622B0EF8AE003816F7 /* imsobbing.swift in Sources */,
 				F6964A9D2AF9DDD5000E9C94 /* FontPicker.swift in Sources */,
@@ -852,6 +842,7 @@
 				F647CDBA2AD4B47500D362DB /* PostsView.swift in Sources */,
 				F6FF24C02B085C97007F61BA /* EditablePoll.swift in Sources */,
 				F6FF24E22B09D110007F61BA /* PostStickerView.swift in Sources */,
+				F60226EF2B378EDE003433FA /* sigh.swift in Sources */,
 				F67CBE452B225FD10019E7DF /* ProfileBar.swift in Sources */,
 				F6FF24D72B08B4F9007F61BA /* PostRewindButton.swift in Sources */,
 				F6964A992AF9C14A000E9C94 /* Trash.swift in Sources */,
@@ -876,6 +867,7 @@
 				F634327D2AC7EF1800E756BA /* ReusableProfileContent.swift in Sources */,
 				F67CBE4B2B22A6630019E7DF /* ProfileQuestionView.swift in Sources */,
 				F6C3BD832AF1DAAD00DD4405 /* Comment.swift in Sources */,
+				F64210982B43BA3600B6F381 /* UserSettings.swift in Sources */,
 				F634325F2AC7BDAF00E756BA /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

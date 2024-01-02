@@ -10,84 +10,20 @@ import SDWebImageSwiftUI
 
 struct PostStickerView: View {
     @ObservedObject var sticker: postSticker
-    @ObservedObject var elementsArray: postElementsArray
     
     var body: some View {
         if sticker.display {
-            WebImage(url: sticker.url)
+            WebImage(url: sticker.sticker)
                 .resizable()
                 .frame(width: 100, height: 100)
                 .clipShape(sticker.currentShape)
-                .rotationEffect(Angle(degrees: sticker.rotationDegrees))
+                .rotationEffect(sticker.rotationDegrees)
                 .scaleEffect(sticker.scalar)
                 .offset(sticker.position)
                 .opacity(sticker.transparency)
-                .zIndex(Double(sticker.id)) // Controls layer
         }
         
     }
     
 }
 
-
-// Handle the imagesArray data from post
-class postSticker: ObservableObject {
-    let id: Int
-    let url: URL
-    let currentShape: ClippableShape
-    let position: CGSize
-    let scalar: Double
-    let rotationDegrees: Double
-    let transparency: Double
-    @Published var display: Bool
-    let soundOnClick: URL?
-    let createDisplays: [Int]
-    let disappearDisplays: [Int]
-    let defaultDisplaySetting: Bool
-    
-    init(sticker: EditableStickerData) {
-        self.id = sticker.id
-        self.url = sticker.url
-        self.currentShape = ClippableShape(rawValue: sticker.currentShape) ?? .square
-        self.position = CGSize(width: sticker.position[0], height: sticker.position[1])
-        self.scalar = sticker.scalar
-        self.rotationDegrees = sticker.rotationDegrees
-        self.transparency = sticker.transparency
-        self.display = sticker.defaultDisplaySetting
-        self.soundOnClick = sticker.soundOnClick
-        self.createDisplays = sticker.createDisplays
-        self.disappearDisplays = sticker.disappearDisplays
-        self.defaultDisplaySetting = sticker.defaultDisplaySetting
-    }
-}
-
-struct EditableStickerData: Codable, Equatable, Hashable {
-    let id: Int
-    let currentShape: Int
-    let position: [Double]
-    let scalar: Double
-    let transparency: Double
-    let display: Bool
-    var createDisplays: [Int] = []
-    var disappearDisplays: [Int] = []
-    let rotationDegrees: Double
-    let soundOnClick: URL?
-    let defaultDisplaySetting: Bool
-    let url: URL
-    
-    init(from editableSticker: editableStick) {
-        self.id = editableSticker.id
-        self.currentShape = editableSticker.currentShape.rawValue // For encoding
-        self.position = [Double(editableSticker.position.width), Double(editableSticker.position.height)] // For encoding
-        self.scalar = editableSticker.scalar
-        self.transparency = editableSticker.transparency
-        self.display = editableSticker.defaultDisplaySetting // If user uploads a post that's already interacted with, it'll upload just fine
-        self.createDisplays = editableSticker.createDisplays
-        self.disappearDisplays = editableSticker.disappearDisplays
-        self.rotationDegrees = editableSticker.rotationDegrees.degrees
-        self.soundOnClick = editableSticker.soundOnClick
-        self.defaultDisplaySetting = editableSticker.defaultDisplaySetting
-        self.url = editableSticker.url
-    }
-    
-}

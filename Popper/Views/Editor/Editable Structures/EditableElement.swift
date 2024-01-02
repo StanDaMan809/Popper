@@ -10,8 +10,8 @@ import AVFoundation
 
 struct EditableElement: View {
     
-    @ObservedObject var element: editorElement
-    @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var element: editableElement
+    @Binding var elementsArray: [String : editableElement]
     @State var currentAmount = 0.0
     @ObservedObject var sharedEditNotifier: SharedEditState
     @GestureState var currentRotation = Angle.zero
@@ -22,25 +22,25 @@ struct EditableElement: View {
     
     var body: some View {
         
-        ElementView(element: element, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend)
+        ElementView(element: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $rotationToSend)
             
         
             .onTapGesture (count: 2)
         {
-            if !element.element.lock {
-                element.element.currentShape = element.element.currentShape.next
+            if !element.lock {
+                element.currentShape = element.currentShape.next
             }
         }
         
         .onTapGesture
         {
             if sharedEditNotifier.editorDisplayed == .elementDisappear { // If you touch something while the editor is in "choose an element to disappear" mode, this is the code that adds that element to that
-                sharedEditNotifier.selectedElement?.element.disappearDisplays.append(self.element.element.id)
+                sharedEditNotifier.selectedElement?.disappearDisplays.append(self.element.id)
                 sharedEditNotifier.editorDisplayed = .none
             }
             
             else if sharedEditNotifier.editorDisplayed == .photoAppear {
-                sharedEditNotifier.selectedElement?.element.createDisplays.append(self.element.element.id)
+                sharedEditNotifier.selectedElement?.createDisplays.append(self.element.id)
                 sharedEditNotifier.editorDisplayed = .none
             }
             
@@ -48,7 +48,7 @@ struct EditableElement: View {
             {
                 // Play sound on the structure
                 
-                if let soundToPlay = element.element.soundOnClick {
+                if let soundToPlay = element.soundOnClick {
                     do {
                         audioPlayer = try AVAudioPlayer(contentsOf: soundToPlay)
                         audioPlayer?.play()
@@ -58,24 +58,24 @@ struct EditableElement: View {
                 }
                 
                 // Make all displays linked to this one appear!
-                for i in element.element.createDisplays
+                for i in element.createDisplays
                 {
                     print("Retrieving for \(i)...")
-                    if let itemToDisplay = elementsArray.elements[i] {
-                        itemToDisplay.element.display = true
+                    if let itemToDisplay = elementsArray[i] {
+                        itemToDisplay.display = true
                     } else { }// else if textArray blah blah blah
                 }
                 
                 // Make all displays linked to this one disappear
-                for i in element.element.disappearDisplays
+                for i in element.disappearDisplays
                 {
-                    if let itemToDisplay = elementsArray.elements[i] {
-                        itemToDisplay.element.display = false
+                    if let itemToDisplay = elementsArray[i] {
+                        itemToDisplay.display = false
                     } // else if textArray blah blah blah
                 }
                 
                 // Summon the rewind button for editing
-                if element.element.createDisplays.count != 0 || element.element.disappearDisplays.count != 0 {
+                if element.createDisplays.count != 0 || element.disappearDisplays.count != 0 {
                     sharedEditNotifier.rewindButtonPresent = true
                 }
             }
@@ -123,12 +123,12 @@ struct EditableElement: View {
             DragGesture() // Have to add UI disappearing but not yet
                 .onChanged { gesture in
                     
-                    if !element.element.lock {
+                    if !element.lock {
                         //                            let scaledWidth = element.element.size.width * CGFloat(element.element.scalar)
                         //                            let scaledHeight = element.element.size.height * CGFloat(element.element.scalar)
                         
                         if !sharedEditNotifier.currentlyEdited {
-                            originalOffset = element.element.position
+                            originalOffset = element.position
                         }
                         
 //                        let differenceX = originalOffset.x - gesture.startLocation.x
@@ -137,7 +137,7 @@ struct EditableElement: View {
 //                        let newX = gesture.location.x
 //                        let newY = gesture.location.y
 //                        element.element.position = CGPoint(x: newX + differenceX, y: newY + differenceY) // less the difference of where the thing was initially touched
-                        element.element.position = CGSize(width: gesture.translation.width + originalOffset.width, height: gesture.translation.height + originalOffset.height)
+                        element.position = CGSize(width: gesture.translation.width + originalOffset.width, height: gesture.translation.height + originalOffset.height)
                         sharedEditNotifier.currentlyEdited = true
                         sharedEditNotifier.toDelete = sharedEditNotifier.trashCanFrame.contains(gesture.location)
                         sharedEditNotifier.editToggle()
@@ -146,9 +146,9 @@ struct EditableElement: View {
             
                 .onEnded { gesture in
                     
-                    if !element.element.lock {
+                    if !element.lock {
                         if sharedEditNotifier.trashCanFrame.contains(gesture.location) {
-                            deleteElement(elementsArray: elementsArray, id: element.element.id)
+                            elementsArray.removeValue(forKey: element.id)
                         }
                         
                         //                                element.element.startPosition = element.element.position
@@ -162,26 +162,26 @@ struct EditableElement: View {
                 RotationGesture()
                     .updating($currentRotation) { value, state, _ in
                         
-                        if !element.element.lock {
+                        if !element.lock {
                             state = value
                         }
                     }
                     .onEnded { value in
-                        if !element.element.lock {
-                            element.element.rotationDegrees += value
+                        if !element.lock {
+                            element.rotationDegrees += value
                         }
                     },
                 MagnificationGesture()
                     .onChanged { amount in
-                        if !element.element.lock {
+                        if !element.lock {
                             currentAmount = amount - 1
                             sharedEditNotifier.currentlyEdited = true
                             sharedEditNotifier.editToggle()
                         }
                     }
                     .onEnded { amount in
-                        if !element.element.lock {
-                            element.element.scalar += currentAmount
+                        if !element.lock {
+                            element.scalar += currentAmount
                             currentAmount = 0
                             sharedEditNotifier.currentlyEdited = false
                             sharedEditNotifier.editToggle()
@@ -190,7 +190,7 @@ struct EditableElement: View {
                     }))
         .onChange(of: currentRotation) { newValue in
             
-            if !element.element.lock {
+            if !element.lock {
                 rotationToSend = currentRotation
             }
             

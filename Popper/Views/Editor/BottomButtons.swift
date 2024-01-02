@@ -19,10 +19,11 @@ struct bottomButtons: View {
     @State private var newImageChosen = false
     @State private var createNewPost: Bool = false
     @State private var recentsPosts: [Post] = []
-    @ObservedObject var elementsArray: editorElementsArray
-    @ObservedObject var bgElementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
+    @Binding var bgElementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @AppStorage("user_UID") private var userUID: String = ""
+    
     
     var body: some View
     {
@@ -47,7 +48,7 @@ struct bottomButtons: View {
             
             if let currentlySelected = sharedEditNotifier.selectedElement
             {
-                TransparencySlider(transparency: Binding(get: { currentlySelected.element.transparency }, set: { currentlySelected.element.transparency = $0 }))
+                TransparencySlider(transparency: Binding(get: { currentlySelected.transparency }, set: { currentlySelected.transparency = $0 }))
                     .padding()
             }
             
@@ -63,66 +64,61 @@ struct bottomButtons: View {
             
         case .colorPickerText:
             
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorText
             {
-                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
+                
                     ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
+                
                 
             }
             
         case .colorPickerTextBG:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorText
             {
-                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
                     ColorPicker(elementColor: Binding(get: {currentlySelected.bgColor}, set: { currentlySelected.bgColor = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
             }
             
             
         case .colorPickerShape:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorShape
             {
-                if case .shape(let currentlySelected) = currentlySelectedCandidate.element {
                     ColorPicker(elementColor: Binding(get: {currentlySelected.color}, set: { currentlySelected.color = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
             }
             
         case .fontPicker:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorText
             {
-                if case .text(let currentlySelected) = currentlySelectedCandidate.element {
+                
                     FontPicker(textFont: Binding(get: {currentlySelected.font }, set: {  currentlySelected.font = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
+                
             }
             
         case .voiceRecorder:
             audioButton(sharedEditNotifier: sharedEditNotifier)
             
         case .colorPickerPollTop:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
-                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorPoll {
+                
                     ColorPicker(elementColor: Binding(get: {currentlySelected.topColor}, set: { currentlySelected.topColor = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
+                
             }
         case .colorPickerPollBG:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
-                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorPoll {
+                
                     ColorPicker(elementColor: Binding(get: {currentlySelected.bottomColor}, set: { currentlySelected.bottomColor = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
+                
             }
         case .colorPickerPollButton:
-            if let currentlySelectedCandidate = sharedEditNotifier.selectedElement {
-                if case .poll(let currentlySelected) = currentlySelectedCandidate.element {
+            if let currentlySelected = sharedEditNotifier.selectedElement as? editorPoll {
                     ColorPicker(elementColor: Binding(get: {currentlySelected.buttonColor}, set: { currentlySelected.buttonColor = $0 }), sharedEditNotifier: sharedEditNotifier)
                         .vAlign(.bottom)
-                }
+                
             }
         }
         
@@ -133,6 +129,7 @@ struct bottomButtons: View {
         let parent: bottomButtons
         let bgSize: CGFloat = 50
         let photoSize: CGFloat = 30
+        @Environment(\.colorScheme) var colorScheme
         
         var body: some View {
             HStack
@@ -156,7 +153,7 @@ struct bottomButtons: View {
                     }
                     
                         .sheet(isPresented: parent.$showImagePicker) {
-                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
+                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.$elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .photoLibrary)
                                 .ignoresSafeArea()
                             }
                         
@@ -177,12 +174,13 @@ struct bottomButtons: View {
                         .scaledToFit()
                         .frame(width: 75, height: 75)
                         .opacity(0.8)
+                        
                         .sheet(isPresented: parent.$showCamera) {
-                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
+                            ImagePickerView(image: parent.$image, videoURL: parent.$videoURL, showImagePicker: parent.$showImagePicker, showCamera: parent.$showCamera, newImageChosen: parent.$newImageChosen, elementsArray: parent.$elementsArray, sharedEditNotifier: parent.sharedEditNotifier, sourceType: .camera)
                                 .ignoresSafeArea()
                             }
                 })
-                .tint(.black)
+                .tint(colorScheme == .dark ? Color.white : Color.black)
                 
                 Spacer()
                 
@@ -226,10 +224,10 @@ struct bottomButtons: View {
                         // Placeholder: Include saving the post as an image, etc.
                         
                         // Wiping Editor and Getting Rid of It
-                        parent.elementsArray.elements.removeAll()
+                        parent.elementsArray.removeAll()
                         parent.isEditorActive = false
                         
-                    }, elementsArray: parent.elementsArray)
+                    }, elementsArray: parent.$elementsArray)
                 }
                 
             }
@@ -239,7 +237,7 @@ struct bottomButtons: View {
         }
     }
     
-    func updateBackground(elementsArray: editorElementsArray) {
+    func updateBackground(elementsArray: [String : editableElement]) {
         Task {
             do {
                 

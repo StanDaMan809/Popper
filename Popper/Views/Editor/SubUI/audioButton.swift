@@ -134,7 +134,7 @@ struct AudioPlayerView: View {
             
             Button(action: {
                 if let audioURL = audioURL {
-                    sharedEditNotifier.selectedElement?.element.soundOnClick = audioURL
+                    sharedEditNotifier.selectedElement?.soundOnClick = audioURL
                     sharedEditNotifier.editorDisplayed = .none
                 }
             }) {

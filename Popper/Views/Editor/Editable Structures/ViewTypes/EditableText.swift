@@ -8,43 +8,10 @@
 import SwiftUI
 import UIKit
 
-// These are the text instances
-class editableTxt: ObservableObject {
-    @Published var id: Int
-    @Published var font: Font = Font.custom("BarlowCondensed-Medium", size: defaultTextSize)
-    @Published var message: String = "Hold to Edit"
-    @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var position: CGSize = CGSize.zero
-    @Published var color: Color = .black
-    @Published var bgColor: Color = .clear
-    @Published var rValue: Double = 0.0
-    @Published var gValue: Double = 0.0
-    @Published var bValue: Double = 0.0
-    @Published var display: Bool
-    @Published var transparency: Double = 1.0
-    @Published var size: CGSize = CGSize(width: 80, height: 80)
-    @Published var scalar: Double = 1.0
-    @Published var createDisplays: [Int] = []
-    @Published var disappearDisplays: [Int] = []
-    @Published var soundOnClick: URL? 
-    @Published var rotationDegrees: Angle = Angle(degrees: 0.0)
-    @Published var lock: Bool = false
-    let defaultDisplaySetting: Bool
-    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    
-    
-    init(id: Int, defaultDisplaySetting: Bool)
-    {
-        self.id = id
-        self.display = defaultDisplaySetting
-        self.defaultDisplaySetting = defaultDisplaySetting
-    }
-}
-
 struct EditableText: View {
     
-    @ObservedObject var text: editableTxt
-    @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var text: editorText
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
@@ -62,7 +29,7 @@ struct EditableText: View {
                             .onTapGesture {
                                 sharedEditNotifier.restoreDefaults()
                             }
-                            .zIndex(Double(text.id))
+                            .zIndex(1.0)
                             
                         
                         TextField("", text: $text.message, axis: .vertical)
@@ -75,7 +42,7 @@ struct EditableText: View {
                             .onSubmit {
                                 sharedEditNotifier.restoreDefaults()
                             }
-                            .zIndex(Double(text.id))
+                            .zIndex(1.1)
                             
                 }
                 else
@@ -93,10 +60,8 @@ struct EditableText: View {
                         .overlay(
                             Group {
                                 
-                                
-                                
                                 if text.lock {
-                                    elementLock(id: text.id, small: true)
+                                    elementLock(small: true)
                                 }
                             }
                         )
@@ -104,7 +69,7 @@ struct EditableText: View {
                         .scaleEffect(text.scalar + currentAmount)
                         .opacity(text.transparency)
                         .offset(text.position)
-                        .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(text.id)) // Controls layer
+                        .zIndex(sharedEditNotifier.textEdited() ? 0.0 : 1.0) // Controls layer
                         .multilineTextAlignment(.center)
                     
                     
@@ -114,70 +79,10 @@ struct EditableText: View {
         }
     
     func amISelected() -> Bool {
-        if sharedEditNotifier.selectedElement?.element.id == text.id {
+        if sharedEditNotifier.selectedElement?.id == text.id {
             return true
         } else {
             return false
         }
     }
-    
-    func generateIndex() -> Double {
-        return Double(sharedEditNotifier.objectsCount) + 1
-    }
-}
-
-struct EditableTextData: Codable, Equatable, Hashable {
-    let id: Int
-    let message: String
-    var position: [Double]
-    var rValue: Double
-    var gValue: Double
-    var bValue: Double
-    var display: Bool
-    var transparency: Double
-    var size: [Double]
-    var scalar: Double
-    var rotationDegrees: Double
-
-    
-    init(from editableText: editableTxt) {
-        self.id = editableText.id
-        self.message = editableText.message
-        self.position = [Double(editableText.position.width), Double(editableText.position.height)]
-        let color = UIColor(editableText.color)
-        
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        
-        color.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        self.rValue = red
-        self.gValue = green
-        self.bValue = blue
-        
-        self.display = editableText.display
-        self.transparency = editableText.transparency
-        
-        self.size = [editableText.size.width, editableText.size.height]
-        self.scalar = editableText.scalar
-        self.rotationDegrees = editableText.rotationDegrees.degrees
-    }
-}
-
-func textAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentElement = sharedEditNotifier.selectedElement {
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            defaultDisplaySetting = false
-        }
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .text(editableTxt(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
-    
-    elementsArray.objectsCount += 1
 }

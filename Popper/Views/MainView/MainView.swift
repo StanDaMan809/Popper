@@ -46,7 +46,7 @@ struct MainView: View {
                 }
                 .tag(Tab.profile)
         }
-        .tint(.black) // changes label tint to black
+
         .fullScreenCover(isPresented: $isEditorActive, onDismiss: {selectedTab = .posts}, content: {
             Editor(isEditorActive: $isEditorActive)
         })

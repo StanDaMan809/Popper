@@ -10,6 +10,7 @@ import SwiftUI
 struct PostsView: View {
     @State private var recentsPosts: [Post] = []
     @State private var createNewPost: Bool = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack
@@ -23,8 +24,8 @@ struct PostsView: View {
                             SearchUserView()
                         } label: {
                             Image(systemName: "magnifyingglass")
-                                .tint(.black)
                                 .scaleEffect(0.9)
+                                .tint(colorScheme == .dark ? Color.white : Color.black)
                         }
                     }
                     
@@ -33,19 +34,19 @@ struct PostsView: View {
                             ConvoList()
                         } label: {
                             Image(systemName: "message.fill")
-                                .tint(.black)
                                 .scaleEffect(0.9)
+                                .tint(colorScheme == .dark ? Color.white : Color.black)
                         }
                     }
                 })
 //                .navigationTitle("Posts")
         }
-            .fullScreenCover(isPresented: $createNewPost) {
-                CreateNewPost { post in
-                    // Adding created post at the top of the recent post
-                    recentsPosts.insert(post, at: 0)
-                }
-            }
+//            .fullScreenCover(isPresented: $createNewPost) {
+//                CreateNewPost { post in
+//                    // Adding created post at the top of the recent post
+//                    recentsPosts.insert(post, at: 0)
+//                }
+//            }
     }
 }
 

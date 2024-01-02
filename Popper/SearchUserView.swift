@@ -11,36 +11,43 @@ import FirebaseFirestore
 
 struct SearchUserView: View {
     
+    var displayProfileOnClick: Bool = true
     @State private var fetchedUsers: [User] = []
     @State private var searchText: String = ""
+    @State private var conversation: Conversation?
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-            ScrollView { // If I keep it as a list, it crashes regardless
-                ForEach(fetchedUsers) { user in
+        List {
+            ForEach(fetchedUsers) { user in
                     NavigationLink {
-                        ReusableProfileContent(user: user)
+                        if displayProfileOnClick{
+                            ReusableProfileContent(user: user)
+                        } else {
+                            ReusableConvoView(otherUserUID: user.userUID)
+                        }
                     } label: {
                         Text(user.username)
                             .font(.callout)
                             .hAlign(.leading)
                     }
-                }
+                    .id(UUID())
             }
-            .listStyle(.plain)
-            .navigationBarTitleDisplayMode(.inline)
-//            .navigationTitle("Search Users")
-            .searchable(text: $searchText)
-            .onSubmit(of: .search, {
-                // Fetch users from firebase
-                Task{await searchUsers()}
-            })
-            .onChange(of: searchText, perform: { newValue in
-                if newValue.isEmpty{
-                    fetchedUsers = []
-                }
-                
-            })
+        }
+        .listStyle(.plain)
+        .navigationBarTitleDisplayMode(.inline)
+        //            .navigationTitle("Search Users")
+        .searchable(text: $searchText)
+        .onSubmit(of: .search, {
+            // Fetch users from firebase
+            Task{await searchUsers()}
+        })
+        .onChange(of: searchText, perform: { newValue in
+            if newValue.isEmpty{
+                fetchedUsers = []
+            }
+            
+        })
     }
     func searchUsers()async {
         do {
@@ -62,4 +69,6 @@ struct SearchUserView: View {
             print(error.localizedDescription)
         }
     }
+    
+ 
 }

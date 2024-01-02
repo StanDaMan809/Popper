@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PostLayout: Layout {
-    @ObservedObject var elementsArray: postElementsArray
+    @Binding var elementsArray: [String: postElement]
     
     func sizeThatFits(
         proposal: ProposedViewSize,
@@ -20,11 +20,11 @@ struct PostLayout: Layout {
         var highestPoint: Double = 400
         var lowestPoint: Double = -400
         
-        for (_, value) in elementsArray.elements {
+        for (_, value) in elementsArray {
             
             
             
-            let element = value.element
+            let element = value
             
             // Take the highest position, add the height of the tallest element to the highest position
             // Take the lowest position, add the height of the lowest element to the lowest position

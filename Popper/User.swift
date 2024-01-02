@@ -19,8 +19,9 @@ struct User: Identifiable, Codable {
     var profile: Profile
     var userEmail: String
     var userProfileURL: URL
-    var followingIDs: [String] // This needs to be changed to be a subcollection
-    var conversations: [Conversation]
+    var followingIDs: [String] = [] // This needs to be changed to be a subcollection
+    var conversations: [Conversation] = []
+    var publicProfile: Bool = true
     
     enum CodingKeys: CodingKey {
         case id
@@ -35,5 +36,6 @@ struct User: Identifiable, Codable {
         case followingIDs
         case conversations
     }
+    
 }
 

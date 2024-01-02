@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SideButtons: View {
     
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @State private var showCamera = false
     @State private var showImagePicker = false
@@ -17,6 +17,7 @@ struct SideButtons: View {
     @State var image: UIImage?
     @State var videoURL: URL?
     @State private var newImageChosen = false
+    @AppStorage("user_UID") private var userUID: String = ""
     let grayOpacityRegular = 0.4
     let grayOpacitySelected = 0.8
     
@@ -35,7 +36,12 @@ struct SideButtons: View {
             //                })
             
             Button(action: {
-                textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                
+                if let element = elementAdd(text: true, sharedEditNotifier: sharedEditNotifier) {
+                    elementsArray[element.id] = element
+                }
+                
+                
             },
                    label: {
                 sideButton(systemName: "character", grayOpacity: grayOpacityRegular, buttonSizeDifference: 5)
@@ -136,7 +142,9 @@ struct SideButtons: View {
             })
             
             Button(action: {
-                shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                if let element = elementAdd(shape: true, sharedEditNotifier: sharedEditNotifier) {
+                    elementsArray[element.id] = element
+                }
             },
                    label: {
                 sideButton(systemName: "square", grayOpacity: grayOpacityRegular)
@@ -148,13 +156,16 @@ struct SideButtons: View {
                    label: {
                 sideButton(systemName: "timer", grayOpacity: grayOpacityRegular)
                     .sheet(isPresented: $showStickerPicker) {
-                        GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: elementsArray)
+                        GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: $elementsArray)
                     }
             })
             
             if !sharedEditNotifier.backgroundEdit {
                 Button(action: {
-                    pollAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                    
+                    if let element = elementAdd(poll: true, sharedEditNotifier: sharedEditNotifier) {
+                        elementsArray[element.id] = element
+                    }
                 },
                        label: {
                     sideButton(systemName: "checkmark.square.fill", grayOpacity: grayOpacityRegular)
@@ -305,19 +316,23 @@ struct SideButtons: View {
                            label: {
                         sideButton(systemName: "photo", grayOpacity: grayOpacityRegular)
                             .sheet(isPresented: $showImagePicker) {
-                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
+                                ImagePickerView(image: $image, videoURL: $videoURL, showImagePicker: $showImagePicker, showCamera: $showCamera, newImageChosen: $newImageChosen, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, sourceType: .photoLibrary)
                             }
                     })
                     
                     Button(action: {
-                        textAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                        if let text = elementAdd(text: true, sharedEditNotifier: sharedEditNotifier) {
+                            elementsArray[text.id] = text
+                        }
                     },
                            label: {
                         sideButton(systemName: "character", grayOpacity: grayOpacityRegular)
                     })
                     
                     Button(action: {
-                        shapeAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                        if let shape = elementAdd(shape: true, sharedEditNotifier: sharedEditNotifier) {
+                            elementsArray[shape.id] = shape
+                        }
                     },
                            label: {
                         sideButton(systemName: "square", grayOpacity: grayOpacityRegular)
@@ -329,12 +344,14 @@ struct SideButtons: View {
                            label: {
                         sideButton(systemName: "timer", grayOpacity: grayOpacityRegular)
                             .sheet(isPresented: $showStickerPicker) {
-                                GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: elementsArray)
+                                GIFController(show: $showStickerPicker, sharedEditNotifier: sharedEditNotifier, elementsArray: $elementsArray)
                             }
                     })
                     
                     Button(action: {
-                        pollAdd(elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
+                        if let poll = elementAdd(poll: true, sharedEditNotifier: sharedEditNotifier) {
+                            elementsArray[poll.id] = poll
+                        }
                     },
                            label: {
                         sideButton(systemName: "checkmark.square.fill", grayOpacity: grayOpacityRegular)
@@ -396,10 +413,10 @@ struct SideButtons: View {
                 
                 
                 Button(action: {
-                    parent.sharedEditNotifier.selectedElement?.element.lock.toggle()
+                    parent.sharedEditNotifier.selectedElement?.lock.toggle()
                 },
                        label: {
-                    sideButton(systemName: parent.sharedEditNotifier.selectedElement?.element.lock ?? false ? "lock.fill" : "lock", grayOpacity: parent.grayOpacityRegular)
+                    sideButton(systemName: parent.sharedEditNotifier.selectedElement?.lock ?? false ? "lock.fill" : "lock", grayOpacity: parent.grayOpacityRegular)
                 })
             
         }
@@ -445,3 +462,4 @@ struct SideButtons: View {
         }
     }
 }
+

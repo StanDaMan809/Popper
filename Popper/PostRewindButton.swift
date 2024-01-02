@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct PostRewindButton: View {
-    @ObservedObject var elementsArray: postElementsArray
+    @Binding var elementsArray: [String : postElement]
+    @Binding var displayRewind: Bool
     
     var body: some View {
         Button {
@@ -30,10 +31,10 @@ struct PostRewindButton: View {
     }
     
     func rewind() {
-        for (_, element) in elementsArray.elements {
-            element.element.display = element.element.defaultDisplaySetting
+        for (_, element) in elementsArray {
+            element.display = element.defaultDisplaySetting
         }
-//        sharedEditNotifier.rewindButtonPresent = false
+        displayRewind = false
     }
 }
 

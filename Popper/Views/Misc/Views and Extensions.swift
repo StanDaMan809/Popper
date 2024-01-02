@@ -8,6 +8,13 @@
 import SwiftUI
 import FirebaseFirestore
 
+func elementTimestamp() -> String {
+    
+    @AppStorage("user_UID") var userUID: String = ""
+    
+    return "\(userUID)\(NSDate().timeIntervalSince1970)"
+}
+
 struct Star: Shape {
     // store how many corners the star has, and how smooth/pointed it is
     let corners: Int = 5

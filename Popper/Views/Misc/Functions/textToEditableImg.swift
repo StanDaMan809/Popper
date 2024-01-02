@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-func textToEditableImg(text: editableTxt, image: UIImage) -> editableImg {
+func textToEditableImg(text: editorText, image: UIImage) -> editorImage {
     
-    var imageData = editableImg(id: text.id, imgSrc: image, size: image.size, defaultDisplaySetting: text.defaultDisplaySetting)
+    var imageData = editorImage(id: text.id, imgSrc: image, size: image.size, defaultDisplaySetting: text.defaultDisplaySetting)
     
     imageData.id = text.id
     imageData.currentShape = .rectangle

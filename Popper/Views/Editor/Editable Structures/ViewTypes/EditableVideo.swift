@@ -10,37 +10,10 @@ import AVKit
 import AVFoundation
 import UIKit
 
-class editableVid: Identifiable, ObservableObject {
-    @Published var id: Int
-    let videoURL: URL
-    @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var position: CGSize = CGSize.zero
-    @Published var size: CGSize // Video's true specs, to not be touched
-    @Published var scalar: CGFloat = 1.0
-    @Published var transparency: Double = 1.0
-    @Published var display: Bool
-    @Published var createDisplays: [Int] = []
-    @Published var disappearDisplays: [Int] = []
-    @Published var rotationDegrees: Angle = Angle.zero
-    @Published var linkOnClick: URL?
-    @Published var soundOnClick: URL?
-    @Published var lock: Bool = false
-    let defaultDisplaySetting: Bool
-    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-
-    init(id: Int, videoURL: URL, size: CGSize, defaultDisplaySetting: Bool) {
-        self.id = id
-        self.videoURL = videoURL
-        self.size = size
-        self.display = defaultDisplaySetting
-        self.defaultDisplaySetting = defaultDisplaySetting
-    }
-}
-
 struct EditableVideo: View {
-    @ObservedObject var video: editableVid
+    @ObservedObject var video: editorVideo
     @State private var play: Bool = true
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
@@ -52,12 +25,12 @@ struct EditableVideo: View {
                 .clipShape(video.currentShape)
                 .overlay(
                     Group {
-                        if sharedEditNotifier.selectedElement?.element.id == video.id { Rectangle()
+                        if sharedEditNotifier.selectedElement?.id == video.id { Rectangle()
                                 .stroke(Color.black, lineWidth: 5)
                         }
                         
                         if video.lock {
-                            elementLock(id: video.id)
+                            elementLock()
                         }
                     }
                 )
@@ -65,7 +38,8 @@ struct EditableVideo: View {
                 .scaleEffect(video.scalar + currentAmount)
                 .offset(video.position)
                 .opacity(video.transparency)
-                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(video.id))
+                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : 1.0)
+                .onDisappear(perform: {play = false})
         }
     }
 }
@@ -108,21 +82,4 @@ struct CustomVideoPlayer: UIViewControllerRepresentable {
             self.parent = parent
         }
     }
-}
-
-func videoAdd(vidURL: URL, size: CGSize, elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentElement = sharedEditNotifier.selectedElement {
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            defaultDisplaySetting = false
-        }
-        
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .video(editableVid(id: elementsArray.objectsCount, videoURL: vidURL, size: size, defaultDisplaySetting: defaultDisplaySetting)))
-    
-    elementsArray.objectsCount += 1
 }

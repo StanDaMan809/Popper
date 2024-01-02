@@ -12,7 +12,7 @@ class SharedEditState: ObservableObject {
     @Published var currentlyEdited: Bool = false
     @Published var buttonDim: Double = 1
     @Published var disabled: Bool = false
-    @Published var selectedElement: editorElement?
+    @Published var selectedElement: editableElement?
     @Published var editorDisplayed = EditorDisplayed.none
     @Published var pressedButton: UIButtonPress = .noButton
     @Published var rewindButtonPresent: Bool = false
@@ -24,7 +24,7 @@ class SharedEditState: ObservableObject {
     @Published var toDelete = false
     @Published var profileEdit = false
     
-    init(currentlyEdited: Bool = false, buttonDim: Double = 1, disabled: Bool = false, selectedElement: editorElement? = nil, editorDisplayed: EditorDisplayed = EditorDisplayed.none, pressedButton: UIButtonPress = .noButton, rewindButtonPresent: Bool = false, objectsCount: Int = 0, backgroundEdit: Bool = false, bgObjectsCount: Int = 0, delete: Bool = false, trashCanFrame: CoreFoundation.CGRect = CGRect.zero, toDelete: Bool = false, profileEdit: Bool = false) {
+    init(currentlyEdited: Bool = false, buttonDim: Double = 1, disabled: Bool = false, selectedElement: editableElement? = nil, editorDisplayed: EditorDisplayed = EditorDisplayed.none, pressedButton: UIButtonPress = .noButton, rewindButtonPresent: Bool = false, objectsCount: Int = 0, backgroundEdit: Bool = false, bgObjectsCount: Int = 0, delete: Bool = false, trashCanFrame: CoreFoundation.CGRect = CGRect.zero, toDelete: Bool = false, profileEdit: Bool = false) {
         self.currentlyEdited = currentlyEdited
         self.buttonDim = buttonDim
         self.disabled = disabled
@@ -56,22 +56,24 @@ class SharedEditState: ObservableObject {
     }
     
     
-    func selectElement(element: editorElement) {
+    func selectElement(element: editableElement) {
         selectedElement = element
         
-        switch element.element {
-        case .image:
+        switch type(of: element) {
+        case is editorImage.Type:
             pressedButton = .imageEdit
-        case .video:
+        case is editorVideo.Type:
             pressedButton = .imageEdit // this will be changed if i decide to implement video-specific changes later... but im not quite sure ab that
-        case .text:
+        case is editorText.Type:
             pressedButton = .textEdit
-        case .shape:
+        case is editorShape.Type:
             pressedButton = .shapeEdit
-        case .sticker:
+        case is editorSticker.Type:
             pressedButton = .stickerEdit
-        case .poll:
+        case is editorPoll.Type:
             pressedButton = .pollEdit
+        default:
+            pressedButton = .noButton
         }
     }
     
@@ -86,7 +88,7 @@ class SharedEditState: ObservableObject {
     }
     
     func textEdited() -> Bool {
-        if case .text = selectedElement?.element {
+        if selectedElement is editorText {
             return true
         } else {
             return false

@@ -10,7 +10,6 @@ import UIKit
 
 struct PostPollView: View {
     @ObservedObject var poll: postPoll
-    @ObservedObject var elementsArray: postElementsArray
     
     var body: some View {
         if poll.display {
@@ -19,19 +18,6 @@ struct PostPollView: View {
                 .scaleEffect(poll.scalar)
                 .offset(poll.position)
                 .opacity(poll.transparency)
-                .zIndex(Double(poll.id)) // Controls layer
-//            
-//                .onTapGesture {
-//                    for i in poll.createDisplays
-//                    {
-//                        imgArray.polls[i].display = true
-//                    }
-//                    
-//                    for i in poll.disappearDisplays
-//                    {
-//                        imgArray.polls[i].display = false
-//                    }
-//                }
         }
         
     }
@@ -62,7 +48,7 @@ struct onlinePollView: View {
                     
                     
                 }
-                .background(bgForTop(color: $poll.topColor))
+                .background(bgForTop(color: poll.topColor))
             }
             
             ForEach(Array(poll.responses.enumerated()), id: \.offset) { index, response in
@@ -87,7 +73,7 @@ struct onlinePollView: View {
     }
     
     struct bgForTop: View {
-        @Binding var color: Color
+        /*@Binding*/ var color: Color
         
         var body: some View {
             VStack {
@@ -98,101 +84,4 @@ struct onlinePollView: View {
         }
     }
 }
-
-
-// Handle the pollsArray data from post
-class postPoll: ObservableObject {
-    let id: Int
-    let position: CGSize
-    let question: String
-    var responses: [String]
-    var topColor: Color
-    var bottomColor: Color
-    var buttonColor: Color
-    let scalar: Double
-    let rotationDegrees: Angle
-    let transparency: Double
-    @Published var display: Bool
-    let defaultDisplaySetting: Bool
-    
-    init(poll: EditablePollData) {
-        self.id = poll.id
-        self.position = CGSize(width: poll.position[0], height: poll.position[1])
-        self.question = poll.question
-        self.responses = poll.responses
-        self.topColor = Color(red: poll.topColor[0], green: poll.topColor[1], blue: poll.topColor[2])
-        self.bottomColor = Color(red: poll.bottomColor[0], green: poll.bottomColor[1], blue: poll.bottomColor[2])
-        self.buttonColor = Color(red: poll.buttonColor[0], green: poll.buttonColor[1], blue: poll.buttonColor[2])
-        self.scalar = poll.scalar
-        self.rotationDegrees = Angle(degrees: poll.rotationDegrees)
-        self.transparency = poll.transparency
-        self.display = poll.defaultDisplaySetting
-        self.defaultDisplaySetting = poll.defaultDisplaySetting
-    }
-}
-
-struct EditablePollData: Codable, Equatable, Hashable {
-    let id: Int
-    let position: [Double]
-    let question: String
-    var responses: [String]
-    var topColor: [Double]
-    var bottomColor: [Double]
-    var buttonColor: [Double]
-    let scalar: Double
-    let rotationDegrees: Double
-    let transparency: Double
-    let display: Bool
-    let defaultDisplaySetting: Bool
-    
-    init(from editablePoll: editablePoll) {
-        self.id = editablePoll.id
-        
-        self.position = [Double(editablePoll.position.width), Double(editablePoll.position.height)]
-        // For encoding
-        
-        self.question = editablePoll.question
-        
-        if editablePoll.responses[0] == "" {
-            editablePoll.responses[0] = "Yes"
-        }
-        
-        if editablePoll.responses[1] == "" {
-            editablePoll.responses[1] = "No"
-        }
-        
-        self.responses = editablePoll.responses
-        
-        
-        let buttonColor = UIColor(editablePoll.buttonColor)
-        
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        
-        buttonColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        self.buttonColor = [red, green, blue]
-        
-        let topColor = UIColor(editablePoll.topColor)
-        
-        topColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        self.topColor = [red, green, blue]
-        
-        let bottomColor = UIColor(editablePoll.bottomColor)
-        
-        bottomColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
-        
-        self.bottomColor = [red, green, blue]
-        
-        self.scalar = editablePoll.scalar
-        self.transparency = editablePoll.transparency
-        self.display = editablePoll.defaultDisplaySetting // If user uploads a post that's already interacted with, it'll upload just fine
-        self.rotationDegrees = editablePoll.rotationDegrees.degrees
-        self.defaultDisplaySetting = editablePoll.defaultDisplaySetting
-    }
-}
-
 

@@ -10,17 +10,19 @@ import GiphyUISDK
 import GiphyUISDKWrapper
 
 struct GIFController: UIViewControllerRepresentable {
-    func makeCoordinator() -> Coordinator {
-        return GIFController.Coordinator(parent: self)
-    }
+    
     
     
     //    let giphy = GiphyViewController()
     
     @Binding var show: Bool
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     //    @Binding var mediaView: GPHMediaView
+    
+    func makeCoordinator() -> Coordinator {
+        return GIFController.Coordinator(parent: self)
+    }
     
     func makeUIViewController(context: Context) -> GiphyViewController {
         
@@ -50,10 +52,11 @@ struct GIFController: UIViewControllerRepresentable {
         func didSelectMedia(giphyViewController: GiphyViewController, media: GPHMedia)   {
             
             // your user tapped a GIF!
-            let url = media.url(rendition: .fixedWidth, fileType: .webp)
+            let url = media.url(rendition: .fixedWidth, fileType: .gif)
             
-            if let urlToUse = url, let urlConverted = URL(string: urlToUse) {
-                stickerAdd(url: urlConverted, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+            if let urlToUse = url, let urlConverted = URL(string: urlToUse), let element = elementAdd(sticker: urlConverted, sharedEditNotifier: parent.sharedEditNotifier) {
+//                stickerAdd(url: urlConverted, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                parent.elementsArray[element.id] = element
             }
             
             //                parent.mediaView.media = media

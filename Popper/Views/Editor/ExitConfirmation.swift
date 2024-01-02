@@ -13,7 +13,6 @@ struct ExitConfirmation: View {
         VStack {
             Text("Are you sure you'd like to exit?")
                 .font(.callout)
-                .foregroundStyle(.black)
                 .padding()
             
             HStack {

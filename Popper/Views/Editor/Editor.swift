@@ -17,11 +17,15 @@ struct Editor: View {
     @Binding var isEditorActive: Bool
     @StateObject var sharedEditNotifier = SharedEditState()
     
-    // For foreground
-    @StateObject var elementsArray = editorElementsArray()
+//    // For foreground
+//    @StateObject var elementsArray = editorElementsArray()
+//    
+//    // For background
+//    @StateObject var bgElementsArray = editorElementsArray()
     
-    // For background
-    @StateObject var bgElementsArray = editorElementsArray()
+    @State var elementsArray: [String : editableElement] = [:]
+    @State var bgElementsArray: [String : editableElement] = [:]
+    @AppStorage("user_UID") private var userUID: String = ""
     
     @Environment(\.dismiss) var dismiss
     
@@ -29,9 +33,9 @@ struct Editor: View {
     var body: some View
     {
         if sharedEditNotifier.backgroundEdit {
-            EditorView(parent: self, elementsArray: bgElementsArray)
+            EditorView(parent: self, elementsArray: $bgElementsArray)
         } else {
-            EditorView(parent: self, elementsArray: elementsArray)
+            EditorView(parent: self, elementsArray: $elementsArray)
         }
         
     }
@@ -39,17 +43,17 @@ struct Editor: View {
     struct EditorView: View { // View redeclared to allow for background editing
         
         let parent: Editor
-        @ObservedObject var elementsArray: editorElementsArray
+        @Binding var elementsArray: [String : editableElement]
         
         
         var body: some View {
             
             ZStack
             {
-                Color.white
-                    .ignoresSafeArea()
+//                Color.white
+//                    .ignoresSafeArea()
                 
-                if !elementsArray.elements.isEmpty {
+                if !elementsArray.isEmpty {
                     feedPredictor(elementsArray: elementsArray)
                 }
                 
@@ -82,7 +86,7 @@ struct Editor: View {
                         
                         Spacer()
                         
-                        SideButtons(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                        SideButtons(elementsArray: $elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         
                     }
                     
@@ -90,7 +94,7 @@ struct Editor: View {
                     
                     HStack(alignment: .top){
                         if parent.sharedEditNotifier.rewindButtonPresent {
-                            RewindButton(elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                            RewindButton(elementsArray: $elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         }
                         
                         Spacer()                        
@@ -100,7 +104,7 @@ struct Editor: View {
                     
                     Spacer()
                     
-                    bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: elementsArray, bgElementsArray: parent.bgElementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    bottomButtons(isEditorActive: parent.$isEditorActive, elementsArray: $elementsArray, bgElementsArray: parent.$bgElementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                         .zIndex(Double(parent.sharedEditNotifier.objectsCount + 1))
                     
                     
@@ -109,14 +113,14 @@ struct Editor: View {
                 
                 
                 if parent.sharedEditNotifier.backgroundEdit != true {
-                    Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.bgElementsArray)
+                    Background(sharedEditNotifier: parent.sharedEditNotifier, elementsArray: parent.$bgElementsArray)
                         .zIndex(-1)
                 }
                 
                 ZStack {
-                    ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                        if let itemToDisplay = elementsArray.elements[key] {
-                            EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    ForEach(elementsArray.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                        if let itemToDisplay = elementsArray[key] {
+                            EditableElement(element: itemToDisplay, elementsArray: $elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
                             
                         }
                         
@@ -135,12 +139,11 @@ struct Editor: View {
     
 }
 
-func feedPredictor(elementsArray: editorElementsArray) -> some View {
+func feedPredictor(elementsArray: [String : editableElement]) -> some View {
     
     var peak = CGFloat.zero
     
-    for (_, element) in elementsArray.elements {
-        let element = element.element
+    for (_, element) in elementsArray {
         
         peak = max(peak, ((element.size.height * element.scalar) / 2) + abs(element.position.height))
     }
@@ -166,7 +169,7 @@ struct ImagePickerView: UIViewControllerRepresentable {
     @Binding var showImagePicker: Bool
     @Binding var showCamera: Bool
     @Binding var newImageChosen: Bool
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     let sourceType: UIImagePickerController.SourceType
     
@@ -204,13 +207,13 @@ struct ImagePickerView: UIViewControllerRepresentable {
                 let targetHeight = min(maxHeight, screenWidth / aspectRatio)
                 let targetSize = CGSize(width: screenWidth, height: targetHeight)
                 
-                if originalImage.size.width < screenWidth && originalImage.size.height < postHeight {
-                    imageAdd(imgSource: originalImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                if originalImage.size.width < screenWidth && originalImage.size.height < postHeight, let image = elementAdd(image: originalImage, sharedEditNotifier: parent.sharedEditNotifier) {
+                    parent.elementsArray[image.id] = image
                 }
                 else
                 {
-                    if let downsampledImage = originalImage.downsample(to: targetSize) {
-                        imageAdd(imgSource: downsampledImage, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    if let downsampledImage = originalImage.downsample(to: targetSize), let image = elementAdd(image: downsampledImage, sharedEditNotifier: parent.sharedEditNotifier) {
+                        parent.elementsArray[image.id] = image
                     }
                 }
                 
@@ -232,8 +235,9 @@ struct ImagePickerView: UIViewControllerRepresentable {
                     let targetHeight = min(maxHeight, screenWidth / aspectRatio)
                     let targetSize = CGSize(width: screenWidth, height: targetHeight)
                     
-                    
-                    videoAdd(vidURL: videoUrl, size: targetSize, elementsArray: parent.elementsArray, sharedEditNotifier: parent.sharedEditNotifier)
+                    if let video = elementAdd(video: (videoUrl, targetSize), sharedEditNotifier: parent.sharedEditNotifier) {
+                        parent.elementsArray[video.id] = video
+                    }
                 }
             }
             
@@ -269,7 +273,7 @@ struct EditorTopUIButtons: View {
 
 
 
-enum ClippableShape: Int {
+enum ClippableShape: Int, Codable {
     
     case square
     case roundedsquare
@@ -345,11 +349,6 @@ func shapeForClippableShape(shape: ClippableShape) -> some View {
     case .star:
         return AnyView(Star())
     }
-}
-
-func deleteElement(elementsArray: editorElementsArray, id: Int) {
-    
-    elementsArray.elements.removeValue(forKey: id)
 }
 
 // image select settings

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RewindButton: View {
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     
     var body: some View {
@@ -31,8 +31,8 @@ struct RewindButton: View {
     }
     
     func rewind() {
-        for (_, element) in elementsArray.elements {
-            element.element.display = element.element.defaultDisplaySetting
+        for (_, element) in elementsArray {
+            element.display = element.defaultDisplaySetting
         }
         sharedEditNotifier.rewindButtonPresent = false 
     }

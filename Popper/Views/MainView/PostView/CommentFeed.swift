@@ -45,7 +45,7 @@ struct CommentFeed: View {
                         
                         HStack(alignment: .bottom) {
                             TextField("What's happening?", text: $commentText, axis: .vertical)
-                                .font(.caption)
+                                
                                 
                             
                             Button {

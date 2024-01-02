@@ -10,25 +10,21 @@ import SwiftUI
 struct Background: View {
     
     @ObservedObject var sharedEditNotifier: SharedEditState
-    @ObservedObject var elementsArray: editorElementsArray
+    @Binding var elementsArray: [String : editableElement]
     
     var body: some View {
         
         ZStack {
-            Color(.white)
-                .onTapGesture {
-                    sharedEditNotifier.restoreDefaults()
-                }
-                
-            
-            ForEach(elementsArray.elements.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
-                if let itemToDisplay = elementsArray.elements[key] {
-                    EditableElement(element: itemToDisplay, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier)
-                        .disabled(true)
+            ForEach(elementsArray.sorted(by: {$0.key < $1.key}), id: \.key) { key, value in
+                if let itemToDisplay = elementsArray[key] {
+                    EditableElement(element: itemToDisplay, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier)
+                        .disabled(true) // If the background is being edited, this view doesn't exist, we don't want the background to be interactable
                 }
             }
         }
-        .zIndex(-1)
+        .contentShape(Rectangle())
+        .onTapGesture{ sharedEditNotifier.restoreDefaults() }
+        .zIndex(0)
         
         
     }

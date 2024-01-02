@@ -25,7 +25,7 @@ struct ReusablePostsView: View {
     var body: some View {
         ScrollView(.vertical)
         {
-            VStack {
+            LazyVStack {
                 if isFetching{
                     ProgressView()
                         .padding(.top, 30)

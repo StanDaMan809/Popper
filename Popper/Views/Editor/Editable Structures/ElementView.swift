@@ -9,38 +9,36 @@ import SwiftUI
 
 struct ElementView: View {
     
-    @ObservedObject var element: editorElement
-    @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var element: editableElement
+    @Binding var elementsArray: [String : editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
     
     var body: some View {
-        switch element.element {
-        case .image(let editableImage):
-            
-            EditableImage(image: editableImage, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
-        case .video(let editableVid):
-            
-            EditableVideo(video: editableVid, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
-        case .text(let editableTxt):
-            
-            EditableText(text: editableTxt, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
-        case .shape(let editableShp):
-            
-            EditableShape(shape: editableShp, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
-        case .sticker(let editableStick):
-            
-            EditableSticker(sticker: editableStick, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
-        case .poll(let editablePoll):
-            
-            EditablePoll(poll: editablePoll, elementsArray: elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
-            
+        
+        if let element = element as? editorImage {
+            EditableImage(image: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+        }
+        
+        if let element = element as? editorVideo {
+            EditableVideo(video: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+        }
+        
+        if let element = element as? editorText {
+            EditableText(text: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+        }
+        
+        if let element = element as? editorShape {
+            EditableShape(shape: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+        }
+        
+        if let element = element as? editorSticker {
+            EditableSticker(sticker: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
+        }
+        
+        if let element = element as? editorPoll {
+            EditablePoll(poll: element, elementsArray: $elementsArray, sharedEditNotifier: sharedEditNotifier, currentAmount: $currentAmount, currentRotation: $currentRotation)
         }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PollView: View {
     
-    @ObservedObject var poll: editablePoll
+    @ObservedObject var poll: editorPoll
     @State private var timer: Timer?
     @ObservedObject var sharedEditNotifier: SharedEditState
     
@@ -209,7 +209,7 @@ struct PollView: View {
     }
     
     func amISelected() -> Bool {
-        if sharedEditNotifier.selectedElement?.element.id == poll.id {
+        if sharedEditNotifier.selectedElement?.id == poll.id {
             return true
         } else {
             return false

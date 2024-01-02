@@ -25,19 +25,41 @@ struct customProfileView: View {
     
     var body: some View {
         
-        WrappingHStack(alignment: .center, horizontalSpacing: 5, verticalSpacing: 5, fitContentWidth: true) {
-                            ForEach(classElementsArray) { element in
-                                if element.pinned {
+        NavigationStack {
+            WrappingHStack(alignment: .center, horizontalSpacing: 5, verticalSpacing: 5, fitContentWidth: true) {
+                ForEach(classElementsArray) { element in
+                    if element.pinned {
+                        ProfileElementView(parent: self, element: element)
+                        
+                    }
+                }
+                
+                
+                
+                ForEach(classElementsArray) { element in
+                    if !element.pinned {
+                        Group {
+                            switch element.redirect {
+                            case .post(let postID):
+                                if postID != "" {
+                                    NavigationLink {
+                                        wrappedPostDisplay(postID: postID)
+                                    } label: {
+                                        ProfileElementView(parent: self, element: element)
+                                    }
+                                } else {
                                     ProfileElementView(parent: self, element: element)
-                                    
                                 }
+                                
+                            case .profile(let profileID):
+                                
+                                Text("Stop")
+                                
+                            case .website(let profileID):
+                                
+                                Text("Stop")
                             }
-            
-            
-            
-            ForEach(classElementsArray) { element in
-                if !element.pinned {
-                    ProfileElementView(parent: self, element: element)
+                        }
                         .onDrag {
                             if profileEdit {
                                 self.draggedItem = element
@@ -47,6 +69,7 @@ struct customProfileView: View {
                         .onDrop(of: [.text],
                                 delegate: DropViewDelegate(destinationItem: element, elements: $classElementsArray, draggedItem: $draggedItem)
                         )
+                    }
                 }
             }
         }
@@ -387,51 +410,54 @@ func downloadPost(postID: String)async -> Post? {
 }
 
 struct wrappedPostDisplay: View {
-    @Binding var postToDisplay: Post?
-    @Binding var displayPost: Bool
+    let postID: String
+    @State var isLoading: Bool = true
+    @State var postToRedirect: Post?
     
     var body: some View {
-        if let post = postToDisplay {
-            ZStack {
+        Group {
+            if isLoading {
+                ProgressView()
+            } else {
                 VStack {
-                    
-                    HStack {
-                        Button {
-                            displayPost = false
-                        } label: {
-                            Image(systemName: "xmark")
-                        }
-                        
-                        Spacer()
+                    if let post = postToRedirect {
+                        PostCardView(post: post, onUpdate: {updatedPost in }, onDelete: { })
                     }
-                    .padding()
-                    
-                    PostCardView(post: post, onUpdate: {updatedPost in }, onDelete: { })
                     
                     Spacer()
-                    
                 }
             }
-            .transition(.move(edge: .trailing))
-            .contentShape(Rectangle())
-            .gesture(
-                DragGesture()
-                    .onChanged { value in
-                        // Detect rightward swipe
-                        if value.translation.width >= 50 {
-                            displayPost = false
-                        }
-                    }
-                    .onEnded { value in
-                        // Reset the offset after the drag ends
-                        //                                    offset = .zero
-                        
-                        // Execute code when rightward swipe is detected
-                        if value.translation.width > 50 {
-                            print("Rightward swipe detected! Execute your code here.")
-                        }
-                    }
-            )
         }
+        .task {
+            postToRedirect = await downloadPost(postID: postID)
+            
+            if let post = postToRedirect {
+                isLoading = false
+            }
+        }
+        .onAppear {
+            print("hey")
+        }
+        
+        .gesture(
+            DragGesture()
+                .onChanged { value in
+                    // Detect rightward swipe
+                    if value.translation.width >= 50 {
+                        //                            displayPost = false
+                    }
+                }
+                .onEnded { value in
+                    // Reset the offset after the drag ends
+                    //                                    offset = .zero
+                    
+                    // Execute code when rightward swipe is detected
+                    if value.translation.width > 50 {
+                        print("Rightward swipe detected! Execute your code here.")
+                    }
+                }
+        )
     }
 }
+
+

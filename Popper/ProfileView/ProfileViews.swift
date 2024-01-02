@@ -71,27 +71,27 @@ struct ProfileElementView: View {
         
         .onTapGesture(count: 2) {if parent.profileEdit {parent.selectedElement = element}}
         
-        .onTapGesture {
-            if !parent.profileEdit {
-                switch element.redirect {
-                case .post(let postID):
-                    Task {
-                        if postID != "", let postToRedirect = await downloadPost(postID: postID) {
-                            parent.postToDisplay = postToRedirect
-                            withAnimation {
-                                parent.displayPost = true
-                            }
-                        }
-                    }
-                case .profile(let profileID):
-                    return
-                case .website(let link):
-                    return
-                }
-            }
-            
-            
-        }
+//        .onTapGesture {
+//            if !parent.profileEdit {
+//                switch element.redirect {
+//                case .post(let postID):
+//                    Task {
+//                        if postID != "", let postToRedirect = await downloadPost(postID: postID) {
+//                            parent.postToDisplay = postToRedirect
+//                            withAnimation {
+//                                parent.displayPost = true
+//                            }
+//                        }
+//                    }
+//                case .profile(let profileID):
+//                    return
+//                case .website(let link):
+//                    return
+//                }
+//            }
+//            
+//            
+//        }
         
         
         

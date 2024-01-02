@@ -7,41 +7,10 @@
 
 import SwiftUI
 
-class editableShp: ObservableObject {
-    @Published var id: Int
-    // Include color as a dimension
-    // Include font as a dimension
-    // Include alignment
-    @Published var currentShape: ClippableShape = .roundedrectangle
-    @Published var position: CGSize = CGSize.zero
-    @Published var color: Color = .black
-    @Published var rValue: Double = 0.0
-    @Published var gValue: Double = 0.0
-    @Published var bValue: Double = 0.0
-    @Published var transparency: Double = 1.0
-    @Published var display: Bool
-    @Published var size: CGSize = CGSize(width: 100, height: 100)
-    @Published var createDisplays: [Int] = []
-    @Published var disappearDisplays: [Int] = []
-    @Published var scalar: Double = 1.0
-    @Published var rotationDegrees: Angle = Angle.zero
-    @Published var soundOnClick: URL? 
-    @Published var lock: Bool = false
-    var startPosition: CGPoint = CGPoint(x: UIScreen.main.bounds.width / 2, y: UIScreen.main.bounds.height / 2)
-    let defaultDisplaySetting: Bool
-    
-    init(id: Int, defaultDisplaySetting: Bool)
-    {
-        self.id = id
-        self.display = defaultDisplaySetting
-        self.defaultDisplaySetting = defaultDisplaySetting
-    }
-}
-
 struct EditableShape: View {
     
-    @ObservedObject var shape: editableShp
-    @ObservedObject var elementsArray: editorElementsArray
+    @ObservedObject var shape: editorShape
+    @Binding var elementsArray: [String: editableElement]
     @ObservedObject var sharedEditNotifier: SharedEditState
     @Binding var currentAmount: Double
     @Binding var currentRotation: Angle
@@ -56,12 +25,12 @@ struct EditableShape: View {
                 .overlay(
                     Group {
                         
-                        if sharedEditNotifier.selectedElement?.element.id == shape.id { Rectangle()
+                        if sharedEditNotifier.selectedElement?.id == shape.id { Rectangle()
                                 .stroke(Color.black, lineWidth: 5)
                         }
                         
                         if shape.lock {
-                            elementLock(id: shape.id, small: true)
+                            elementLock(small: true)
                         }
                     }
                 )
@@ -69,7 +38,7 @@ struct EditableShape: View {
                 .scaleEffect(shape.scalar + currentAmount)
                 .offset(shape.position)
                 .opacity(shape.transparency)
-                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : Double(shape.id)) // Controls layer
+                .zIndex(sharedEditNotifier.textEdited() ? 0.0 : 1.0) // Controls layer
             
                 .onTapGesture (count: 2)
                 {
@@ -99,20 +68,4 @@ struct EditableShape: View {
                 }
         }
     }
-}
-
-func shapeAdd(elementsArray: editorElementsArray, sharedEditNotifier: SharedEditState) {
-    
-    var defaultDisplaySetting = true
-    
-    if sharedEditNotifier.editorDisplayed == .photoAppear {
-        if let currentElement = sharedEditNotifier.selectedElement {
-            currentElement.element.createDisplays.append(elementsArray.objectsCount)
-            defaultDisplaySetting = false
-        }
-    }
-    
-    elementsArray.elements[elementsArray.objectsCount] = editorElement(element: .shape(editableShp(id: elementsArray.objectsCount, defaultDisplaySetting: defaultDisplaySetting)))
-    
-    elementsArray.objectsCount += 1
 }

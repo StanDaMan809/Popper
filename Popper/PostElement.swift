@@ -10,13 +10,14 @@ import AVFoundation
 
 struct PostElement: View {
     @ObservedObject var element: postElement
-    @ObservedObject var elementsArray: postElementsArray
+    @Binding var elementsArray: [String : postElement]
+    @Binding var displayRewind: Bool
     @State private var audioPlayer: AVAudioPlayer?
     
     var body: some View {
-        postElementView(element: element, elementsArray: elementsArray)
+        postElementView(element: element)
             .onTapGesture {
-                if let soundToPlay = element.element.soundOnClick {
+                if let soundToPlay = element.soundOnClick {
                     do {
                         audioPlayer = try AVAudioPlayer(contentsOf: soundToPlay)
                         audioPlayer?.play()
@@ -26,25 +27,25 @@ struct PostElement: View {
                 }
                 
                 // Make all displays linked to this one appear!
-                for i in element.element.createDisplays
+                for i in element.createDisplays
                 {
                     print("Retrieving for \(i)...")
-                    if let itemToDisplay = elementsArray.elements[i] {
-                        itemToDisplay.element.display = true
+                    if let itemToDisplay = elementsArray[i] {
+                        itemToDisplay.display = true
                     } else { }// else if textArray blah blah blah
                 }
                 
                 // Make all displays linked to this one disappear
-                for i in element.element.disappearDisplays
+                for i in element.disappearDisplays
                 {
-                    if let itemToDisplay = elementsArray.elements[i] {
-                        itemToDisplay.element.display = false
+                    if let itemToDisplay = elementsArray[i] {
+                        itemToDisplay.display = false
                     } // else if textArray blah blah blah
                 }
                 
                 // Summon the rewind button for editing
-                if element.element.createDisplays.count != 0 || element.element.disappearDisplays.count != 0 {
-//                    sharedEditNotifier.rewindButtonPresent = true Rewind Button has to be remade, I'll do it in a bit
+                if element.createDisplays.count != 0 || element.disappearDisplays.count != 0 {
+                    displayRewind = true
                 }
             }
     }

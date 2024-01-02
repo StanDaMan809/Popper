@@ -25,6 +25,7 @@ struct ReusableProfileContent: View {
     @State var selectedElement: profileElementClass?
     @State var displayPost: Bool = false
     @State var postToDisplay: Post?
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         
@@ -133,7 +134,7 @@ struct ReusableProfileContent: View {
                                 }
                             }
                             .padding()
-                            .background(Color.white)
+                            .background(colorScheme == .dark ? Color.black : Color.white)
                             
                             if user.profile.background == nil {
                                 Divider()
@@ -154,16 +155,16 @@ struct ReusableProfileContent: View {
                     
                 }
                 
-                if displayPost {
-                    VStack {
-                        wrappedPostDisplay(postToDisplay: $postToDisplay, displayPost: $displayPost)
-                            
-                        
-                        Spacer()
-                    }
-                    .background(Color.white)
-                    .transition(.slide)
-                }
+//                if displayPost {
+//                    VStack {
+//                        wrappedPostDisplay(postToDisplay: $postToDisplay, displayPost: $displayPost)
+//                            
+//                        
+//                        Spacer()
+//                    }
+//                    .background(Color.white)
+//                    .transition(.slide)
+//                }
         }
         }
         .task {
@@ -184,10 +185,10 @@ struct ReusableProfileContent: View {
             if userUID == user.userUID {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
-                        // User settings
+                        ProfileSettings(user: user)
                     } label: {
                         Image(systemName: "gear")
-                            .foregroundStyle(Color.black)
+                            .foregroundStyle(colorScheme == .dark ? Color.white : Color.black)
                     }
                 }
                 
@@ -195,8 +196,12 @@ struct ReusableProfileContent: View {
                     Button {
                         profileEdit.toggle()
                     } label: {
-                        Image(systemName: "pencil")
-                            .foregroundStyle(profileEdit ? Color.red : Color.black)
+                        if profileEdit {
+                            Image(systemName: "pencil").foregroundStyle(Color.red)
+                        } else {
+                            Image(systemName: "pencil").foregroundStyle(colorScheme == .dark ? Color.white : Color.black)
+                        }
+                            
                     }
                 }
             }

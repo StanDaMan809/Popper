@@ -58,7 +58,6 @@ struct CommentView: View {
                             }
                             
                             .padding(.horizontal)
-//                            .foregroundStyle(Color(.black))
                         }
                         
                         Text(comment.publishedDate.timeAgoDisplay())
@@ -93,12 +92,6 @@ struct CommentView: View {
                     
                     Spacer()
                     
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "")
-                        
-                    }
                     .padding(.horizontal)
                 }
             }
